@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 
-export default function Home() {
+export default function About() {
   return (
     <>
       <Head>
-        <title>Home | Chocolate Heaven</title>
+        <title>About | Chocolate Heaven</title>
       </Head>
 
       <Layout />
