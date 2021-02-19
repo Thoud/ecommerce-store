@@ -8,6 +8,7 @@
   * {
     @apply font-raleway;
     @apply font-normal;
+    @apply text-text;
   }
 
   h1,
