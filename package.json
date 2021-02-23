@@ -10,10 +10,10 @@
     "start": "next start"
   },
   "dependencies": {
-    "camelcase-keys": "^6.2.2",
-    "dotenv-safe": "^8.2.0",
+    "camelcase-keys": "6.2.2",
+    "dotenv-safe": "8.2.0",
     "next": "10.0.7",
-    "postgres": "^1.0.2",
+    "postgres": "1.0.2",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },
