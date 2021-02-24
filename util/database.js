@@ -4,13 +4,18 @@ require('dotenv-safe').config();
 
 const sql = postgres();
 
-async function getChocolates() {
-  return camelcaseKeys(await sql`SELECT * FROM next_ecommerce_store`);
+function camelcaseRecords(records) {
+  return records.map((record) => camelcaseKeys(record));
 }
 
-async function getChocolateById(id) {
+export async function getChocolates() {
+  const chocolates = await sql`SELECT * FROM next_ecommerce_store`;
+  return camelcaseRecords(chocolates);
+}
+
+export async function getChocolateById(id) {
   const chocolate = await sql`SELECT * FROM next_ecommerce_store WHERE id = ${id}`;
-  return camelcaseKeys(chocolate[0]);
+  return camelcaseRecords(chocolate[0]);
 }
 
 console.log(await getChocolates());
