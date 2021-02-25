@@ -1,9 +1,14 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ReactNode } from 'react';
+
+type Props = {
+  children: ReactNode;
+};
 
 // ! Change the type of props
-export default function Layout(props: any) {
+export default function Layout(props: Props) {
   return (
     <>
       <Head>
@@ -13,12 +18,14 @@ export default function Layout(props: any) {
       </Head>
 
       <header>
-        <Image
-          src="/logo.png"
-          alt="Chocolate Heaven Logo"
-          width={178}
-          height={80}
-        />
+        <Link href="/">
+          <Image
+            src="/logo.png"
+            alt="Chocolate Heaven Logo"
+            width={178}
+            height={80}
+          />
+        </Link>
         <nav>
           <Link href="/login">
             <a>Login</a>

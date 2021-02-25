@@ -8,7 +8,9 @@ export default function About() {
         <title>Login | Chocolate Heaven</title>
       </Head>
 
-      <Layout />
+      <Layout>
+        <h1>Login</h1>
+      </Layout>
     </>
   );
 }

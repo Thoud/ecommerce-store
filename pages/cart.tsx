@@ -8,7 +8,9 @@ export default function About() {
         <title>Shopping Cart | Chocolate Heaven</title>
       </Head>
 
-      <Layout />
+      <Layout>
+        <h1>Cart</h1>
+      </Layout>
     </>
   );
 }

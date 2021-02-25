@@ -9,14 +9,11 @@ function camelcaseRecords(records) {
 }
 
 export async function getChocolates() {
-  const chocolates = await sql`SELECT * FROM next_ecommerce_store`;
+  const chocolates = await sql`SELECT * FROM chocolates`;
   return camelcaseRecords(chocolates);
 }
 
 export async function getChocolateById(id) {
-  const chocolate = await sql`SELECT * FROM next_ecommerce_store WHERE id = ${id}`;
-  return camelcaseRecords(chocolate[0]);
+  const chocolate = await sql`SELECT * FROM chocolates WHERE id = ${id}`;
+  return camelcaseRecords(chocolate)[0];
 }
-
-console.log(await getChocolates());
-console.log(await getChocolateById(2));
