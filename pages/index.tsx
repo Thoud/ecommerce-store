@@ -8,7 +8,9 @@ export default function Home() {
         <title>Home | Chocolate Heaven</title>
       </Head>
 
-      <Layout />
+      <Layout>
+        <h1>Welcome to Chocolate Heaven</h1>
+      </Layout>
     </>
   );
 }

@@ -1,4 +1,3 @@
-import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,10 +14,13 @@ export default function About(props: Props) {
     return (
       <>
         <Head>
-          <title>Products | Chocolate Heaven</title>
+          <title>Products Not Found | Chocolate Heaven</title>
         </Head>
 
-        <Layout>Loading...</Layout>
+        <Layout>
+          <h1>Product Not Found</h1>
+          <p>Please try again!</p>
+        </Layout>
       </>
     );
   }
@@ -52,16 +54,12 @@ export default function About(props: Props) {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps() {
   const chocolates = await getChocolates();
-
-  if (!chocolates) {
-    context.res.statusCode = 404;
-  }
 
   return {
     props: {
-      chocolates: chocolates || null,
+      chocolates: chocolates,
     },
   };
 }

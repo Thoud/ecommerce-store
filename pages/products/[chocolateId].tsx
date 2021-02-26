@@ -50,13 +50,9 @@ export default function chocolateSinglePage(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const chocolate = await getChocolateById(context.query.chocolateId);
 
-  if (!chocolate) {
-    context.res.statusCode = 404;
-  }
-
   return {
     props: {
-      chocolate: chocolate || null,
+      chocolate: chocolate,
     },
   };
 }
