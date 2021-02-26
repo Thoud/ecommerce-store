@@ -42,6 +42,11 @@ export default function chocolateSinglePage(props: Props) {
         <p>{props.chocolate.ingredients}</p>
         <p>{props.chocolate.allergens}</p>
         <p>€ {props.chocolate.price}</p>
+
+        <button>-</button>
+        <p>1</p>
+        <button>+</button>
+        <button>Add to cart</button>
       </Layout>
     </>
   );

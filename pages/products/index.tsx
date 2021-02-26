@@ -35,18 +35,25 @@ export default function About(props: Props) {
         <h1>Products</h1>
         {props.chocolates.map((chocolate: Chocolate) => {
           return (
-            <Link href={`/products/${chocolate.id}`} key={chocolate.id}>
-              <div>
-                <Image
-                  src={chocolate.imgPath}
-                  alt={chocolate.name}
-                  width={200}
-                  height={200}
-                />
-                <p>{chocolate.name}</p>
-                <p>€ {chocolate.price}</p>
-              </div>
-            </Link>
+            <div key={chocolate.id}>
+              <Link href={`/products/${chocolate.id}`}>
+                <div>
+                  <Image
+                    src={chocolate.imgPath}
+                    alt={chocolate.name}
+                    width={200}
+                    height={200}
+                  />
+                  <p>{chocolate.name}</p>
+                  <p>€ {chocolate.price}</p>
+                </div>
+              </Link>
+
+              <button>-</button>
+              <p>1</p>
+              <button>+</button>
+              <button>Add to cart</button>
+            </div>
           );
         })}
       </Layout>
