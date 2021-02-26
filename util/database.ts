@@ -1,10 +1,11 @@
 import camelcaseKeys from 'camelcase-keys';
-import postgres from 'postgres';
+import { Chocolate } from './types';
+const postgres = require('postgres');
 require('dotenv-safe').config();
 
 const sql = postgres();
 
-function camelcaseRecords(records) {
+function camelcaseRecords(records: Chocolate[]) {
   return records.map((record) => camelcaseKeys(record));
 }
 
@@ -13,7 +14,7 @@ export async function getChocolates() {
   return camelcaseRecords(chocolates);
 }
 
-export async function getChocolateById(id) {
+export async function getChocolateById(id: number) {
   const chocolate = await sql`SELECT * FROM chocolates WHERE id = ${id}`;
   return camelcaseRecords(chocolate)[0];
 }
