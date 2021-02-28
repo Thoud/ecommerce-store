@@ -9,7 +9,7 @@ type Props = {
   chocolates: Chocolate[] | null;
 };
 
-export default function About(props: Props) {
+export default function ProductPage(props: Props) {
   if (props.chocolates === null) {
     return (
       <>
@@ -45,7 +45,7 @@ export default function About(props: Props) {
                     height={200}
                   />
                   <p>{chocolate.name}</p>
-                  <p>€ {chocolate.price}</p>
+                  <p>{chocolate.price} €</p>
                 </div>
               </Link>
 

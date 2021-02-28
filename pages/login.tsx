@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 
-export default function About() {
+export default function Login() {
   return (
     <>
       <Head>

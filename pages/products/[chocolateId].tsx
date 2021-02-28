@@ -53,9 +53,17 @@ export default function ChocolateSinglePage(props: Props) {
         <p>{props.chocolate.description}</p>
         <p>{props.chocolate.ingredients}</p>
         <p>{props.chocolate.allergens}</p>
-        <p>€ {props.chocolate.price}</p>
+        <p>{props.chocolate.price} €</p>
 
-        <button onClick={() => setQuantity(quantity - 1)}>-</button>
+        <button
+          onClick={() => {
+            if (!(quantity - 1 === 0)) {
+              setQuantity(quantity - 1);
+            }
+          }}
+        >
+          -
+        </button>
         <p>{quantity}</p>
         <button onClick={() => setQuantity(quantity + 1)}>+</button>
         <button
