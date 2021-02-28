@@ -1,14 +1,26 @@
+import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import { changeOrder } from '../../util/cookies';
 import { getChocolateById } from '../../util/database';
-import { Chocolate } from '../../util/types';
+import { Chocolate, Order } from '../../util/types';
+
 type Props = {
   chocolate: Chocolate | null;
+  orderArr: Order[];
 };
 
-export default function chocolateSinglePage(props: Props) {
+export default function ChocolateSinglePage(props: Props) {
+  const [quantity, setQuantity] = useState(1);
+  const [order, setOrder] = useState(props.orderArr);
+
+  useEffect(() => {
+    Cookies.set('order', order);
+  }, [order]);
+
   if (props.chocolate === null) {
     return (
       <>
@@ -43,10 +55,18 @@ export default function chocolateSinglePage(props: Props) {
         <p>{props.chocolate.allergens}</p>
         <p>€ {props.chocolate.price}</p>
 
-        <button>-</button>
-        <p>1</p>
-        <button>+</button>
-        <button>Add to cart</button>
+        <button onClick={() => setQuantity(quantity - 1)}>-</button>
+        <p>{quantity}</p>
+        <button onClick={() => setQuantity(quantity + 1)}>+</button>
+        <button
+          onClick={() => {
+            if (props.chocolate?.id) {
+              setOrder(changeOrder(order, props.chocolate.id, quantity));
+            }
+          }}
+        >
+          Add to cart
+        </button>
       </Layout>
     </>
   );
@@ -55,9 +75,13 @@ export default function chocolateSinglePage(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const chocolate = await getChocolateById(context.query.chocolateId);
 
+  const order = context.req.cookies.order;
+  const orderArr = order ? JSON.parse(order) : [];
+
   return {
     props: {
       chocolate: chocolate,
+      orderArr: orderArr,
     },
   };
 }

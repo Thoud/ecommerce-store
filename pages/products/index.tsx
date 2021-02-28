@@ -49,9 +49,6 @@ export default function About(props: Props) {
                 </div>
               </Link>
 
-              <button>-</button>
-              <p>1</p>
-              <button>+</button>
               <button>Add to cart</button>
             </div>
           );

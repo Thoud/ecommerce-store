@@ -7,3 +7,8 @@ export type Chocolate = {
   imgPath: string;
   price: number;
 };
+
+export type Order = {
+  id: number;
+  quantity: number;
+};
