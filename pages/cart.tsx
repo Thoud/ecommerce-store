@@ -39,7 +39,7 @@ export default function Cart(props: Props) {
                   />
                   <p>{chocolate.name}</p>
                   <p>Quantity: {order.quantity}</p>
-                  <p>Price: {chocolate.price}</p>
+                  <p>Price: {chocolate.price} €</p>
                   <p>Amount: {amount.toFixed(2)} €</p>
                 </div>
               );
