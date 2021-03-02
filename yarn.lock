@@ -1326,7 +1326,7 @@ domain-browser@^1.1.1:
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
-dotenv-cli@^4.0.0:
+dotenv-cli@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-4.0.0.tgz#3cdd68b87ccd63c78dbfa72aab2f639bbeba5f4b"
   integrity sha512-ByKEec+ashePEXthZaA1fif9XDtcaRnkN7eGdBDx3HHRjwZ/rA1go83Cbs4yRrx3JshsCf96FjAyIA2M672+CQ==
@@ -2317,7 +2317,7 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-ley@^0.6.0:
+ley@0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/ley/-/ley-0.6.0.tgz#874424f91bf6bf9af4f356b32c1c7bd31eed7b73"
   integrity sha512-pAlrPY8A5OQ7ALqkzBu+Ads0B+hvyopvPM6RA0vDvuCj0IBn11laZKYccnHtihBGdJl1QNOuai//oBuFmZ9sPA==
