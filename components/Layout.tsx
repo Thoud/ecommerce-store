@@ -27,8 +27,8 @@ export default function Layout(props: Props) {
           />
         </Link>
         <nav>
-          <Link href="/login">
-            <a>Login</a>
+          <Link href="/">
+            <a>Home</a>
           </Link>
 
           <Link href="/products">

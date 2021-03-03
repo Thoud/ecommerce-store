@@ -26,7 +26,8 @@ export default function Cart(props: Props) {
             let element;
 
             if (chocolate.id === order.id) {
-              const amount = chocolate.price * order.quantity;
+              const amount =
+                Number(chocolate.price.split(',').join('.')) * order.quantity;
               totalAmount += amount;
 
               element = (
@@ -40,7 +41,10 @@ export default function Cart(props: Props) {
                   <p>{chocolate.name}</p>
                   <p>Quantity: {order.quantity}</p>
                   <p>Price: {chocolate.price} €</p>
-                  <p>Amount: {amount.toFixed(2)} €</p>
+                  <p>
+                    Amount: {amount.toFixed(2).toString().split('.').join(',')}{' '}
+                    €
+                  </p>
                 </div>
               );
             }
@@ -48,7 +52,10 @@ export default function Cart(props: Props) {
             return element;
           });
         })}
-        <p>Total Amount: {totalAmount.toFixed(2)} €</p>
+        <p>
+          Total Amount: {totalAmount.toFixed(2).toString().split('.').join(',')}{' '}
+          €
+        </p>
       </Layout>
     </>
   );

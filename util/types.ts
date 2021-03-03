@@ -5,7 +5,7 @@ export type Chocolate = {
   ingredients: string;
   allergens: string;
   imgPath: string;
-  price: number;
+  price: string;
 };
 
 export type Order = {
