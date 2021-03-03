@@ -25,3 +25,7 @@ export function changeOrder(
     return cookie;
   });
 }
+
+export function removeItemFromOrder(cookieArr: Order[], chocolateId: number) {
+  return cookieArr.filter((cookie) => cookie.id !== chocolateId);
+}
