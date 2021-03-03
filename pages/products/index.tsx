@@ -37,7 +37,7 @@ export default function ProductPage(props: Props) {
           return (
             <div key={chocolate.id}>
               <Link href={`/products/${chocolate.id}`}>
-                <div>
+                <a>
                   <Image
                     src={chocolate.imgPath}
                     alt={chocolate.name}
@@ -46,7 +46,7 @@ export default function ProductPage(props: Props) {
                   />
                   <p>{chocolate.name}</p>
                   <p>{chocolate.price} €</p>
-                </div>
+                </a>
               </Link>
 
               <button>Add to cart</button>

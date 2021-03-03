@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import Layout from '../components/Layout';
 import { getChocolates } from '../util/database';
 import { Chocolate, Order } from '../util/types';
@@ -32,12 +33,16 @@ export default function Cart(props: Props) {
 
               element = (
                 <div key={chocolate.id}>
-                  <Image
-                    src={chocolate.imgPath}
-                    alt={chocolate.name}
-                    width={200}
-                    height={200}
-                  />
+                  <Link href={`/products/${chocolate.id}`}>
+                    <a>
+                      <Image
+                        src={chocolate.imgPath}
+                        alt={chocolate.name}
+                        width={200}
+                        height={200}
+                      />
+                    </a>
+                  </Link>
                   <p>{chocolate.name}</p>
                   <p>Quantity: {order.quantity}</p>
                   <p>Price: {chocolate.price} €</p>
