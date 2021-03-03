@@ -18,7 +18,7 @@ export default function ChocolateSinglePage(props: Props) {
   const [order, setOrder] = useState(props.orderArr);
 
   useEffect(() => {
-    Cookies.set('order', order);
+    Cookies.set('order', order, { expires: 7 });
   }, [order]);
 
   if (props.chocolate === null) {
@@ -50,9 +50,16 @@ export default function ChocolateSinglePage(props: Props) {
           width={400}
           height={400}
         />
+
+        <p>Description</p>
         <p>{props.chocolate.description}</p>
+
+        <p>Ingredients</p>
         <p>{props.chocolate.ingredients}</p>
+
+        <p>Allergens</p>
         <p>{props.chocolate.allergens}</p>
+
         <p>{props.chocolate.price} €</p>
 
         <button
@@ -64,8 +71,11 @@ export default function ChocolateSinglePage(props: Props) {
         >
           -
         </button>
+
         <p>{quantity}</p>
+
         <button onClick={() => setQuantity(quantity + 1)}>+</button>
+
         <button
           onClick={() => {
             if (props.chocolate?.id) {

@@ -1,15 +1,26 @@
+import Cookies from 'js-cookie';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import { changeOrder } from '../../util/cookies';
 import { getChocolates } from '../../util/database';
-import { Chocolate } from '../../util/types';
+import { Chocolate, Order } from '../../util/types';
 
 type Props = {
   chocolates: Chocolate[] | null;
+  orderArr: Order[];
 };
 
 export default function ProductPage(props: Props) {
+  const [order, setOrder] = useState(props.orderArr);
+
+  useEffect(() => {
+    Cookies.set('order', order, { expires: 7 });
+  }, [order]);
+
   if (props.chocolates === null) {
     return (
       <>
@@ -44,12 +55,21 @@ export default function ProductPage(props: Props) {
                     width={200}
                     height={200}
                   />
+
                   <p>{chocolate.name}</p>
                   <p>{chocolate.price} €</p>
                 </a>
               </Link>
 
-              <button>Add to cart</button>
+              <button
+                onClick={() => {
+                  if (chocolate.id) {
+                    setOrder(changeOrder(order, chocolate.id, 1));
+                  }
+                }}
+              >
+                Add to cart
+              </button>
             </div>
           );
         })}
@@ -58,12 +78,16 @@ export default function ProductPage(props: Props) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const chocolates = await getChocolates();
+
+  const order = context.req.cookies.order;
+  const orderArr = order ? JSON.parse(order) : [];
 
   return {
     props: {
       chocolates: chocolates,
+      orderArr: orderArr,
     },
   };
 }

@@ -1,8 +1,11 @@
+import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import { changeOrder, removeItemFromOrder } from '../util/cookies';
 import { getChocolates } from '../util/database';
 import { Chocolate, Order } from '../util/types';
 
@@ -12,6 +15,12 @@ type Props = {
 };
 
 export default function Cart(props: Props) {
+  const [order, setOrder] = useState(props.orderArr);
+
+  useEffect(() => {
+    Cookies.set('order', order, { expires: 7 });
+  }, [order]);
+
   let totalAmount = 0;
 
   return (
@@ -23,12 +32,13 @@ export default function Cart(props: Props) {
       <Layout>
         <h1>Cart</h1>
         {props.chocolates.map((chocolate: Chocolate) => {
-          return props.orderArr.map((order: Order) => {
+          return props.orderArr.map((singleOrder: Order) => {
             let element;
 
-            if (chocolate.id === order.id) {
+            if (chocolate.id === singleOrder.id) {
               const amount =
-                Number(chocolate.price.split(',').join('.')) * order.quantity;
+                Number(chocolate.price.split(',').join('.')) *
+                singleOrder.quantity;
               totalAmount += amount;
 
               element = (
@@ -43,8 +53,31 @@ export default function Cart(props: Props) {
                       />
                     </a>
                   </Link>
+
                   <p>{chocolate.name}</p>
-                  <p>Quantity: {order.quantity}</p>
+
+                  <button
+                    onClick={() => {
+                      if (singleOrder.quantity - 1 === 0) {
+                        setOrder(removeItemFromOrder(order, chocolate.id));
+                      } else {
+                        setOrder(changeOrder(order, chocolate.id, -1));
+                      }
+                    }}
+                  >
+                    -
+                  </button>
+                  <p>Quantity: {singleOrder.quantity}</p>
+                  <button
+                    onClick={() => {
+                      if (chocolate.id) {
+                        setOrder(changeOrder(order, chocolate.id, 1));
+                      }
+                    }}
+                  >
+                    +
+                  </button>
+
                   <p>Price: {chocolate.price} €</p>
                   <p>
                     Amount: {amount.toFixed(2).toString().split('.').join(',')}{' '}
