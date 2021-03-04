@@ -32,7 +32,7 @@ export default function Cart(props: Props) {
       <Layout>
         <h1>Cart</h1>
         {props.chocolates.map((chocolate: Chocolate) => {
-          return props.orderArr.map((singleOrder: Order) => {
+          return order.map((singleOrder: Order) => {
             let element;
 
             if (chocolate.id === singleOrder.id) {
@@ -94,6 +94,10 @@ export default function Cart(props: Props) {
           Total Amount: {totalAmount.toFixed(2).toString().split('.').join(',')}{' '}
           €
         </p>
+
+        <Link href="/checkout">
+          <a>Go to Checkout</a>
+        </Link>
       </Layout>
     </>
   );
