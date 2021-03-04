@@ -57,14 +57,12 @@ export async function getServerSideProps() {
     const selection = await getChocolateById(randomNumber);
 
     if (
-      !chocolateSelection.find((chocolate) => chocolate.id !== selection?.id) &&
+      !chocolateSelection.find((chocolate) => chocolate.id === selection?.id) &&
       selection !== null
     ) {
       chocolateSelection.push(selection);
     }
   }
-
-  console.log(chocolateSelection);
 
   return {
     props: {
