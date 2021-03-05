@@ -33,7 +33,7 @@ export default function Checkout(props: Props) {
       </Head>
 
       <Layout>
-        <h1>Checkout</h1>
+        <h1 className="text-3xl">Checkout</h1>
 
         <form>
           <h2>Shipping Information</h2>
@@ -87,8 +87,8 @@ export default function Checkout(props: Props) {
                     id={chocolate.id}
                     src={chocolate.imgPath}
                     alt={chocolate.name}
-                    width={200}
-                    height={200}
+                    width={300}
+                    height={300}
                     name={chocolate.name}
                   />
 

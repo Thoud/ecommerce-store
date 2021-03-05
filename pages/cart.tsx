@@ -30,7 +30,7 @@ export default function Cart(props: Props) {
       </Head>
 
       <Layout>
-        <h1>Cart</h1>
+        <h1 className="text-3xl">Cart</h1>
         {props.chocolates.map((chocolate: Chocolate) => {
           return order.map((singleOrder: Order) => {
             let element;
@@ -47,8 +47,8 @@ export default function Cart(props: Props) {
                     id={chocolate.id}
                     src={chocolate.imgPath}
                     alt={chocolate.name}
-                    width={200}
-                    height={200}
+                    width={300}
+                    height={300}
                     name={chocolate.name}
                   />
 

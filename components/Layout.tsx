@@ -16,30 +16,36 @@ export default function Layout(props: Props) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <header>
+      <header className="flex items-center justify-between bg-secondary p-2 h-20">
         <Link href="/">
           <Image
             src="/logo.png"
             alt="Chocolate Heaven Logo"
-            width={178}
-            height={80}
+            width={142.4}
+            height={64}
           />
         </Link>
-        <nav>
+        <nav className="flex items-center">
           <Link href="/">
-            <a>Home</a>
+            <a className="bg-tertiary mx-12 px-10 py-2 rounded-lg font-medium lg:mx-8 lg:px-6 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
+              Home
+            </a>
           </Link>
 
           <Link href="/products">
-            <a>Products</a>
+            <a className="bg-tertiary mx-12 px-10 py-2 rounded-lg font-medium lg:mx-8 lg:px-6 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
+              Products
+            </a>
           </Link>
 
           <Link href="/about">
-            <a>About</a>
+            <a className="bg-tertiary mx-12 px-10 py-2 rounded-lg font-medium lg:mx-8 lg:px-6 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
+              About
+            </a>
           </Link>
 
           <Link href="/cart">
-            <a>
+            <a className="bg-tertiary mx-12 px-4 py-2 rounded-lg flex items-center lg:mx-8 lg:px-2 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
               <Image src="/cart.svg" alt="Cart Icon" width={25} height={25} />
             </a>
           </Link>
@@ -48,8 +54,8 @@ export default function Layout(props: Props) {
 
       <main>{props.children}</main>
 
-      <footer>
-        <p>
+      <footer className="flex place-content-center bg-secondary py-3 h-14">
+        <p className="text-primary text-lg text-center lg:text-sm">
           Made with{' '}
           <span role="img" aria-label="Heart">
             ❤️

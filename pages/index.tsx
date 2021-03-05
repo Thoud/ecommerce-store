@@ -18,9 +18,8 @@ export default function Home(props: Props) {
       </Head>
 
       <Layout>
-        <h1>Welcome to Chocolate Heaven</h1>
-
-        <Image src="/background.jpg" alt="" width={1000} height={562.5} />
+        <Image src="/background.jpg" alt="" width={1920} height={300} />
+        <h1 className="text-3xl">Welcome to Chocolate Heaven</h1>
 
         <h2>About us</h2>
         <p>...</p>
@@ -32,15 +31,17 @@ export default function Home(props: Props) {
         {props.chocolateSelection &&
           props.chocolateSelection.map((chocolate: Chocolate) => {
             return (
-              <ProductInfo
-                key={chocolate.id}
-                id={chocolate.id}
-                src={chocolate.imgPath}
-                alt={chocolate.name}
-                width={200}
-                height={200}
-                name={chocolate.name}
-              />
+              <div key={chocolate.id}>
+                <ProductInfo
+                  key={chocolate.id}
+                  id={chocolate.id}
+                  src={chocolate.imgPath}
+                  alt={chocolate.name}
+                  width={300}
+                  height={300}
+                />
+                <p className="font-semibold">{chocolate.name}</p>
+              </div>
             );
           })}
       </Layout>

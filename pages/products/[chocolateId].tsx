@@ -29,7 +29,7 @@ export default function ChocolateSinglePage(props: Props) {
         </Head>
 
         <Layout>
-          <h1>Product Not Found</h1>
+          <h1 className="text-3xl">Product Not Found</h1>
           <p>Please try again!</p>
         </Layout>
       </>
@@ -43,7 +43,7 @@ export default function ChocolateSinglePage(props: Props) {
       </Head>
 
       <Layout>
-        <h1>{props.chocolate.name}</h1>
+        <h1 className="text-3xl">{props.chocolate.name}</h1>
 
         <ProductInfo
           id={props.chocolate.id}

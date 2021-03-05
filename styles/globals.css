@@ -9,6 +9,11 @@
     @apply font-raleway;
     @apply font-normal;
     @apply text-text;
+    @apply box-border;
+  }
+
+  #__next {
+    @apply min-h-screen;
   }
 
   h1,
@@ -20,4 +25,8 @@
     @apply font-dancing;
     @apply font-bold;
   }
+}
+
+main {
+  min-height: 86.49vh;
 }

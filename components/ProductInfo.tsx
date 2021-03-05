@@ -28,26 +28,26 @@ export default function ProductInfo(props: Props) {
         </a>
       </Link>
 
-      {props.name && <p>{props.name}</p>}
+      {props.name && <p className="font-semibold">{props.name}</p>}
       {props.description && (
         <>
-          <p>Description</p>
-          <p>{props.description}</p>
+          <p className="font-semibold">Description</p>
+          <p className="mb-10">{props.description}</p>
         </>
       )}
       {props.ingredients && (
         <>
-          <p>Ingredients</p>
-          <p>{props.ingredients}</p>
+          <p className="font-semibold">Ingredients</p>
+          <p className="mb-10">{props.ingredients}</p>
         </>
       )}
       {props.allergens && (
         <>
-          <p>Allergens</p>
-          <p>{props.allergens}</p>
+          <p className="font-semibold">Allergens</p>
+          <p className="mb-10">{props.allergens}</p>
         </>
       )}
-      {props.price && <p>{props.price} €</p>}
+      {props.price && <p className="mb-10 font-medium">{props.price} €</p>}
     </>
   );
 }

@@ -28,7 +28,7 @@ export default function ProductPage(props: Props) {
         </Head>
 
         <Layout>
-          <h1>Product Not Found</h1>
+          <h1 className="text-3xl">Product Not Found</h1>
           <p>Please try again!</p>
         </Layout>
       </>
@@ -42,7 +42,7 @@ export default function ProductPage(props: Props) {
       </Head>
 
       <Layout>
-        <h1>Products</h1>
+        <h1 className="text-3xl">Products</h1>
         {props.chocolates.map((chocolate: Chocolate) => {
           return (
             <div key={chocolate.id}>
@@ -50,8 +50,8 @@ export default function ProductPage(props: Props) {
                 id={chocolate.id}
                 src={chocolate.imgPath}
                 alt={chocolate.name}
-                width={200}
-                height={200}
+                width={300}
+                height={300}
                 name={chocolate.name}
                 price={chocolate.price}
               />

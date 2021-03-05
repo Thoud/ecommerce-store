@@ -10,7 +10,7 @@ export default function Confirmation() {
       </Head>
 
       <Layout>
-        <h1>Thank you for your order!</h1>
+        <h1 className="text-3xl">Thank you for your order!</h1>
         <Image src="/background.jpg" alt="" width={1000} height={562.5} />
       </Layout>
     </>
