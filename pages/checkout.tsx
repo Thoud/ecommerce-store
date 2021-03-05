@@ -1,10 +1,10 @@
 import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import ProductInfo from '../components/ProductInfo';
 import { getChocolates } from '../util/database';
 import { Chocolate, Order } from '../util/types';
 
@@ -58,6 +58,16 @@ export default function Checkout(props: Props) {
 
           <label htmlFor="phone">Phone Number</label>
           <input id="phone" type="tel" />
+
+          <h2>Payment information</h2>
+          <label htmlFor="card">Credit Card Number</label>
+          <input id="card" type="text" />
+
+          <label htmlFor="date">Expiration Date</label>
+          <input id="date" type="month" />
+
+          <label htmlFor="security">Security Code</label>
+          <input id="security" type="text" />
         </form>
 
         <h2>Order Summary</h2>
@@ -73,18 +83,15 @@ export default function Checkout(props: Props) {
 
               element = (
                 <div key={chocolate.id}>
-                  <Link href={`/products/${chocolate.id}`}>
-                    <a>
-                      <Image
-                        src={chocolate.imgPath}
-                        alt={chocolate.name}
-                        width={200}
-                        height={200}
-                      />
-                    </a>
-                  </Link>
+                  <ProductInfo
+                    id={chocolate.id}
+                    src={chocolate.imgPath}
+                    alt={chocolate.name}
+                    width={200}
+                    height={200}
+                    name={chocolate.name}
+                  />
 
-                  <p>{chocolate.name}</p>
                   <p>Quantity: {singleOrder.quantity}</p>
                   <p>Price: {chocolate.price} €</p>
                   <p>

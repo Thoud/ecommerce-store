@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import ProductInfo from '../../components/ProductInfo';
 import { changeOrder } from '../../util/cookies';
 import { getChocolateById } from '../../util/database';
 import { Chocolate, Order } from '../../util/types';
@@ -44,23 +44,18 @@ export default function ChocolateSinglePage(props: Props) {
 
       <Layout>
         <h1>{props.chocolate.name}</h1>
-        <Image
+
+        <ProductInfo
+          id={props.chocolate.id}
           src={props.chocolate.imgPath}
           alt={props.chocolate.name}
           width={400}
           height={400}
+          description={props.chocolate.description}
+          ingredients={props.chocolate.ingredients}
+          allergens={props.chocolate.allergens}
+          price={props.chocolate.price}
         />
-
-        <p>Description</p>
-        <p>{props.chocolate.description}</p>
-
-        <p>Ingredients</p>
-        <p>{props.chocolate.ingredients}</p>
-
-        <p>Allergens</p>
-        <p>{props.chocolate.allergens}</p>
-
-        <p>{props.chocolate.price} €</p>
 
         <button
           onClick={() => {

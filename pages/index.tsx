@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Layout from '../components/Layout';
+import ProductInfo from '../components/ProductInfo';
 import { getChocolateById } from '../util/database';
 import { Chocolate } from '../util/types';
 
@@ -31,17 +32,15 @@ export default function Home(props: Props) {
         {props.chocolateSelection &&
           props.chocolateSelection.map((chocolate: Chocolate) => {
             return (
-              <Link key={chocolate.id} href={`/products/${chocolate.id}`}>
-                <a>
-                  <Image
-                    src={chocolate.imgPath}
-                    alt={chocolate.name}
-                    width={200}
-                    height={200}
-                  />
-                  <p>{chocolate.name}</p>
-                </a>
-              </Link>
+              <ProductInfo
+                key={chocolate.id}
+                id={chocolate.id}
+                src={chocolate.imgPath}
+                alt={chocolate.name}
+                width={200}
+                height={200}
+                name={chocolate.name}
+              />
             );
           })}
       </Layout>

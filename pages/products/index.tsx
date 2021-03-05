@@ -1,10 +1,9 @@
 import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import ProductInfo from '../../components/ProductInfo';
 import { changeOrder } from '../../util/cookies';
 import { getChocolates } from '../../util/database';
 import { Chocolate, Order } from '../../util/types';
@@ -47,19 +46,15 @@ export default function ProductPage(props: Props) {
         {props.chocolates.map((chocolate: Chocolate) => {
           return (
             <div key={chocolate.id}>
-              <Link href={`/products/${chocolate.id}`}>
-                <a>
-                  <Image
-                    src={chocolate.imgPath}
-                    alt={chocolate.name}
-                    width={200}
-                    height={200}
-                  />
-
-                  <p>{chocolate.name}</p>
-                  <p>{chocolate.price} €</p>
-                </a>
-              </Link>
+              <ProductInfo
+                id={chocolate.id}
+                src={chocolate.imgPath}
+                alt={chocolate.name}
+                width={200}
+                height={200}
+                name={chocolate.name}
+                price={chocolate.price}
+              />
 
               <button
                 onClick={() => {

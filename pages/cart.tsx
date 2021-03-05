@@ -1,10 +1,10 @@
 import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import ProductInfo from '../components/ProductInfo';
 import { changeOrder, removeItemFromOrder } from '../util/cookies';
 import { getChocolates } from '../util/database';
 import { Chocolate, Order } from '../util/types';
@@ -43,18 +43,14 @@ export default function Cart(props: Props) {
 
               element = (
                 <div key={chocolate.id}>
-                  <Link href={`/products/${chocolate.id}`}>
-                    <a>
-                      <Image
-                        src={chocolate.imgPath}
-                        alt={chocolate.name}
-                        width={200}
-                        height={200}
-                      />
-                    </a>
-                  </Link>
-
-                  <p>{chocolate.name}</p>
+                  <ProductInfo
+                    id={chocolate.id}
+                    src={chocolate.imgPath}
+                    alt={chocolate.name}
+                    width={200}
+                    height={200}
+                    name={chocolate.name}
+                  />
 
                   <button
                     onClick={() => {

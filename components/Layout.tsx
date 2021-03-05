@@ -7,7 +7,6 @@ type Props = {
   children: ReactNode;
 };
 
-// ! Change the type of props
 export default function Layout(props: Props) {
   return (
     <>
