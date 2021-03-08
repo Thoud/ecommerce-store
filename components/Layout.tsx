@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
+  orderQuantity: number;
 };
 
 export default function Layout(props: Props) {
@@ -16,7 +17,7 @@ export default function Layout(props: Props) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <header className="flex items-center justify-between bg-secondary p-2 h-20">
+      <header className="z-50 w-full fixed top-0 flex items-center justify-between bg-secondary p-2 h-20">
         <Link href="/">
           <Image
             src="/logo.png"
@@ -47,12 +48,15 @@ export default function Layout(props: Props) {
           <Link href="/cart">
             <a className="bg-tertiary mx-12 px-4 py-2 rounded-lg flex items-center lg:mx-8 lg:px-2 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
               <Image src="/cart.svg" alt="Cart Icon" width={25} height={25} />
+              {props.orderQuantity !== 0 && (
+                <p className="ml-2 font-semibold">{props.orderQuantity}</p>
+              )}
             </a>
           </Link>
         </nav>
       </header>
 
-      <main>{props.children}</main>
+      <main className="flex flex-wrap mt-20">{props.children}</main>
 
       <footer className="flex place-content-center bg-secondary py-3 h-14">
         <p className="text-primary text-lg text-center lg:text-sm">

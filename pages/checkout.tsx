@@ -11,10 +11,10 @@ import { Chocolate, Order } from '../util/types';
 type Props = {
   chocolates: Chocolate[];
   orderArr: Order[];
+  orderQuantity: number;
 };
 
 export default function Checkout(props: Props) {
-  const [order] = useState(props.orderArr);
   const [orderPlaced, setOrderPlaced] = useState(false);
 
   useEffect(() => {
@@ -32,90 +32,184 @@ export default function Checkout(props: Props) {
         <title>Checkout | Chocolate Heaven</title>
       </Head>
 
-      <Layout>
-        <h1 className="text-3xl">Checkout</h1>
+      <Layout orderQuantity={props.orderQuantity}>
+        <h1 className="text-4xl ml-10 mt-10 h-5 w-full">Checkout</h1>
 
-        <form>
-          <h2>Shipping Information</h2>
-          <label htmlFor="firstName">First Name</label>
-          <input id="firstName" type="text" />
+        <form className="w-full my-10 ml-10 mr-60 flex flex-wrap justify-between">
+          <div>
+            <h2 className="text-3xl my-8">Shipping Information</h2>
 
-          <label htmlFor="lastName">Last Name</label>
-          <input id="lastName" type="text" />
+            <label htmlFor="firstName">First Name</label>
+            <br />
+            <input
+              id="firstName"
+              type="text"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+            <br />
 
-          <label htmlFor="address">Address</label>
-          <input id="address" type="text" />
+            <label htmlFor="lastName">Last Name</label>
+            <br />
+            <input
+              id="lastName"
+              type="text"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+            <br />
 
-          <label htmlFor="city">City</label>
-          <input id="city" type="text" />
+            <label htmlFor="address">Address</label>
+            <br />
+            <input
+              id="address"
+              type="text"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+            <br />
 
-          <label htmlFor="zip">ZIP Code</label>
-          <input id="zip" type="text" />
+            <label htmlFor="city">City</label>
+            <br />
+            <input
+              id="city"
+              type="text"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+            <br />
 
-          <h2>Contact information</h2>
-          <label htmlFor="email">Email Address</label>
-          <input id="email" type="email" />
+            <label htmlFor="zip">ZIP Code</label>
+            <br />
+            <input
+              id="zip"
+              type="text"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+          </div>
 
-          <label htmlFor="phone">Phone Number</label>
-          <input id="phone" type="tel" />
+          <div>
+            <h2 className="text-3xl my-8">Contact information</h2>
 
-          <h2>Payment information</h2>
-          <label htmlFor="card">Credit Card Number</label>
-          <input id="card" type="text" />
+            <label htmlFor="email">Email Address</label>
+            <br />
+            <input
+              id="email"
+              type="email"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+            <br />
 
-          <label htmlFor="date">Expiration Date</label>
-          <input id="date" type="month" />
+            <label htmlFor="phone">Phone Number</label>
+            <br />
+            <input
+              id="phone"
+              type="tel"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+          </div>
 
-          <label htmlFor="security">Security Code</label>
-          <input id="security" type="text" />
+          <div>
+            <h2 className="text-3xl my-8">Payment information</h2>
+
+            <label htmlFor="card">Credit Card Number</label>
+            <br />
+            <input
+              id="card"
+              type="text"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+            <br />
+
+            <label htmlFor="date">Expiration Date</label>
+            <br />
+            <input
+              id="date"
+              type="month"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+            <br />
+
+            <label htmlFor="security">Security Code</label>
+            <br />
+            <input
+              id="security"
+              type="text"
+              className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            />
+          </div>
         </form>
 
-        <h2>Order Summary</h2>
-        {props.chocolates.map((chocolate: Chocolate) => {
-          return order.map((singleOrder: Order) => {
-            let element;
+        <div className="w-full m-10 flex flex-wrap justify-evenly">
+          <h2 className="text-3xl my-8 w-full">Order Summary</h2>
+          {props.chocolates.map((chocolate: Chocolate) => {
+            return props.orderArr.map((singleOrder: Order) => {
+              let element;
 
-            if (chocolate.id === singleOrder.id) {
-              const amount =
-                Number(chocolate.price.split(',').join('.')) *
-                singleOrder.quantity;
-              totalAmount += amount;
+              if (chocolate.id === singleOrder.id) {
+                const amount =
+                  Number(chocolate.price.split(',').join('.')) *
+                  singleOrder.quantity;
+                totalAmount += amount;
 
-              element = (
-                <div key={chocolate.id}>
-                  <ProductInfo
-                    id={chocolate.id}
-                    src={chocolate.imgPath}
-                    alt={chocolate.name}
-                    width={300}
-                    height={300}
-                    name={chocolate.name}
-                  />
+                element = (
+                  <div key={chocolate.id} className="flex items-center">
+                    <ProductInfo
+                      id={chocolate.id}
+                      src={chocolate.imgPath}
+                      alt={chocolate.name}
+                      width={200}
+                      height={200}
+                    />
 
-                  <p>Quantity: {singleOrder.quantity}</p>
-                  <p>Price: {chocolate.price} €</p>
-                  <p>
-                    Amount: {amount.toFixed(2).toString().split('.').join(',')}{' '}
-                    €
-                  </p>
-                </div>
-              );
-            }
+                    <div>
+                      <p className="font-semibold mb-6">{chocolate.name}</p>
+                      <div className="flex">
+                        <div className="mr-20">
+                          <p className="font-semibold">Price</p>
+                          <p>{chocolate.price} €</p>
+                        </div>
 
-            return element;
-          });
-        })}
-        <p>
-          Total Amount: {totalAmount.toFixed(2).toString().split('.').join(',')}{' '}
-          €
-        </p>
+                        <div className="mr-20">
+                          <p className="font-semibold">Quantity</p>
+                          <p>{singleOrder.quantity}</p>
+                        </div>
 
-        <Link href="/cart">
-          <a>Back to cart</a>
-        </Link>
-        <Link href="/confirmation">
-          <button onClick={() => setOrderPlaced(true)}>Place order</button>
-        </Link>
+                        <div className="mr-20">
+                          <p className="font-semibold">Amount</p>
+                          <p>
+                            {amount.toFixed(2).toString().split('.').join(',')}{' '}
+                            €
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return element;
+            });
+          })}
+        </div>
+
+        <div className="mx-10 mt-10 mb-24 w-full">
+          <p className="font-semibold">Total Amount</p>
+          <p className="mb-10">
+            {totalAmount.toFixed(2).toString().split('.').join(',')} €
+          </p>
+
+          <Link href="/confirmation">
+            <button
+              className="bg-tertiary rounded-lg font-medium px-4 py-1.5 mr-20 w-52"
+              onClick={() => setOrderPlaced(true)}
+            >
+              Place order
+            </button>
+          </Link>
+
+          <Link href="/cart">
+            <button className="bg-tertiary rounded-lg font-medium px-4 py-1.5 w-52">
+              Back to cart
+            </button>
+          </Link>
+        </div>
       </Layout>
     </>
   );
@@ -127,10 +221,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const order = context.req.cookies.order;
   const orderArr = order ? JSON.parse(order) : [];
 
+  const orderQuantity = orderArr.reduce(
+    (acc: number, val: Order) => acc + val.quantity,
+    0,
+  );
+
   return {
     props: {
       chocolates: chocolates,
       orderArr: orderArr,
+      orderQuantity: orderQuantity,
     },
   };
 }

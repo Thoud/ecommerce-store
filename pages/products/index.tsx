@@ -11,6 +11,7 @@ import { Chocolate, Order } from '../../util/types';
 type Props = {
   chocolates: Chocolate[] | null;
   orderArr: Order[];
+  orderQuantity: number;
 };
 
 export default function ProductPage(props: Props) {
@@ -27,8 +28,8 @@ export default function ProductPage(props: Props) {
           <title>Products Not Found | Chocolate Heaven</title>
         </Head>
 
-        <Layout>
-          <h1 className="text-3xl">Product Not Found</h1>
+        <Layout orderQuantity={props.orderQuantity}>
+          <h1 className="text-4xl">Product Not Found</h1>
           <p>Please try again!</p>
         </Layout>
       </>
@@ -41,33 +42,40 @@ export default function ProductPage(props: Props) {
         <title>Products | Chocolate Heaven</title>
       </Head>
 
-      <Layout>
-        <h1 className="text-3xl">Products</h1>
-        {props.chocolates.map((chocolate: Chocolate) => {
-          return (
-            <div key={chocolate.id}>
-              <ProductInfo
-                id={chocolate.id}
-                src={chocolate.imgPath}
-                alt={chocolate.name}
-                width={300}
-                height={300}
-                name={chocolate.name}
-                price={chocolate.price}
-              />
+      <Layout orderQuantity={props.orderQuantity}>
+        <h1 className="text-4xl mx-10 mt-10 h-5">Products</h1>
 
-              <button
-                onClick={() => {
-                  if (chocolate.id) {
-                    setOrder(changeOrder(order, chocolate.id, 1));
-                  }
-                }}
+        <div className="flex flex-wrap justify-around mb-14">
+          {props.chocolates.map((chocolate: Chocolate) => {
+            return (
+              <div
+                key={chocolate.id}
+                className="flex flex-col items-center justify-center w-72 mr-24 my-10"
               >
-                Add to cart
-              </button>
-            </div>
-          );
-        })}
+                <ProductInfo
+                  id={chocolate.id}
+                  src={chocolate.imgPath}
+                  alt={chocolate.name}
+                  width={300}
+                  height={300}
+                  name={chocolate.name}
+                  price={chocolate.price}
+                />
+
+                <button
+                  className="bg-tertiary rounded-lg font-medium px-4 py-1"
+                  onClick={() => {
+                    if (chocolate.id) {
+                      setOrder(changeOrder(order, chocolate.id, 1));
+                    }
+                  }}
+                >
+                  Add to cart
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </Layout>
     </>
   );
@@ -79,10 +87,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const order = context.req.cookies.order;
   const orderArr = order ? JSON.parse(order) : [];
 
+  const orderQuantity = orderArr.reduce(
+    (acc: number, val: Order) => acc + val.quantity,
+    0,
+  );
+
   return {
     props: {
       chocolates: chocolates,
       orderArr: orderArr,
+      orderQuantity: orderQuantity,
     },
   };
 }

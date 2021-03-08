@@ -12,6 +12,7 @@ import { Chocolate, Order } from '../util/types';
 type Props = {
   chocolates: Chocolate[];
   orderArr: Order[];
+  orderQuantity: number;
 };
 
 export default function Cart(props: Props) {
@@ -29,71 +30,100 @@ export default function Cart(props: Props) {
         <title>Shopping Cart | Chocolate Heaven</title>
       </Head>
 
-      <Layout>
-        <h1 className="text-3xl">Cart</h1>
-        {props.chocolates.map((chocolate: Chocolate) => {
-          return order.map((singleOrder: Order) => {
-            let element;
+      <Layout orderQuantity={props.orderQuantity}>
+        <h1 className="text-4xl m-10 h-5 w-full">Cart</h1>
+        <div className="flex flex-wrap justify-evenly">
+          {props.chocolates.map((chocolate: Chocolate) => {
+            return order.map((singleOrder: Order) => {
+              let element;
 
-            if (chocolate.id === singleOrder.id) {
-              const amount =
-                Number(chocolate.price.split(',').join('.')) *
-                singleOrder.quantity;
-              totalAmount += amount;
+              if (chocolate.id === singleOrder.id) {
+                const amount =
+                  Number(chocolate.price.split(',').join('.')) *
+                  singleOrder.quantity;
+                totalAmount += amount;
 
-              element = (
-                <div key={chocolate.id}>
-                  <ProductInfo
-                    id={chocolate.id}
-                    src={chocolate.imgPath}
-                    alt={chocolate.name}
-                    width={300}
-                    height={300}
-                    name={chocolate.name}
-                  />
+                element = (
+                  <div key={chocolate.id} className="flex items-center mx-36">
+                    <ProductInfo
+                      id={chocolate.id}
+                      src={chocolate.imgPath}
+                      alt={chocolate.name}
+                      width={200}
+                      height={200}
+                    />
 
-                  <button
-                    onClick={() => {
-                      if (singleOrder.quantity - 1 === 0) {
-                        setOrder(removeItemFromOrder(order, chocolate.id));
-                      } else {
-                        setOrder(changeOrder(order, chocolate.id, -1));
-                      }
-                    }}
-                  >
-                    -
-                  </button>
-                  <p>Quantity: {singleOrder.quantity}</p>
-                  <button
-                    onClick={() => {
-                      if (chocolate.id) {
-                        setOrder(changeOrder(order, chocolate.id, 1));
-                      }
-                    }}
-                  >
-                    +
-                  </button>
+                    <div>
+                      <p className="font-semibold mb-6">{chocolate.name}</p>
 
-                  <p>Price: {chocolate.price} €</p>
-                  <p>
-                    Amount: {amount.toFixed(2).toString().split('.').join(',')}{' '}
-                    €
-                  </p>
-                </div>
-              );
-            }
+                      <div className="flex">
+                        <div className="mr-20">
+                          <p className="font-semibold">Price</p>
+                          <p>{chocolate.price} €</p>
+                        </div>
 
-            return element;
-          });
-        })}
-        <p>
-          Total Amount: {totalAmount.toFixed(2).toString().split('.').join(',')}{' '}
-          €
-        </p>
+                        <div className="flex items-center mr-20">
+                          <button
+                            className="bg-tertiary rounded-lg font-medium px-3 py-1"
+                            onClick={() => {
+                              if (singleOrder.quantity - 1 === 0) {
+                                setOrder(
+                                  removeItemFromOrder(order, chocolate.id),
+                                );
+                              } else {
+                                setOrder(changeOrder(order, chocolate.id, -1));
+                              }
+                            }}
+                          >
+                            -
+                          </button>
 
-        <Link href="/checkout">
-          <a>Go to Checkout</a>
-        </Link>
+                          <p className="mx-4 font-semibold">
+                            Quantity: {singleOrder.quantity}
+                          </p>
+
+                          <button
+                            className="bg-tertiary rounded-lg font-medium px-3 py-1"
+                            onClick={() => {
+                              if (chocolate.id) {
+                                setOrder(changeOrder(order, chocolate.id, 1));
+                              }
+                            }}
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        <div>
+                          <p className="font-semibold">Amount</p>
+                          <p>
+                            {amount.toFixed(2).toString().split('.').join(',')}{' '}
+                            €
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return element;
+            });
+          })}
+        </div>
+
+        <div className="mx-10 mt-10 mb-24 w-full">
+          <p className="font-semibold">Total Amount</p>
+          <p className="mb-10">
+            {totalAmount.toFixed(2).toString().split('.').join(',')} €
+          </p>
+
+          <Link href="/checkout">
+            <button className="bg-tertiary rounded-lg font-medium px-4 py-1.5">
+              Go to Checkout
+            </button>
+          </Link>
+        </div>
       </Layout>
     </>
   );
@@ -105,10 +135,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const order = context.req.cookies.order;
   const orderArr = order ? JSON.parse(order) : [];
 
+  const orderQuantity = orderArr.reduce(
+    (acc: number, val: Order) => acc + val.quantity,
+    0,
+  );
+
   return {
     props: {
       chocolates: chocolates,
       orderArr: orderArr,
+      orderQuantity: orderQuantity,
     },
   };
 }
