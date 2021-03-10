@@ -3,6 +3,7 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import Overlay from '../../components/Overlay';
 import ProductInfo from '../../components/ProductInfo';
 import { changeOrder } from '../../util/cookies';
 import { getChocolates } from '../../util/database';
@@ -16,6 +17,7 @@ type Props = {
 
 export default function ProductPage(props: Props) {
   const [order, setOrder] = useState(props.orderArr);
+  const [overlay, setOverlay] = useState(false);
 
   useEffect(() => {
     Cookies.set('order', order, { expires: 7 });
@@ -65,6 +67,8 @@ export default function ProductPage(props: Props) {
                 <button
                   className="bg-tertiary rounded-lg font-medium px-4 py-1"
                   onClick={() => {
+                    setOverlay(true);
+
                     if (chocolate.id) {
                       setOrder(changeOrder(order, chocolate.id, 1));
                     }
@@ -76,6 +80,8 @@ export default function ProductPage(props: Props) {
             );
           })}
         </div>
+
+        {overlay && <Overlay setOverlay={setOverlay} />}
       </Layout>
     </>
   );

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import Overlay from '../../components/Overlay';
 import ProductInfo from '../../components/ProductInfo';
 import { changeOrder } from '../../util/cookies';
 import { getChocolateById } from '../../util/database';
@@ -19,6 +20,7 @@ type Props = {
 export default function ChocolateSinglePage(props: Props) {
   const [quantity, setQuantity] = useState(1);
   const [order, setOrder] = useState(props.orderArr);
+  const [overlay, setOverlay] = useState(false);
 
   useEffect(() => {
     Cookies.set('order', order, { expires: 7 });
@@ -94,6 +96,8 @@ export default function ChocolateSinglePage(props: Props) {
             <button
               className="bg-tertiary rounded-lg font-medium px-4 py-1"
               onClick={() => {
+                setOverlay(true);
+
                 if (props.chocolate?.id) {
                   setOrder(changeOrder(order, props.chocolate.id, quantity));
                 }
@@ -103,6 +107,8 @@ export default function ChocolateSinglePage(props: Props) {
             </button>
           </div>
         </div>
+
+        {overlay && <Overlay setOverlay={setOverlay} />}
       </Layout>
     </>
   );
