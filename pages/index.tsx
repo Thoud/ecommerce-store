@@ -27,16 +27,6 @@ export default function Home(props: Props) {
           </h1>
 
           <div className="mx-10">
-            <h2 className="text-3xl my-10">About us</h2>
-            <p>...</p>
-            <Link href="/about">
-              <button className="bg-tertiary rounded-lg font-medium px-4 py-1.5">
-                Read more
-              </button>
-            </Link>
-          </div>
-
-          <div className="mx-10">
             <h2 className="text-3xl my-10">Top Sellers</h2>
 
             <div className="flex flex-wrap justify-around mb-14">
@@ -59,6 +49,26 @@ export default function Home(props: Props) {
                   );
                 })}
             </div>
+          </div>
+
+          <div className="flex items-center justify-center my-40">
+            <div className="mr-40">
+              <h2 className="text-3xl my-10">About us</h2>
+              <p className="max-w-xl mb-10">
+                Being a chocolatier and confectioner with more than 50 years of
+                experience in handcrafting fine pralines and chocolate, we give
+                our absolute best to be purveyor and innovator in this special
+                expertise. Perfection is our daily mission.
+              </p>
+
+              <Link href="/about">
+                <button className="bg-tertiary rounded-lg font-medium px-4 py-1.5">
+                  Read more
+                </button>
+              </Link>
+            </div>
+
+            <Image src="/about.png" alt="" width={500} height={372} />
           </div>
         </div>
       </Layout>
