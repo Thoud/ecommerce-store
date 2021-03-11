@@ -1,4 +1,4 @@
-export default function setPostgresDefaultsOnHeroku() {
+module.exports = function setPostgresDefaultsOnHeroku() {
   if (process.env.DATABASE_URL) {
     const { parse } = require('pg-connection-string');
 
@@ -11,4 +11,4 @@ export default function setPostgresDefaultsOnHeroku() {
     process.env.PGUSERNAME = user;
     process.env.PGPASSWORD = password;
   }
-}
+};
