@@ -1,6 +1,5 @@
 import camelcaseKeys from 'camelcase-keys';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
-import { Chocolate } from './types';
 const postgres = require('postgres');
 require('dotenv-safe').config();
 
@@ -25,7 +24,7 @@ function connectOneTimeToDatabase() {
 
 const sql = connectOneTimeToDatabase();
 
-function camelcaseRecords(records: Chocolate[]) {
+function camelcaseRecords(records) {
   return records.map((record) => camelcaseKeys(record));
 }
 
@@ -37,7 +36,7 @@ export async function getChocolates() {
   return camelcaseRecords(chocolates);
 }
 
-export async function getChocolateById(id: string | string[] | undefined) {
+export async function getChocolateById(id) {
   const chocolate = await sql`SELECT * FROM chocolates WHERE id = ${id}`;
 
   if (!chocolate.length) return null;
