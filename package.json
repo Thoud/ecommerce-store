@@ -4,6 +4,7 @@
   "private": true,
   "author": "Robert Miron <73788820+Thoud@users.noreply.github.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

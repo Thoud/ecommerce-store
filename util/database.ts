@@ -1,5 +1,6 @@
 import camelcaseKeys from 'camelcase-keys';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
+import { Chocolate } from './types';
 const postgres = require('postgres');
 
 setPostgresDefaultsOnHeroku();
@@ -15,17 +16,19 @@ function connectOneTimeToDatabase() {
     // https://devcenter.heroku.com/changelog-items/852
     sql = postgres({ ssl: { rejectUnauthorized: false } });
   } else {
-    if (!globalThis.__postgresSqlClient) {
-      globalThis.__postgresSqlClient = postgres();
+    const gThis: any = globalThis;
+
+    if (!gThis.__postgresSqlClient) {
+      gThis.__postgresSqlClient = postgres();
     }
-    sql = globalThis.__postgresSqlClient;
+    sql = gThis.__postgresSqlClient;
   }
   return sql;
 }
 
 const sql = connectOneTimeToDatabase();
 
-function camelcaseRecords(records) {
+function camelcaseRecords(records: Chocolate[]) {
   return records.map((record) => camelcaseKeys(record));
 }
 
@@ -37,7 +40,7 @@ export async function getChocolates() {
   return camelcaseRecords(chocolates);
 }
 
-export async function getChocolateById(id) {
+export async function getChocolateById(id: string | string[] | undefined) {
   const chocolate = await sql`SELECT * FROM chocolates WHERE id = ${id}`;
 
   if (!chocolate.length) return null;

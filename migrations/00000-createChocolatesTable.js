@@ -1,4 +1,4 @@
-exports.up = async (sql) => {
+export async function up(sql) {
   await sql`CREATE TABLE chocolates(
 		id SERIAL PRIMARY KEY,
 		name VARCHAR NOT NULL,
@@ -8,8 +8,8 @@ exports.up = async (sql) => {
 		img_path VARCHAR,
 		price VARCHAR
 	)`;
-};
+}
 
-exports.down = async (sql) => {
+export async function down(sql) {
   await sql`DROP TABLE chocolates`;
-};
+}

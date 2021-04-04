@@ -160,7 +160,7 @@ const chocolates = [
   },
 ];
 
-exports.up = async (sql) => {
+export async function up(sql) {
   await sql`
 		INSERT INTO chocolates
 			${sql(
@@ -173,12 +173,12 @@ exports.up = async (sql) => {
         'price',
       )}
 	`;
-};
+}
 
-exports.down = async (sql) => {
+export async function down(sql) {
   for (const chocolate of chocolates) {
     await sql`
 			DELETE FROM chocolates WHERE name = ${chocolate.name}
 		`;
   }
-};
+}
