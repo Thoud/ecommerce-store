@@ -4,10 +4,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import AddItemOverlay from '../../components/AddItemOverlay';
 import Layout from '../../components/Layout';
-import Overlay from '../../components/Overlay';
+import { addItemOverlayActions } from '../../store/addItemOverlaySlice';
 import { changeOrder, orderQuantityReducer } from '../../util/cookies';
 import { getChocolates } from '../../util/database';
+import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { Chocolate, Order } from '../../util/types';
 
 type Props = {
@@ -18,7 +20,9 @@ type Props = {
 
 export default function ProductPage(props: Props) {
   const [order, setOrder] = useState(props.orderArr);
-  const [overlay, setOverlay] = useState(false);
+
+  const overlay = useAppSelector((state) => state.addItemOverlay.open);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     Cookies.set('order', order, { expires: 7 });
@@ -76,7 +80,7 @@ export default function ProductPage(props: Props) {
                 <button
                   className="bg-tertiary rounded-lg font-medium px-4 py-1"
                   onClick={() => {
-                    setOverlay(true);
+                    dispatch(addItemOverlayActions.toggle(true));
 
                     if (chocolate.id) {
                       setOrder(changeOrder(order, chocolate.id, 1));
@@ -90,7 +94,7 @@ export default function ProductPage(props: Props) {
           })}
         </div>
 
-        {overlay && <Overlay setOverlay={setOverlay} />}
+        {overlay && <AddItemOverlay />}
       </Layout>
     </>
   );

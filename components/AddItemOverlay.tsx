@@ -1,10 +1,10 @@
 import Link from 'next/link';
+import { addItemOverlayActions } from '../store/addItemOverlaySlice';
+import { useAppDispatch } from '../util/hooks';
 
-type Props = {
-  setOverlay: (value: boolean | ((prevVar: boolean) => boolean)) => void;
-};
+export default function AddItemOverlay() {
+  const dispatch = useAppDispatch();
 
-export default function Overlay(props: Props) {
   return (
     <div className="fixed bg-gray-300 bg-opacity-70 top-0 right-0 bottom-0 left-0 z-20 flex justify-center items-center">
       <div className="bg-white flex flex-wrap justify-center items-center rounded-lg h-60 p-10">
@@ -13,14 +13,17 @@ export default function Overlay(props: Props) {
         </h3>
 
         <Link href="/cart">
-          <button className="bg-tertiary rounded-lg font-medium px-4 py-1">
+          <button
+            className="bg-tertiary rounded-lg font-medium px-4 py-1"
+            onClick={() => dispatch(addItemOverlayActions.toggle(false))}
+          >
             Go to cart
           </button>
         </Link>
 
         <button
           className="bg-tertiary rounded-lg font-medium px-4 py-1 ml-16"
-          onClick={() => props.setOverlay(false)}
+          onClick={() => dispatch(addItemOverlayActions.toggle(false))}
         >
           Continue shopping
         </button>

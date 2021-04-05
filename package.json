@@ -12,6 +12,8 @@
     "heroku-postbuild": "yarn migrate up && yarn build"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.5.1",
+    "@types/react-redux": "^7.1.16",
     "camelcase-keys": "6.2.2",
     "dotenv-safe": "8.2.0",
     "js-cookie": "2.2.1",
@@ -19,7 +21,8 @@
     "pg-connection-string": "2.4.0",
     "postgres": "1.0.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-redux": "^7.2.3"
   },
   "devDependencies": {
     "@tailwindcss/forms": "0.3.2",
