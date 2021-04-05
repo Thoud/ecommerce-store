@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "ley.config.ts"
+    "ley.config.js"
   ],
   "exclude": ["node_modules", "build"]
 }
