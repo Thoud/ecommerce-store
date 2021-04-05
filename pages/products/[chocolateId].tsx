@@ -2,10 +2,10 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import AddItemOverlay from '../../components/AddItemOverlay';
 import { addItemOverlayActions } from '../../store/addItemOverlaySlice';
 import { orderSliceActions } from '../../store/orderSlice';
+import { quantityActions } from '../../store/quantitySlice';
 import { getChocolateById } from '../../util/database';
 import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { Chocolate } from '../../util/types';
@@ -15,8 +15,7 @@ type Props = {
 };
 
 export default function ChocolateSinglePage({ chocolate }: Props) {
-  const [quantity, setQuantity] = useState(1);
-
+  const quantity = useAppSelector((state) => state.quantity.quantity);
   const overlay = useAppSelector((state) => state.addItemOverlay.open);
   const dispatch = useAppDispatch();
 
@@ -71,7 +70,7 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
               className="bg-tertiary rounded-lg font-medium px-3 py-1"
               onClick={() => {
                 if (!(quantity - 1 === 0)) {
-                  setQuantity(quantity - 1);
+                  dispatch(quantityActions.decrement());
                 }
               }}
             >
@@ -82,7 +81,7 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
 
             <button
               className="bg-tertiary rounded-lg font-medium px-3 py-1"
-              onClick={() => setQuantity(quantity + 1)}
+              onClick={() => dispatch(quantityActions.increment())}
             >
               +
             </button>
@@ -99,6 +98,7 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
                     quantity: quantity,
                   }),
                 );
+                dispatch(quantityActions.reset());
               }
             }}
           >

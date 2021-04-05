@@ -68,10 +68,12 @@ export default function ProductPage({ chocolates }: Props) {
                   dispatch(addItemOverlayActions.toggle(true));
 
                   if (chocolate.id) {
-                    orderSliceActions.changeItem({
-                      chocolateId: chocolate.id,
-                      quantity: 1,
-                    });
+                    dispatch(
+                      orderSliceActions.changeItem({
+                        chocolateId: chocolate.id,
+                        quantity: 1,
+                      }),
+                    );
                   }
                 }}
               >
