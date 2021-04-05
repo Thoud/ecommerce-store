@@ -2,13 +2,21 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { useAppSelector } from '../util/hooks';
+import { Order } from '../util/types';
 
 type Props = {
   children: ReactNode;
-  orderQuantity: number;
 };
 
 export default function Layout(props: Props) {
+  const orderQuantity = useAppSelector((state) =>
+    state.order.order.reduce(
+      (acc: number, val: Order) => acc + val.quantity,
+      0,
+    ),
+  );
+
   return (
     <>
       <Head>
@@ -48,8 +56,8 @@ export default function Layout(props: Props) {
           <Link href="/cart">
             <a className="bg-tertiary mx-12 px-4 py-2 rounded-lg flex items-center lg:mx-8 lg:px-2 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
               <Image src="/cart.svg" alt="Cart Icon" width={25} height={25} />
-              {props.orderQuantity !== 0 && (
-                <p className="ml-2 font-semibold">{props.orderQuantity}</p>
+              {orderQuantity !== 0 && (
+                <p className="ml-2 font-semibold">{orderQuantity}</p>
               )}
             </a>
           </Link>

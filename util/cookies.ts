@@ -29,7 +29,3 @@ export function changeOrder(
 export function removeItemFromOrder(cookieArr: Order[], chocolateId: number) {
   return cookieArr.filter((cookie) => cookie.id !== chocolateId);
 }
-
-export function orderQuantityReducer(arr: Order[]) {
-  return arr.reduce((acc: number, val: Order) => acc + val.quantity, 0);
-}

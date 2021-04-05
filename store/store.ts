@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import addItemOverlaySlice from './addItemOverlaySlice';
+import orderSlice from './orderSlice';
 
 const store = configureStore({
   reducer: {
     addItemOverlay: addItemOverlaySlice.reducer,
+    order: orderSlice.reducer,
   },
 });
 
