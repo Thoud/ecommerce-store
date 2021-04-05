@@ -6,8 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import Overlay from '../../components/Overlay';
-import ProductInfo from '../../components/ProductInfo';
-import { changeOrder } from '../../util/cookies';
+import { changeOrder, orderQuantityReducer } from '../../util/cookies';
 import { getChocolateById } from '../../util/database';
 import { Chocolate, Order } from '../../util/types';
 
@@ -63,13 +62,17 @@ export default function ChocolateSinglePage(props: Props) {
           </div>
           <div className="max-w-3xl">
             <h1 className="text-4xl mb-10">{props.chocolate.name}</h1>
+            <p className="font-semibold">Description</p>
+            <p className="mb-10">{props.chocolate.description}</p>
 
-            <ProductInfo
-              description={props.chocolate.description}
-              ingredients={props.chocolate.ingredients}
-              allergens={props.chocolate.allergens}
-              price={props.chocolate.price}
-            />
+            <p className="font-semibold">Ingredients</p>
+            <p className="mb-10">{props.chocolate.ingredients}</p>
+
+            <p className="font-semibold">Allergens</p>
+            <p className="mb-10">{props.chocolate.allergens}</p>
+
+            <p className="font-semibold">Price</p>
+            <p className="mb-10 font-medium">{props.chocolate.price} €</p>
 
             <div className="flex items-center mb-10">
               <button
@@ -92,7 +95,6 @@ export default function ChocolateSinglePage(props: Props) {
                 +
               </button>
             </div>
-
             <button
               className="bg-tertiary rounded-lg font-medium px-4 py-1"
               onClick={() => {
@@ -119,11 +121,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const order = context.req.cookies.order;
   const orderArr = order ? JSON.parse(order) : [];
-
-  const orderQuantity = orderArr.reduce(
-    (acc: number, val: Order) => acc + val.quantity,
-    0,
-  );
+  const orderQuantity = orderQuantityReducer(orderArr);
 
   return {
     props: {

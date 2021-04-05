@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Layout from '../components/Layout';
-import { Order } from '../util/types';
+import { orderQuantityReducer } from '../util/cookies';
 
 type Props = {
   orderQuantity: number;
@@ -115,11 +115,7 @@ export default function About(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const order = context.req.cookies.order;
   const orderArr = order ? JSON.parse(order) : [];
-
-  const orderQuantity = orderArr.reduce(
-    (acc: number, val: Order) => acc + val.quantity,
-    0,
-  );
+  const orderQuantity = orderQuantityReducer(orderArr);
 
   return {
     props: {

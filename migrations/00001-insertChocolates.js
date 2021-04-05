@@ -176,9 +176,7 @@ exports.up = async (sql) => {
 };
 
 exports.down = async (sql) => {
-  for (const chocolate of chocolates) {
-    await sql`
-			DELETE FROM chocolates WHERE name = ${chocolate.name}
-		`;
-  }
+  await sql`
+		DELETE FROM chocolates
+	`;
 };

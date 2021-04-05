@@ -1,11 +1,15 @@
 import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import ProductInfo from '../components/ProductInfo';
-import { changeOrder, removeItemFromOrder } from '../util/cookies';
+import {
+  changeOrder,
+  orderQuantityReducer,
+  removeItemFromOrder,
+} from '../util/cookies';
 import { getChocolates } from '../util/database';
 import { Chocolate, Order } from '../util/types';
 
@@ -45,14 +49,16 @@ export default function Cart(props: Props) {
 
                 element = (
                   <div key={chocolate.id} className="flex items-center mx-36">
-                    <ProductInfo
-                      id={chocolate.id}
-                      src={chocolate.imgPath}
-                      alt={chocolate.name}
-                      width={200}
-                      height={200}
-                    />
-
+                    <Link href={`/products/${chocolate.id}`}>
+                      <a>
+                        <Image
+                          src={chocolate.imgPath}
+                          alt={chocolate.name}
+                          width={200}
+                          height={200}
+                        />
+                      </a>
+                    </Link>
                     <div>
                       <p className="font-semibold mb-6">{chocolate.name}</p>
 
@@ -134,11 +140,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const order = context.req.cookies.order;
   const orderArr = order ? JSON.parse(order) : [];
-
-  const orderQuantity = orderArr.reduce(
-    (acc: number, val: Order) => acc + val.quantity,
-    0,
-  );
+  const orderQuantity = orderQuantityReducer(orderArr);
 
   return {
     props: {

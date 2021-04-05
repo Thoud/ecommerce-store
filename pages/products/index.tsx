@@ -1,11 +1,12 @@
 import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import Overlay from '../../components/Overlay';
-import ProductInfo from '../../components/ProductInfo';
-import { changeOrder } from '../../util/cookies';
+import { changeOrder, orderQuantityReducer } from '../../util/cookies';
 import { getChocolates } from '../../util/database';
 import { Chocolate, Order } from '../../util/types';
 
@@ -54,15 +55,23 @@ export default function ProductPage(props: Props) {
                 key={chocolate.id}
                 className="flex flex-col items-center justify-center w-72 mr-24 my-10"
               >
-                <ProductInfo
-                  id={chocolate.id}
-                  src={chocolate.imgPath}
-                  alt={chocolate.name}
-                  width={300}
-                  height={300}
-                  name={chocolate.name}
-                  price={chocolate.price}
-                />
+                <Link href={`/products/${chocolate.id}`}>
+                  <a>
+                    <Image
+                      src={chocolate.imgPath}
+                      alt={chocolate.name}
+                      width={300}
+                      height={300}
+                    />
+                  </a>
+                </Link>
+
+                <p className="font-semibold text-center mb-10">
+                  {chocolate.name}
+                </p>
+
+                <p className="font-semibold">Price</p>
+                <p className="mb-10 font-medium">{chocolate.price} €</p>
 
                 <button
                   className="bg-tertiary rounded-lg font-medium px-4 py-1"
@@ -92,11 +101,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const order = context.req.cookies.order;
   const orderArr = order ? JSON.parse(order) : [];
-
-  const orderQuantity = orderArr.reduce(
-    (acc: number, val: Order) => acc + val.quantity,
-    0,
-  );
+  const orderQuantity = orderQuantityReducer(orderArr);
 
   return {
     props: {

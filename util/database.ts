@@ -47,3 +47,11 @@ export async function getChocolateById(id: string | string[] | undefined) {
 
   return camelcaseRecords(chocolate)[0];
 }
+
+export async function getRandomChocolates() {
+  const chocolates = await sql`SELECT * FROM chocolates ORDER BY RANDOM() LIMIT 5`;
+
+  if (!chocolates.length) return null;
+
+  return camelcaseRecords(chocolates);
+}
