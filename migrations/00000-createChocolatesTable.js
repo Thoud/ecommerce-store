@@ -1,5 +1,5 @@
 exports.up = async (sql) => {
-  await sql`CREATE TABLE chocolates(
+  await sql`CREATE TABLE chocolates (
 		id SERIAL PRIMARY KEY,
 		name VARCHAR NOT NULL,
 		description VARCHAR,
