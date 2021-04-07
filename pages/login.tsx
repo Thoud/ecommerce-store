@@ -1,12 +1,10 @@
-import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { errorMessageActions } from '../store/errorMessageSlice';
 import { userSliceActions } from '../store/userSlice';
-import { getSessionByToken } from '../util/database';
 import { useAppDispatch, useAppSelector } from '../util/hooks';
 
-export default function Register() {
+export default function Login() {
   const router = useRouter();
   const username = useAppSelector((state) => state.user.name);
   const password = useAppSelector((state) => state.user.password);
@@ -16,16 +14,16 @@ export default function Register() {
   return (
     <>
       <Head>
-        <title>Register | Chocolate Heaven</title>
+        <title>Login | Chocolate Heaven</title>
       </Head>
 
-      <h1>Register</h1>
+      <h1>Login</h1>
 
       <form
         onSubmit={async (event) => {
           event.preventDefault();
 
-          const response = await fetch('/api/register', {
+          const response = await fetch('/api/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -61,27 +59,10 @@ export default function Register() {
           }
         />
 
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
       </form>
 
       <div>{error}</div>
     </>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getSessionByToken(context.req.cookies.session);
-
-  if (session?.userId) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
 }

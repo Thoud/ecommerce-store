@@ -1,6 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { hashPassword } from '../../util/auth';
-import { createUser, getUserByUsername } from '../../util/database';
+import { serializeSecureCookieServerSide } from '../../util/cookies';
+import {
+  createSession,
+  createUser,
+  getUserByUsername,
+} from '../../util/database';
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,7 +24,21 @@ export default async function handler(
 
   const passwordHash = await hashPassword(password);
 
-  const user = await createUser(username, passwordHash);
+  const userInfo = await createUser(username, passwordHash);
 
-  res.send({ user: user });
+  const session = await createSession(userInfo.id);
+
+  const sessionCookie = serializeSecureCookieServerSide(
+    'session',
+    session.token,
+  );
+
+  res.setHeader('Set-Cookie', sessionCookie);
+
+  res.send({
+    user: {
+      id: userInfo.id,
+      username: userInfo.username,
+    },
+  });
 }

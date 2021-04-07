@@ -1,8 +1,9 @@
 exports.up = async (sql) => {
   await sql`CREATE TABLE sessions (
 		id SERIAL PRIMARY KEY,
-		token VARCHAR,
-		expiry TIMESTAMP DEFAULT NOW() + INTERVAL '24 hours',
+		token VARCHAR UNIQUE,
+		expiry TIMESTAMP DEFAULT NOW() + INTERVAL '7 Day',
+		user_id INT REFERENCES users (id)
 	)`;
 };
 

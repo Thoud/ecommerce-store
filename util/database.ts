@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import { generateToken } from './sessions';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
-import { Chocolate } from './types';
+import { Chocolate, Session, User } from './types';
 const postgres = require('postgres');
 
 setPostgresDefaultsOnHeroku();
@@ -29,11 +29,11 @@ function connectOneTimeToDatabase() {
 
 const sql = connectOneTimeToDatabase();
 
-function camelcaseRecords(records: Chocolate[]) {
-  return records.map((record) => camelcaseKeys(record));
+function camelcaseRecords(records: Chocolate[] | User[]) {
+  return records.map((record: any) => camelcaseKeys(record));
 }
 
-export async function getChocolates() {
+export async function getChocolates(): Promise<Chocolate[] | null> {
   const chocolates = await sql`SELECT * FROM chocolates`;
 
   if (!chocolates.length) return null;
@@ -41,7 +41,9 @@ export async function getChocolates() {
   return camelcaseRecords(chocolates);
 }
 
-export async function getChocolateById(id: string | string[] | undefined) {
+export async function getChocolateById(
+  id: string | string[] | undefined,
+): Promise<Chocolate | null> {
   const chocolate = await sql`SELECT * FROM chocolates WHERE id = ${id}`;
 
   if (!chocolate.length) return null;
@@ -49,7 +51,7 @@ export async function getChocolateById(id: string | string[] | undefined) {
   return camelcaseRecords(chocolate)[0];
 }
 
-export async function getRandomChocolates() {
+export async function getRandomChocolates(): Promise<Chocolate[] | null> {
   const chocolates = await sql`
   SELECT * FROM chocolates ORDER BY RANDOM() LIMIT 5
   `;
@@ -59,25 +61,38 @@ export async function getRandomChocolates() {
   return camelcaseRecords(chocolates);
 }
 
-export async function createSession() {
+export async function createSession(userId: number): Promise<Session> {
   const token = generateToken();
 
   const sessions = await sql`
-    INSERT INTO sessions (token) VALUES (${token}) RETURNING *
+    INSERT INTO sessions (token, user_id) VALUES (${token}, ${userId}) RETURNING *
   `;
 
   return camelcaseRecords(sessions)[0];
 }
 
-export async function deleteSessionById(id: number) {
+export async function getSessionByToken(
+  sessionToken: string,
+): Promise<Session | null> {
+  if (!sessionToken) return null;
+
+  const session = await sql`
+    SELECT * FROM sessions
+    WHERE token = ${sessionToken} AND expiry > NOW()
+  `;
+
+  return camelcaseRecords(session)[0];
+}
+
+export async function deleteSessionByToken(token: string): Promise<Session> {
   const sessions = await sql`
-    DELETE FROM sessions WHERE id = ${id} RETURNING *
+    DELETE FROM sessions WHERE token = ${token} RETURNING *
   `;
 
   return camelcaseRecords(sessions)[0];
 }
 
-export async function deleteAllExpiredSessions() {
+export async function deleteAllExpiredSessions(): Promise<Session> {
   const sessions = await sql`
     DELETE FROM sessions WHERE expiry < NOW() RETURNING *
   `;
@@ -85,7 +100,10 @@ export async function deleteAllExpiredSessions() {
   return camelcaseRecords(sessions)[0];
 }
 
-export async function createUser(username: string, passwordHash: string) {
+export async function createUser(
+  username: string,
+  passwordHash: string,
+): Promise<User> {
   const users = await sql`
     INSERT INTO users (username, password_hash)
     VALUES (${username}, ${passwordHash})
@@ -95,8 +113,26 @@ export async function createUser(username: string, passwordHash: string) {
   return camelcaseRecords(users)[0];
 }
 
-export async function getUserByUsername(username: string) {
-  const users = await sql`SELECT username FROM users WHERE username = ${username}`;
+export async function getUserByUsername(username: string): Promise<User> {
+  const user = await sql`SELECT username FROM users WHERE username = ${username}`;
+
+  return camelcaseRecords(user)[0];
+}
+
+export async function getUserById(userId: number): Promise<User> {
+  const user = await sql`
+    SELECT * FROM users WHERE id = ${userId}
+  `;
+
+  return camelcaseRecords(user)[0];
+}
+
+export async function getUserWithHashedPasswordByUsername(
+  username: string,
+): Promise<User> {
+  const users = await sql`
+    SELECT * FROM users WHERE username = ${username}
+  `;
 
   return camelcaseRecords(users)[0];
 }
