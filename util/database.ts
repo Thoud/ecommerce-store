@@ -29,7 +29,7 @@ function connectOneTimeToDatabase() {
 
 const sql = connectOneTimeToDatabase();
 
-function camelcaseRecords(records: Chocolate[] | User[]) {
+function camelcaseRecords(records: any) {
   return records.map((record: any) => camelcaseKeys(record));
 }
 
