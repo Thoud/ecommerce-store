@@ -128,10 +128,12 @@ export async function getUserById(userId: number): Promise<User> {
 
 export async function getUserByUrl(
   url: string | string[] | undefined,
-): Promise<User> {
+): Promise<User | null> {
   const user = await sql`
     SELECT * FROM users WHERE profile_url = ${url}
   `;
+
+  if (!user) return null;
 
   return camelcaseRecords(user)[0];
 }

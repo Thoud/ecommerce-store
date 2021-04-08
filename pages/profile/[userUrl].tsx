@@ -14,7 +14,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSessionByToken(context.req.cookies.session);
   const user = await getUserByUrl(context.query.userUrl);
 
-  if (!session || session.userId !== user.id) {
+  if (!user || !session || session.userId !== user.id) {
     return {
       redirect: {
         destination: '/',
