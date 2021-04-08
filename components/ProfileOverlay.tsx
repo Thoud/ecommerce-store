@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -64,6 +65,34 @@ export default function ProfileOverlay() {
 
         <button type="submit">Login</button>
       </form>
+
+      <button
+        onClick={async () => {
+          const sessionToken = Cookies.get('session');
+
+          const response = await fetch('/api/logout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sessionToken }),
+          });
+
+          const deletedSession = await response.json();
+
+          if (!deletedSession) {
+            dispatch(
+              errorMessageActions.addErrorMessage('You are not logged in!'),
+            );
+          }
+
+          Cookies.remove('session');
+          dispatch(profileOverlayActions.toggle());
+          router.push('/');
+        }}
+      >
+        Logout
+      </button>
 
       <Link href="/register">
         <button

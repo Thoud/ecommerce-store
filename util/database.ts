@@ -81,10 +81,14 @@ export async function getSessionByToken(
   return camelcaseRecords(session)[0];
 }
 
-export async function deleteSessionByToken(token: string): Promise<Session> {
+export async function deleteSessionByToken(token: {
+  sessionToken: string;
+}): Promise<Session | null> {
   const session = await sql`
-    DELETE FROM sessions WHERE token = ${token} RETURNING *
+    DELETE FROM sessions WHERE token = ${token.sessionToken} RETURNING *
   `;
+
+  if (!session) return null;
 
   return camelcaseRecords(session)[0];
 }
