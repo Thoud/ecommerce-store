@@ -44,7 +44,7 @@ export default function ProductPage({ chocolates }: Props) {
               key={chocolate.id}
               className="flex flex-col items-center justify-center w-72 mr-24 my-10"
             >
-              <Link href={`/products/${chocolate.id}`}>
+              <Link href={`/products/${chocolate.urlPath}`}>
                 <a>
                   <Image
                     src={chocolate.imgPath}

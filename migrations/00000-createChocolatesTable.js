@@ -6,6 +6,7 @@ exports.up = async (sql) => {
 		ingredients VARCHAR,
 		allergens VARCHAR,
 		img_path VARCHAR,
+		url_path VARCHAR,
 		price VARCHAR
 	)`;
 };

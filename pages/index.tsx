@@ -29,7 +29,7 @@ export default function Home({ chocolateSelection }: Props) {
               chocolateSelection.map((chocolate: Chocolate) => {
                 return (
                   <div key={chocolate.id}>
-                    <Link href={`/products/${chocolate.id}`}>
+                    <Link href={`/products/${chocolate.urlPath}`}>
                       <a>
                         <Image
                           src={chocolate.imgPath}

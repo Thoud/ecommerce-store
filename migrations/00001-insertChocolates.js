@@ -7,6 +7,7 @@ const chocolates = [
       'Cocoa mass, raw cane sugar, cream, cocoa butter, coffee liqueur, whole milk powder, glucose syrup, dye: gold; soluble coffee, coffee ground, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/espresso.png',
+    url_path: 'dark-chocolate-espresso',
     price: '2,82',
   },
   {
@@ -17,6 +18,7 @@ const chocolates = [
       'Cocoa mass, raw cane sugar, cream, cocoa butter, remy martin (3,63%), glucose syrup, whole milk powder, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/remy_martin.png',
+    url_path: 'dark-chocolate-remy-martin',
     price: '2,82',
   },
   {
@@ -27,6 +29,7 @@ const chocolates = [
       'Cocoa mass, raw cane sugar, cream, cocoa butter, whole milk powder, glucose syrup, blackcurrant juice concentrate (2,78%), vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/cassis.png',
+    url_path: 'dark-chocolate-cassis',
     price: '2,82',
   },
   {
@@ -37,6 +40,7 @@ const chocolates = [
       'Almonds (26,4%), raw cane sugar, sugar, cocoa mass, pistachios (6,77%), invert sugar syrup, glucose syrup, cocoa butter, fruit puree, natural pistachio aroma(contains almond oil), vanilla',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/pistachio_marzipan.png',
+    url_path: 'dark-chocolate-pistachio-marzipan',
     price: '2,34',
   },
   {
@@ -47,6 +51,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, cream, whole milk powder, cocoa mass, currant powder, elderberry juice concentrate (4,96%), glucose syrup, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/elderberry.png',
+    url_path: 'milk-chocolate-elderberry',
     price: '2,34',
   },
   {
@@ -57,6 +62,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, cocoa mass, hazelnuts (7,16%), glucose syrup, sugar, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/hazelnut.png',
+    url_path: 'milk-chocolate-hazelnut',
     price: '2,34',
   },
   {
@@ -67,6 +73,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, cocoa mass, glucose syrup, lemon juice concentrate (1,98%), lemon peel powder, basil (0,08%), vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/lemon_basil.png',
+    url_path: 'milk-chocolate-lemon-basil',
     price: '2,82',
   },
   {
@@ -77,6 +84,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, eggnog (8,29%) (contains eggs, milk), glucose syrup, vanilla, emulsifier: lecithin',
     allergens: 'eggs, nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_liqueur.png',
+    url_path: 'white-chocolate-egg-liqueur',
     price: '2,82',
   },
   {
@@ -87,6 +95,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, glucose syrup, Marc de Champagne (2,47%), rose petals, vanilla, natural rose flavor (0,01%), emulsifier: lecithin',
     allergens: 'nuts, peanuts, milk, sulfites, lupins',
     img_path: '/champagne_rose.png',
+    url_path: 'white-chocolate-marc-de-champagne-rose',
     price: '2,82',
   },
   {
@@ -97,6 +106,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, glucose syrup, strawberry juice concentrate (3,23%), skimmed yogurt powder (1,62%), strawberries (0,76%), natural strawberry flavour (contains almond oil), vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/strawberry_yoghurt.png',
+    url_path: 'white-strawberry-yoghurt',
     price: '2,34',
   },
   {
@@ -107,6 +117,7 @@ const chocolates = [
       'Cocoa mass, raw cane sugar, cream, cocoa butter, orange liqueur (4,16%), glucose syrup, whole milk powder, mandarin powder, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_orange_liqueur.png',
+    url_path: 'dark-chocolate-egg-orange-liqueur',
     price: '2,95',
   },
   {
@@ -117,6 +128,7 @@ const chocolates = [
       'Cocoa mass, raw cane sugar, cocoa butter, cream, whole milk powder, glucose syrup, raspberry juice concentrate (2,77%), raspberries (0,17%), chili, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_raspberry_chili.png',
+    url_path: 'dark-chocolate-egg-raspberry-chili',
     price: '2,95',
   },
   {
@@ -127,6 +139,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, glucose syrup, strawberry juice concentrate (2,49%), skimmed yoghurt powder (1,25%), raspberries, strawberries (0,25%), vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_strawberry_yogurt.png',
+    url_path: 'white-chocolate-egg-strawberry-yoghurt',
     price: '2,95',
   },
   {
@@ -136,6 +149,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, hazelnuts (9,50%), almonds (6,97%), cocoa mass, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_nougat.png',
+    url_path: 'white-chocolate-egg-nougat',
     price: '2,95',
   },
   {
@@ -146,6 +160,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, cocoa mass, glucose syrup, cranberry juice concentrate (2,73%), turmeric, matcha powder, vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_cranberry.png',
+    url_path: 'milk-chocolate-egg-cranberry',
     price: '2,95',
   },
   {
@@ -156,6 +171,7 @@ const chocolates = [
       'Raw cane sugar, cocoa butter, whole milk powder, cream, cocoa mass, glucose syrup, ginger (0,35%), natural ginger aroma (contains almond oil), turmeric (0,35%), vanilla, emulsifier: lecithin',
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_ginger_tumeric.png',
+    url_path: 'milk-chocolate-egg-ginger-tumeric',
     price: '2,95',
   },
 ];
@@ -170,6 +186,7 @@ exports.up = async (sql) => {
         'ingredients',
         'allergens',
         'img_path',
+        'url_path',
         'price',
       )}
 	`;

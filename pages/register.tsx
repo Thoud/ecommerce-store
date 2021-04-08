@@ -40,7 +40,7 @@ export default function Register() {
             return;
           }
 
-          router.push(`/profile/${user.id}`);
+          router.push(`/profile/${user.profileUrl}`);
         }}
       >
         <label htmlFor="username">Username:</label>

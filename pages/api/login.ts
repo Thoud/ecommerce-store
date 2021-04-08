@@ -54,6 +54,7 @@ export default async function handler(
     user: {
       id: userInfo.id,
       username: userInfo.username,
+      profileUrl: userInfo.profileUrl,
     },
   });
 }

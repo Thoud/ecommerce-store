@@ -36,7 +36,7 @@ export default function Cart({ chocolates }: Props) {
 
               element = (
                 <div key={chocolate.id} className="flex items-center mx-36">
-                  <Link href={`/products/${chocolate.id}`}>
+                  <Link href={`/products/${chocolate.urlPath}`}>
                     <a>
                       <Image
                         src={chocolate.imgPath}

@@ -1,4 +1,5 @@
 import camelcaseKeys from 'camelcase-keys';
+import { paramCase } from 'param-case';
 import { generateToken } from './sessions';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
 import { Chocolate, Session, User } from './types';
@@ -33,30 +34,26 @@ function camelcaseRecords(records: any) {
   return records.map((record: any) => camelcaseKeys(record));
 }
 
-export async function getChocolates(): Promise<Chocolate[] | null> {
+export async function getChocolates(): Promise<Chocolate[]> {
   const chocolates = await sql`SELECT * FROM chocolates`;
-
-  if (!chocolates.length) return null;
 
   return camelcaseRecords(chocolates);
 }
 
-export async function getChocolateById(
-  id: string | string[] | undefined,
+export async function getChocolateByUrl(
+  url: string | string[] | undefined,
 ): Promise<Chocolate | null> {
-  const chocolate = await sql`SELECT * FROM chocolates WHERE id = ${id}`;
+  const chocolate = await sql`SELECT * FROM chocolates WHERE url_path = ${url}`;
 
   if (!chocolate.length) return null;
 
   return camelcaseRecords(chocolate)[0];
 }
 
-export async function getRandomChocolates(): Promise<Chocolate[] | null> {
+export async function getRandomChocolates(): Promise<Chocolate[]> {
   const chocolates = await sql`
   SELECT * FROM chocolates ORDER BY RANDOM() LIMIT 5
   `;
-
-  if (!chocolates.length) return null;
 
   return camelcaseRecords(chocolates);
 }
@@ -85,11 +82,11 @@ export async function getSessionByToken(
 }
 
 export async function deleteSessionByToken(token: string): Promise<Session> {
-  const sessions = await sql`
+  const session = await sql`
     DELETE FROM sessions WHERE token = ${token} RETURNING *
   `;
 
-  return camelcaseRecords(sessions)[0];
+  return camelcaseRecords(session)[0];
 }
 
 export async function deleteAllExpiredSessions(): Promise<Session> {
@@ -104,10 +101,12 @@ export async function createUser(
   username: string,
   passwordHash: string,
 ): Promise<User> {
+  const url = paramCase(username);
+
   const users = await sql`
-    INSERT INTO users (username, password_hash)
-    VALUES (${username}, ${passwordHash})
-    RETURNING id, username
+    INSERT INTO users (username, password_hash, profile_url)
+    VALUES (${username}, ${passwordHash}, ${url})
+    RETURNING id, username, profile_url
   `;
 
   return camelcaseRecords(users)[0];
@@ -127,12 +126,22 @@ export async function getUserById(userId: number): Promise<User> {
   return camelcaseRecords(user)[0];
 }
 
+export async function getUserByUrl(
+  url: string | string[] | undefined,
+): Promise<User> {
+  const user = await sql`
+    SELECT * FROM users WHERE profile_url = ${url}
+  `;
+
+  return camelcaseRecords(user)[0];
+}
+
 export async function getUserWithHashedPasswordByUsername(
   username: string,
 ): Promise<User> {
-  const users = await sql`
+  const user = await sql`
     SELECT * FROM users WHERE username = ${username}
   `;
 
-  return camelcaseRecords(users)[0];
+  return camelcaseRecords(user)[0];
 }

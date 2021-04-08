@@ -1,12 +1,11 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import Link from 'next/link';
 import AddItemOverlay from '../../components/AddItemOverlay';
 import { addItemOverlayActions } from '../../store/addItemOverlaySlice';
 import { orderSliceActions } from '../../store/orderSlice';
 import { quantityActions } from '../../store/quantitySlice';
-import { getChocolateById } from '../../util/database';
+import { getChocolateByUrl } from '../../util/database';
 import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { Chocolate } from '../../util/types';
 
@@ -39,18 +38,13 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
       </Head>
 
       <div className="flex items-center justify-center w-full">
-        <div>
-          <Link href={`/products/${chocolate.id}`}>
-            <a>
-              <Image
-                src={chocolate.imgPath}
-                alt={chocolate.name}
-                width={600}
-                height={600}
-              />
-            </a>
-          </Link>
-        </div>
+        <Image
+          src={chocolate.imgPath}
+          alt={chocolate.name}
+          width={600}
+          height={600}
+        />
+
         <div className="max-w-3xl">
           <h1 className="text-4xl mb-10">{chocolate.name}</h1>
           <p className="font-semibold">Description</p>
@@ -113,7 +107,7 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const chocolate = await getChocolateById(context.query.chocolateId);
+  const chocolate = await getChocolateByUrl(context.query.chocolateUrl);
 
   return {
     props: {

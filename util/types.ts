@@ -5,6 +5,7 @@ export type Chocolate = {
   ingredients: string;
   allergens: string;
   imgPath: string;
+  urlPath: string;
   price: string;
 };
 
@@ -17,6 +18,7 @@ export type User = {
   id: number;
   username: string;
   passwordHash: string;
+  profileUrl: string;
 };
 
 export type Session = {

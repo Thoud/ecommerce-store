@@ -139,7 +139,7 @@ export default function Checkout({ chocolates }: Props) {
 
               element = (
                 <div key={chocolate.id} className="flex items-center">
-                  <Link href={`/products/${chocolate.id}`}>
+                  <Link href={`/products/${chocolate.urlPath}`}>
                     <a>
                       <Image
                         src={chocolate.imgPath}

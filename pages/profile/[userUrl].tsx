@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
-import { getSessionByToken, getUserById } from '../../util/database';
+import { getSessionByToken, getUserByUrl } from '../../util/database';
 import { User } from '../../util/types';
 
 type Props = {
@@ -12,8 +12,9 @@ export default function UserSinglePage(props: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSessionByToken(context.req.cookies.session);
+  const user = await getUserByUrl(context.query.userUrl);
 
-  if (!session || session.userId !== Number(context.query.userId)) {
+  if (!session || session.userId !== user.id) {
     return {
       redirect: {
         destination: '/',
@@ -21,8 +22,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   }
-
-  const user = await getUserById(Number(context.query.userId));
 
   return {
     props: {
