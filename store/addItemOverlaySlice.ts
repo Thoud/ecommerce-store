@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 type AddItemOverlayState = {
   open: boolean;
@@ -9,11 +9,11 @@ const initialState: AddItemOverlayState = {
 };
 
 const addItemOverlaySlice = createSlice({
-  name: 'overlay',
+  name: 'itemOverlay',
   initialState,
   reducers: {
-    toggle: (state, action: PayloadAction<boolean>) => {
-      state.open = action.payload;
+    toggle: (state) => {
+      state.open = !state.open;
     },
   },
 });

@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function ProductPage({ chocolates }: Props) {
-  const overlay = useAppSelector((state) => state.addItemOverlay.open);
+  const overlay = useAppSelector((state) => state.itemOverlay.open);
   const dispatch = useAppDispatch();
 
   if (chocolates === null) {
@@ -65,7 +65,7 @@ export default function ProductPage({ chocolates }: Props) {
               <button
                 className="bg-tertiary rounded-lg font-medium px-4 py-1"
                 onClick={() => {
-                  dispatch(addItemOverlayActions.toggle(true));
+                  dispatch(addItemOverlayActions.toggle());
 
                   if (chocolate.id) {
                     dispatch(

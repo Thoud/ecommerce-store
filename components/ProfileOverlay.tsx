@@ -1,10 +1,12 @@
 import { useRouter } from 'next/dist/client/router';
-import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
 import { errorMessageActions } from '../store/errorMessageSlice';
+import { profileOverlayActions } from '../store/profileOverlaySlice';
 import { userSliceActions } from '../store/userSlice';
 import { useAppDispatch, useAppSelector } from '../util/hooks';
 
-export default function Login() {
+export default function ProfileOverlay() {
   const router = useRouter();
   const username = useAppSelector((state) => state.user.name);
   const password = useAppSelector((state) => state.user.password);
@@ -12,12 +14,12 @@ export default function Login() {
   const dispatch = useAppDispatch();
 
   return (
-    <>
-      <Head>
-        <title>Login | Chocolate Heaven</title>
-      </Head>
+    <div className="fixed bg-white top-0 right-0 bottom-0 z-15 flex justify-center items-center flex-col">
+      <button onClick={() => dispatch(profileOverlayActions.toggle())}>
+        <Image src="/close.svg" alt="close button" width={50} height={50} />
+      </button>
 
-      <h1>Login</h1>
+      <h3>Login</h3>
 
       <form
         onSubmit={async (event) => {
@@ -38,6 +40,7 @@ export default function Login() {
             return;
           }
 
+          dispatch(profileOverlayActions.toggle());
           router.push(`/profile/${user.profileUrl}`);
         }}
       >
@@ -62,7 +65,17 @@ export default function Login() {
         <button type="submit">Login</button>
       </form>
 
+      <Link href="/register">
+        <button
+          onClick={() => {
+            dispatch(profileOverlayActions.toggle());
+          }}
+        >
+          Register
+        </button>
+      </Link>
+
       <div>{error}</div>
-    </>
+    </div>
   );
 }

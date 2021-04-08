@@ -15,7 +15,7 @@ export default function AddItemOverlay() {
         <Link href="/cart">
           <button
             className="bg-tertiary rounded-lg font-medium px-4 py-1"
-            onClick={() => dispatch(addItemOverlayActions.toggle(false))}
+            onClick={() => dispatch(addItemOverlayActions.toggle())}
           >
             Go to cart
           </button>
@@ -23,7 +23,7 @@ export default function AddItemOverlay() {
 
         <button
           className="bg-tertiary rounded-lg font-medium px-4 py-1 ml-16"
-          onClick={() => dispatch(addItemOverlayActions.toggle(false))}
+          onClick={() => dispatch(addItemOverlayActions.toggle())}
         >
           Continue shopping
         </button>

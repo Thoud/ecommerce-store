@@ -22,7 +22,7 @@ export default async function handler(
 
   const userInfo = await getUserWithHashedPasswordByUsername(username);
 
-  if (!userInfo.username) {
+  if (!userInfo || !userInfo.username) {
     return res.status(401).send({
       errorMessage: 'Username or password are incorrect!',
       user: null,

@@ -140,10 +140,12 @@ export async function getUserByUrl(
 
 export async function getUserWithHashedPasswordByUsername(
   username: string,
-): Promise<User> {
+): Promise<User | null> {
   const user = await sql`
     SELECT * FROM users WHERE username = ${username}
   `;
+
+  if (!user) return null;
 
   return camelcaseRecords(user)[0];
 }
