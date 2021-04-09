@@ -52,7 +52,7 @@ export async function getChocolateByUrl(
 
 export async function getRandomChocolates(): Promise<Chocolate[]> {
   const chocolates = await sql`
-  SELECT * FROM chocolates ORDER BY RANDOM() LIMIT 5
+    SELECT * FROM chocolates ORDER BY RANDOM() LIMIT 5
   `;
 
   return camelcaseRecords(chocolates);
@@ -103,13 +103,15 @@ export async function deleteAllExpiredSessions(): Promise<Session> {
 
 export async function createUser(
   username: string,
+  firstName: string,
+  lastName: string,
   passwordHash: string,
 ): Promise<User> {
   const url = paramCase(username);
 
   const users = await sql`
-    INSERT INTO users (username, password_hash, profile_url)
-    VALUES (${username}, ${passwordHash}, ${url})
+    INSERT INTO users (username, first_name, last_name, password_hash, profile_url)
+    VALUES (${username}, ${firstName}, ${lastName}, ${passwordHash}, ${url})
     RETURNING id, username, profile_url
   `;
 
@@ -117,15 +119,19 @@ export async function createUser(
 }
 
 export async function getUserByUsername(username: string): Promise<User> {
-  const user = await sql`SELECT username FROM users WHERE username = ${username}`;
+  const user = await sql`
+    SELECT username FROM users WHERE username = ${username}
+  `;
 
   return camelcaseRecords(user)[0];
 }
 
-export async function getUserById(userId: number): Promise<User> {
+export async function getUserById(id: number): Promise<User | null> {
   const user = await sql`
-    SELECT * FROM users WHERE id = ${userId}
+    SELECT username, first_name, last_name, profile_url FROM users WHERE id = ${id}
   `;
+
+  if (!user) return null;
 
   return camelcaseRecords(user)[0];
 }
@@ -134,7 +140,7 @@ export async function getUserByUrl(
   url: string | string[] | undefined,
 ): Promise<User | null> {
   const user = await sql`
-    SELECT * FROM users WHERE profile_url = ${url}
+    SELECT id, username, profile_url FROM users WHERE profile_url = ${url}
   `;
 
   if (!user) return null;

@@ -1,17 +1,17 @@
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
-import { errorMessageActions } from '../store/errorMessageSlice';
+import { useState } from 'react';
 import { userSliceActions } from '../store/userSlice';
 import { getSessionByToken } from '../util/database';
 import { useAppDispatch, useAppSelector } from '../util/hooks';
 
 export default function Register() {
-  const router = useRouter();
-  const username = useAppSelector((state) => state.user.name);
-  const password = useAppSelector((state) => state.user.password);
-  const error = useAppSelector((state) => state.errorMessage.message);
+  const [error, setError] = useState('');
+  const user = useAppSelector((state) => state.user.info);
   const dispatch = useAppDispatch();
+
+  const router = useRouter();
 
   return (
     <>
@@ -25,39 +25,76 @@ export default function Register() {
         onSubmit={async (event) => {
           event.preventDefault();
 
+          if (user.password !== user.reEnteredPassword) {
+            return setError('Passwords do not match!');
+          }
+
           const response = await fetch('/api/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify(user),
           });
 
-          const { user, errorMessage } = await response.json();
+          const { profileUrl, errorMessage } = await response.json();
+
+          setError(errorMessage);
 
           if (errorMessage) {
-            dispatch(errorMessageActions.addErrorMessage(errorMessage));
             return;
           }
 
-          router.push(`/profile/${user.profileUrl}`);
+          dispatch(userSliceActions.unsetPasswords());
+          router.push(`/profile/${profileUrl}`);
         }}
       >
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Username</label>
         <input
           id="username"
           type="text"
+          required
           onChange={({ target }) =>
             dispatch(userSliceActions.changeUserName(target.value))
           }
         />
 
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="firstName">First name</label>
+        <input
+          id="firstName"
+          type="text"
+          required
+          onChange={({ target }) =>
+            dispatch(userSliceActions.changeFirstName(target.value))
+          }
+        />
+
+        <label htmlFor="lastName">Last name</label>
+        <input
+          id="lastName"
+          type="text"
+          onChange={({ target }) =>
+            dispatch(userSliceActions.changeLastName(target.value))
+          }
+        />
+
+        <label htmlFor="password">Password</label>
         <input
           id="password"
           type="password"
+          required
           onChange={({ target }) =>
             dispatch(userSliceActions.changeUserPassword(target.value))
+          }
+        />
+
+        <label htmlFor="repeatPassword">Re-enter password</label>
+        <input
+          id="password"
+          type="password"
+          required
+          onChange={({ target }) =>
+            dispatch(userSliceActions.changeReEnteredPassword(target.value))
           }
         />
 

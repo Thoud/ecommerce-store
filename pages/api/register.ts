@@ -11,20 +11,25 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { username, password } = req.body;
+  const user = req.body;
 
   const userAlreadyExists =
-    typeof (await getUserByUsername(username)) !== 'undefined';
+    typeof (await getUserByUsername(user.username)) !== 'undefined';
 
   if (userAlreadyExists) {
     return res
       .status(409)
-      .send({ errorMessage: 'User already exists', user: null });
+      .send({ errorMessage: 'User already exists', profileUrl: null });
   }
 
-  const passwordHash = await hashPassword(password);
+  const passwordHash = await hashPassword(user.password);
 
-  const userInfo = await createUser(username, passwordHash);
+  const userInfo = await createUser(
+    user.username,
+    user.firstName,
+    user.lastName,
+    passwordHash,
+  );
 
   const session = await createSession(userInfo.id);
 
@@ -36,10 +41,7 @@ export default async function handler(
   res.setHeader('Set-Cookie', sessionCookie);
 
   res.send({
-    user: {
-      id: userInfo.id,
-      username: userInfo.username,
-      profileUrl: userInfo.profileUrl,
-    },
+    errorMessage: null,
+    profileUrl: userInfo.profileUrl,
   });
 }

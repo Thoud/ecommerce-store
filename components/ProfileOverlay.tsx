@@ -2,17 +2,36 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/dist/client/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { errorMessageActions } from '../store/errorMessageSlice';
+import { useEffect, useState } from 'react';
 import { profileOverlayActions } from '../store/profileOverlaySlice';
 import { userSliceActions } from '../store/userSlice';
 import { useAppDispatch, useAppSelector } from '../util/hooks';
 
 export default function ProfileOverlay() {
-  const router = useRouter();
-  const username = useAppSelector((state) => state.user.name);
-  const password = useAppSelector((state) => state.user.password);
-  const error = useAppSelector((state) => state.errorMessage.message);
+  const [fetching, setFetching] = useState(true);
+  const [error, setError] = useState('');
+  const user = useAppSelector((state) => state.user.info);
   const dispatch = useAppDispatch();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('/api/user');
+      const { userInfo, sessionValid } = await response.json();
+
+      if (sessionValid) {
+        dispatch(userSliceActions.setUserInfo(userInfo));
+        setFetching(false);
+        return;
+      }
+
+      dispatch(userSliceActions.resetUserInfo());
+      setFetching(false);
+    }
+
+    fetchData();
+  }, [dispatch]);
 
   return (
     <div className="fixed bg-white top-0 right-0 bottom-0 z-15 flex justify-center items-center flex-col">
@@ -20,90 +39,109 @@ export default function ProfileOverlay() {
         <Image src="/close.svg" alt="close button" width={50} height={50} />
       </button>
 
-      <h3>Login</h3>
+      {fetching && <div>Loading...</div>}
 
-      <form
-        onSubmit={async (event) => {
-          event.preventDefault();
+      {!fetching && !user.isSessionValid && (
+        <>
+          <h3>Login</h3>
 
-          const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-          });
+          <form
+            onSubmit={async (event) => {
+              event.preventDefault();
 
-          const { user, errorMessage } = await response.json();
+              const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+              });
 
-          if (errorMessage) {
-            dispatch(errorMessageActions.addErrorMessage(errorMessage));
-            return;
-          }
+              const { profileUrl, errorMessage } = await response.json();
 
-          dispatch(profileOverlayActions.toggle());
-          router.push(`/profile/${user.profileUrl}`);
-        }}
-      >
-        <label htmlFor="username">Username:</label>
-        <input
-          id="username"
-          type="text"
-          onChange={({ target }) =>
-            dispatch(userSliceActions.changeUserName(target.value))
-          }
-        />
+              setError(errorMessage);
 
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          type="password"
-          onChange={({ target }) =>
-            dispatch(userSliceActions.changeUserPassword(target.value))
-          }
-        />
+              if (errorMessage) {
+                return;
+              }
 
-        <button type="submit">Login</button>
-      </form>
+              dispatch(userSliceActions.unsetPasswords());
+              dispatch(profileOverlayActions.toggle());
+              router.push(`/profile/${profileUrl}`);
+            }}
+          >
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              required
+              onChange={({ target }) =>
+                dispatch(userSliceActions.changeUserName(target.value))
+              }
+            />
 
-      <button
-        onClick={async () => {
-          const sessionToken = Cookies.get('session');
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              required
+              onChange={({ target }) =>
+                dispatch(userSliceActions.changeUserPassword(target.value))
+              }
+            />
 
-          const response = await fetch('/api/logout', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ sessionToken }),
-          });
+            <button type="submit">Login</button>
 
-          const deletedSession = await response.json();
+            {error && <div>{error}</div>}
+          </form>
 
-          if (!deletedSession) {
-            dispatch(
-              errorMessageActions.addErrorMessage('You are not logged in!'),
-            );
-          }
+          <Link href="/register">
+            <button
+              onClick={() => {
+                dispatch(profileOverlayActions.toggle());
+              }}
+            >
+              Register
+            </button>
+          </Link>
+        </>
+      )}
 
-          dispatch(profileOverlayActions.toggle());
-          router.push('/');
-        }}
-      >
-        Logout
-      </button>
+      {!fetching && user.isSessionValid && (
+        <>
+          <h3>Hello, {user.firstName}</h3>
 
-      <Link href="/register">
-        <button
-          onClick={() => {
-            dispatch(profileOverlayActions.toggle());
-          }}
-        >
-          Register
-        </button>
-      </Link>
+          <Link href={`/profile/${user.profileUrl}`}>
+            <a>Profile</a>
+          </Link>
 
-      <div>{error}</div>
+          <button
+            onClick={async () => {
+              const sessionToken = Cookies.get('session');
+
+              const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sessionToken }),
+              });
+
+              const deletedSession = await response.json();
+
+              if (!deletedSession) {
+                setError('You are not logged in!');
+              }
+
+              dispatch(userSliceActions.resetUserInfo());
+              dispatch(profileOverlayActions.toggle());
+              router.push('/');
+            }}
+          >
+            Logout
+          </button>
+        </>
+      )}
     </div>
   );
 }

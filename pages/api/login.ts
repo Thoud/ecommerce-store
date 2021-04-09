@@ -10,34 +10,34 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { username, password } = req.body;
+  const user = req.body;
   const userLoggedIn = req.cookies.session;
 
   if (userLoggedIn) {
     return res.status(403).send({
       errorMessage: 'You are already logged in!',
-      user: null,
+      profileUrl: null,
     });
   }
 
-  const userInfo = await getUserWithHashedPasswordByUsername(username);
+  const userInfo = await getUserWithHashedPasswordByUsername(user.username);
 
   if (!userInfo || !userInfo.username) {
     return res.status(401).send({
       errorMessage: 'Username or password are incorrect!',
-      user: null,
+      profileUrl: null,
     });
   }
 
   const passwordMatches = await checkPasswordAgainstPasswordHash(
-    password,
+    user.password,
     userInfo.passwordHash,
   );
 
   if (!passwordMatches) {
     return res.status(401).send({
       errorMessage: 'Username or password are incorrect!',
-      user: null,
+      profileUrl: null,
     });
   }
 
@@ -51,10 +51,7 @@ export default async function handler(
   res.setHeader('Set-Cookie', sessionCookie);
 
   res.send({
-    user: {
-      id: userInfo.id,
-      username: userInfo.username,
-      profileUrl: userInfo.profileUrl,
-    },
+    errorMessage: null,
+    profileUrl: userInfo.profileUrl,
   });
 }
