@@ -86,7 +86,6 @@ export default function ProfileOverlay() {
             );
           }
 
-          Cookies.remove('session');
           dispatch(profileOverlayActions.toggle());
           router.push('/');
         }}

@@ -1,7 +1,11 @@
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getRandomChocolates } from '../util/database';
+import {
+  deleteAllExpiredSessions,
+  getRandomChocolates,
+} from '../util/database';
 import { Chocolate } from '../util/types';
 
 type Props = {
@@ -72,8 +76,26 @@ export default function Home({ chocolateSelection }: Props) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  await deleteAllExpiredSessions();
+
   const chocolateSelection = await getRandomChocolates();
+
+  if (
+    context.req.headers.host &&
+    context.req.headers['x-forwarded-proto'] &&
+    context.req.headers['x-forwarded-proto'] !== 'https'
+  ) {
+    return {
+      redirect: {
+        destination: `https://${context.req.headers.host}/`,
+        permanent: true,
+      },
+      props: {
+        chocolateSelection: chocolateSelection,
+      },
+    };
+  }
 
   return {
     props: {

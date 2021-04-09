@@ -61,11 +61,11 @@ export async function getRandomChocolates(): Promise<Chocolate[]> {
 export async function createSession(userId: number): Promise<Session> {
   const token = generateToken();
 
-  const sessions = await sql`
+  const session = await sql`
     INSERT INTO sessions (token, user_id) VALUES (${token}, ${userId}) RETURNING *
   `;
 
-  return camelcaseRecords(sessions)[0];
+  return camelcaseRecords(session)[0];
 }
 
 export async function getSessionByToken(
@@ -81,11 +81,11 @@ export async function getSessionByToken(
   return camelcaseRecords(session)[0];
 }
 
-export async function deleteSessionByToken(token: {
-  sessionToken: string;
-}): Promise<Session | null> {
+export async function deleteSessionByToken(
+  token: string,
+): Promise<Session | null> {
   const session = await sql`
-    DELETE FROM sessions WHERE token = ${token.sessionToken} RETURNING *
+    DELETE FROM sessions WHERE token = ${token} RETURNING *
   `;
 
   if (!session) return null;

@@ -41,7 +41,16 @@ export function serializeSecureCookieServerSide(
   return Cookie.serialize(name, value, {
     maxAge,
     expires: new Date(Date.now() + maxAge * 1000),
+    httpOnly: true,
     secure: isProduction,
+    path: '/',
+    sameSite: 'lax',
+  });
+}
+
+export function serializeEmptyCookieServerSide(name: string) {
+  return Cookie.serialize(name, '', {
+    maxAge: -1,
     path: '/',
   });
 }
