@@ -3,6 +3,7 @@ import { checkPasswordAgainstPasswordHash } from '../../util/auth';
 import { serializeSecureCookieServerSide } from '../../util/cookies';
 import {
   createSession,
+  getSessionByToken,
   getUserWithHashedPasswordByUsername,
 } from '../../util/database';
 
@@ -11,9 +12,9 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const user = req.body;
-  const userLoggedIn = req.cookies.session;
+  const checkSession = await getSessionByToken(req.cookies.session);
 
-  if (userLoggedIn) {
+  if (checkSession) {
     return res.status(403).send({
       errorMessage: 'You are already logged in!',
       profileUrl: null,

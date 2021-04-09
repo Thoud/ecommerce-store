@@ -118,6 +118,8 @@ export async function createUser(
   return camelcaseRecords(users)[0];
 }
 
+export async function insertUserInformation() {}
+
 export async function getUserByUsername(username: string): Promise<User> {
   const user = await sql`
     SELECT username FROM users WHERE username = ${username}
@@ -126,7 +128,9 @@ export async function getUserByUsername(username: string): Promise<User> {
   return camelcaseRecords(user)[0];
 }
 
-export async function getUserById(id: number): Promise<User | null> {
+export async function getShallowUserInformationById(
+  id: number,
+): Promise<User | null> {
   const user = await sql`
     SELECT username, first_name, last_name, profile_url FROM users WHERE id = ${id}
   `;
@@ -136,11 +140,21 @@ export async function getUserById(id: number): Promise<User | null> {
   return camelcaseRecords(user)[0];
 }
 
-export async function getUserByUrl(
+export async function getUserInformationById(id: number): Promise<User | null> {
+  const user = await sql`
+    SELECT id, username, email, first_name, last_name, birthday, address, city, zip_code, phone_number FROM users WHERE id = ${id}
+  `;
+
+  if (!user) return null;
+
+  return camelcaseRecords(user)[0];
+}
+
+export async function getUserInformationByUrl(
   url: string | string[] | undefined,
 ): Promise<User | null> {
   const user = await sql`
-    SELECT id, username, profile_url FROM users WHERE profile_url = ${url}
+    SELECT id, username, email, first_name, last_name, birthday, address, city, zip_code, phone_number FROM users WHERE profile_url = ${url}
   `;
 
   if (!user) return null;

@@ -73,6 +73,7 @@ export default function Register() {
         <input
           id="lastName"
           type="text"
+          required
           onChange={({ target }) =>
             dispatch(userSliceActions.changeLastName(target.value))
           }

@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSessionByToken, getUserById } from '../../util/database';
+import {
+  getSessionByToken,
+  getShallowUserInformationById,
+} from '../../util/database';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +14,7 @@ export default async function handler(
     return res.send({ userInfo: null, sessionValid: false });
   }
 
-  const userInfo = await getUserById(session.userId);
+  const userInfo = await getShallowUserInformationById(session.userId);
 
   res.send({ userInfo, sessionValid: true });
 }

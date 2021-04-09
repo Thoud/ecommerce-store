@@ -17,6 +17,14 @@ export type Order = {
 export type User = {
   id: number;
   username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  birthday: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  phoneNumber: string;
   passwordHash: string;
   profileUrl: string;
 };
