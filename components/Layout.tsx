@@ -34,8 +34,8 @@ export default function Layout(props: Props) {
           <Image
             src="/logo.png"
             alt="Chocolate Heaven Logo"
-            width={142.4}
-            height={64}
+            width={100}
+            height={65}
           />
         </Link>
         <nav className="flex items-center">
