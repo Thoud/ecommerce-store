@@ -34,3 +34,19 @@ export type Session = {
   token: string;
   userId: number;
 };
+
+export type CheckoutInfo = {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  differentShippingLocation: boolean;
+  shippingFirstName: string;
+  shippingLastName: string;
+  shippingAddress: string;
+  shippingCity: string;
+  shippingZipCode: string;
+  email: string;
+  phoneNumber: string;
+};

@@ -1,18 +1,40 @@
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { orderSliceActions } from '../store/orderSlice';
-import { getChocolates } from '../util/database';
+import {
+  getChocolates,
+  getSessionByToken,
+  getUserInformationById,
+} from '../util/database';
 import { useAppDispatch, useAppSelector } from '../util/hooks';
-import { Chocolate, Order } from '../util/types';
+import { CheckoutInfo, Chocolate, Order, User } from '../util/types';
 
 type Props = {
   chocolates: Chocolate[];
+  user: User;
 };
 
-export default function Checkout({ chocolates }: Props) {
+export default function Checkout({ chocolates, user }: Props) {
   const order = useAppSelector((state) => state.order.order);
   const dispatch = useAppDispatch();
+  const [checkoutInfo, setCheckoutInfo] = useState<CheckoutInfo>({
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    zipCode: '',
+    differentShippingLocation: false,
+    shippingFirstName: '',
+    shippingLastName: '',
+    shippingAddress: '',
+    shippingCity: '',
+    shippingZipCode: '',
+    email: '',
+    phoneNumber: '',
+  });
 
   let totalAmount = 0;
 
@@ -26,13 +48,21 @@ export default function Checkout({ chocolates }: Props) {
 
       <form className="w-full my-10 ml-10 mr-60 flex flex-wrap justify-between">
         <div>
-          <h2 className="text-3xl my-8">Shipping Information</h2>
+          <h2 className="text-3xl my-8">Billing information</h2>
 
           <label htmlFor="firstName">First Name</label>
           <br />
           <input
             id="firstName"
             type="text"
+            required
+            defaultValue={user.firstName}
+            onChange={({ target }) =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                firstName: target.value,
+              })
+            }
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
           />
           <br />
@@ -42,6 +72,14 @@ export default function Checkout({ chocolates }: Props) {
           <input
             id="lastName"
             type="text"
+            required
+            defaultValue={user.lastName}
+            onChange={({ target }) =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                lastName: target.value,
+              })
+            }
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
           />
           <br />
@@ -51,6 +89,14 @@ export default function Checkout({ chocolates }: Props) {
           <input
             id="address"
             type="text"
+            required
+            defaultValue={user.address}
+            onChange={({ target }) =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                address: target.value,
+              })
+            }
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
           />
           <br />
@@ -60,6 +106,14 @@ export default function Checkout({ chocolates }: Props) {
           <input
             id="city"
             type="text"
+            required
+            defaultValue={user.city}
+            onChange={({ target }) =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                city: target.value,
+              })
+            }
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
           />
           <br />
@@ -69,7 +123,114 @@ export default function Checkout({ chocolates }: Props) {
           <input
             id="zip"
             type="text"
+            required
+            defaultValue={user.zipCode}
+            onChange={({ target }) =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                zipCode: target.value,
+              })
+            }
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+          />
+        </div>
+
+        <div>
+          <h2 className="text-3xl my-8">Shipping information</h2>
+
+          {checkoutInfo.differentShippingLocation && (
+            <>
+              <label htmlFor="firstName">First Name</label>
+              <br />
+              <input
+                id="firstName"
+                type="text"
+                required
+                onChange={({ target }) =>
+                  setCheckoutInfo({
+                    ...checkoutInfo,
+                    shippingFirstName: target.value,
+                  })
+                }
+                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+              />
+              <br />
+
+              <label htmlFor="lastName">Last Name</label>
+              <br />
+              <input
+                id="lastName"
+                type="text"
+                required
+                onChange={({ target }) =>
+                  setCheckoutInfo({
+                    ...checkoutInfo,
+                    shippingLastName: target.value,
+                  })
+                }
+                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+              />
+              <br />
+              <label htmlFor="address">Address</label>
+              <br />
+              <input
+                id="address"
+                type="text"
+                required
+                onChange={({ target }) =>
+                  setCheckoutInfo({
+                    ...checkoutInfo,
+                    shippingAddress: target.value,
+                  })
+                }
+                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+              />
+              <br />
+
+              <label htmlFor="city">City</label>
+              <br />
+              <input
+                id="city"
+                type="text"
+                required
+                onChange={({ target }) =>
+                  setCheckoutInfo({
+                    ...checkoutInfo,
+                    shippingCity: target.value,
+                  })
+                }
+                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+              />
+              <br />
+
+              <label htmlFor="zip">ZIP Code</label>
+              <br />
+              <input
+                id="zip"
+                type="text"
+                required
+                onChange={({ target }) =>
+                  setCheckoutInfo({
+                    ...checkoutInfo,
+                    shippingZipCode: target.value,
+                  })
+                }
+                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+              />
+              <br />
+            </>
+          )}
+
+          <label htmlFor="billingInfo">Set different shipping location</label>
+          <input
+            id="billingInfo"
+            type="checkbox"
+            onClick={() =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                differentShippingLocation: !checkoutInfo.differentShippingLocation,
+              })
+            }
           />
         </div>
 
@@ -81,6 +242,14 @@ export default function Checkout({ chocolates }: Props) {
           <input
             id="email"
             type="email"
+            required
+            onChange={({ target }) =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                email: target.value,
+              })
+            }
+            defaultValue={user.email}
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
           />
           <br />
@@ -90,6 +259,13 @@ export default function Checkout({ chocolates }: Props) {
           <input
             id="phone"
             type="tel"
+            defaultValue={user.phoneNumber}
+            onChange={({ target }) =>
+              setCheckoutInfo({
+                ...checkoutInfo,
+                phoneNumber: target.value,
+              })
+            }
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
           />
         </div>
@@ -204,12 +380,36 @@ export default function Checkout({ chocolates }: Props) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const chocolates = await getChocolates();
+
+  const session = await getSessionByToken(context.req.cookies.session);
+
+  if (session) {
+    const user = await getUserInformationById(session.userId);
+
+    if (user) {
+      return {
+        props: {
+          chocolates,
+          user,
+        },
+      };
+    }
+  }
 
   return {
     props: {
-      chocolates: chocolates,
+      chocolates,
+      user: {
+        firstName: '',
+        lastName: '',
+        address: '',
+        city: '',
+        zipCode: '',
+        email: '',
+        phoneNumber: '',
+      },
     },
   };
 }
