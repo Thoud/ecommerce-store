@@ -8,7 +8,7 @@ exports.up = async (sql) => {
 		birthday VARCHAR,
 		address VARCHAR,
 		city VARCHAR,
-		zip_code INT,
+		zip_code VARCHAR,
 		phone_number VARCHAR,
 		password_hash VARCHAR,
 		profile_url VARCHAR

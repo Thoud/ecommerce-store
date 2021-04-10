@@ -59,10 +59,8 @@ export default function ProfileOverlay() {
 
               const { profileUrl, errorMessage } = await response.json();
 
-              setError(errorMessage);
-
               if (errorMessage) {
-                return;
+                return setError(errorMessage);
               }
 
               dispatch(userSliceActions.unsetPasswords());

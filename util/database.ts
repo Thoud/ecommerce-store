@@ -109,16 +109,40 @@ export async function createUser(
 ): Promise<User> {
   const url = paramCase(username);
 
-  const users = await sql`
+  const user = await sql`
     INSERT INTO users (username, first_name, last_name, password_hash, profile_url)
     VALUES (${username}, ${firstName}, ${lastName}, ${passwordHash}, ${url})
     RETURNING id, username, profile_url
   `;
 
-  return camelcaseRecords(users)[0];
+  return camelcaseRecords(user)[0];
 }
 
-export async function insertUserInformation() {}
+export async function insertUserInformation(
+  userInfo: User,
+): Promise<User | null> {
+  const user = await sql`
+    UPDATE
+      users
+    SET
+      email = ${userInfo.email},
+      first_name = ${userInfo.firstName},
+      last_name = ${userInfo.lastName},
+      birthday = ${userInfo.birthday},
+      address = ${userInfo.address},
+      city = ${userInfo.city},
+      zip_code = ${userInfo.zipCode},
+      phone_number = ${userInfo.phoneNumber}
+    WHERE
+      id = ${userInfo.id}
+    RETURNING
+      id, username
+  `;
+
+  if (!user) return null;
+
+  return camelcaseRecords(user)[0];
+}
 
 export async function getUserByUsername(username: string): Promise<User> {
   const user = await sql`

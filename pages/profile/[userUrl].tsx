@@ -12,6 +12,7 @@ type Props = {
 
 export default function UserSinglePage(props: Props) {
   const [edit, setEdit] = useState(false);
+  const [error, setError] = useState('');
   const [user, setUser] = useState<User>(props.user);
 
   return (
@@ -56,6 +57,20 @@ export default function UserSinglePage(props: Props) {
         <form
           onSubmit={async (event) => {
             event.preventDefault();
+
+            const response = await fetch('/api/update-user-information', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(user),
+            });
+
+            const { errorMessage } = await response.json();
+
+            if (errorMessage) {
+              return setError(errorMessage);
+            }
 
             setEdit(false);
           }}
@@ -141,6 +156,8 @@ export default function UserSinglePage(props: Props) {
           <button type="submit">Save changes</button>
         </form>
       )}
+
+      <div>{error}</div>
     </>
   );
 }
