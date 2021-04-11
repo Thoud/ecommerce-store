@@ -50,3 +50,21 @@ export type CheckoutInfo = {
   email: string;
   phoneNumber: string;
 };
+
+export type RecentOrder = {
+  id: number;
+  orderInformation: Order[];
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  shippingFirstName: string;
+  shippingLastName: string;
+  shippingAddress: string;
+  shippingCity: string;
+  shippingZipCode: string;
+  email: string;
+  phoneNumber: string;
+  userId: number;
+};

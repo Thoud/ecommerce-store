@@ -2,7 +2,14 @@ import camelcaseKeys from 'camelcase-keys';
 import { paramCase } from 'param-case';
 import { generateToken } from './sessions';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
-import { Chocolate, Session, User } from './types';
+import {
+  CheckoutInfo,
+  Chocolate,
+  Order,
+  RecentOrder,
+  Session,
+  User,
+} from './types';
 const postgres = require('postgres');
 
 setPostgresDefaultsOnHeroku();
@@ -196,4 +203,30 @@ export async function getUserWithHashedPasswordByUsername(
   if (!user) return null;
 
   return camelcaseRecords(user)[0];
+}
+
+export async function insertOrderInformation(
+  order: Order,
+  checkoutInfo: CheckoutInfo,
+  userId: number,
+): Promise<RecentOrder | null> {
+  const orderSet = await sql`
+    INSERT INTO
+      orders (order_information, first_name, last_name, address, city, zip_code, shipping_first_name, shipping_last_name, shipping_address, shipping_city, shipping_zip_code, email, phone_number, user_id)
+    VALUES
+      (${JSON.stringify(order)}, ${checkoutInfo.firstName}, ${
+    checkoutInfo.lastName
+  }, ${checkoutInfo.address}, ${checkoutInfo.city}, ${checkoutInfo.zipCode}, ${
+    checkoutInfo.shippingFirstName
+  }, ${checkoutInfo.shippingLastName}, ${checkoutInfo.shippingAddress}, ${
+    checkoutInfo.shippingCity
+  }, ${checkoutInfo.shippingZipCode}, ${checkoutInfo.email}, ${
+    checkoutInfo.phoneNumber
+  }, ${userId})
+    RETURNING id
+  `;
+
+  if (!orderSet) return null;
+
+  return camelcaseRecords(orderSet)[0];
 }

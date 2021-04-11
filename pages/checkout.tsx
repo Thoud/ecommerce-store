@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,21 +21,24 @@ type Props = {
 export default function Checkout({ chocolates, user }: Props) {
   const order = useAppSelector((state) => state.order.order);
   const dispatch = useAppDispatch();
+  const [error, setError] = useState('');
   const [checkoutInfo, setCheckoutInfo] = useState<CheckoutInfo>({
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    zipCode: '',
+    firstName: user.firstName,
+    lastName: user.lastName,
+    address: user.address,
+    city: user.city,
+    zipCode: user.zipCode,
     differentShippingLocation: false,
     shippingFirstName: '',
     shippingLastName: '',
     shippingAddress: '',
     shippingCity: '',
     shippingZipCode: '',
-    email: '',
-    phoneNumber: '',
+    email: user.email,
+    phoneNumber: user.phoneNumber,
   });
+
+  const router = useRouter();
 
   let totalAmount = 0;
 
@@ -46,7 +50,30 @@ export default function Checkout({ chocolates, user }: Props) {
 
       <h1 className="text-4xl ml-10 mt-10 h-5 w-full">Checkout</h1>
 
-      <form className="w-full my-10 ml-10 mr-60 flex flex-wrap justify-between">
+      <form
+        className="w-full my-10 ml-10 mr-60 flex flex-wrap justify-between"
+        onSubmit={async (event) => {
+          event.preventDefault();
+
+          const response = await fetch('/api/order', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user, order, checkoutInfo }),
+          });
+
+          const { errorMessage } = await response.json();
+
+          if (errorMessage) {
+            return setError(errorMessage);
+          }
+
+          dispatch(orderSliceActions.placeOrder());
+
+          router.push(`/confirmation`);
+        }}
+      >
         <div>
           <h2 className="text-3xl my-8">Billing information</h2>
 
@@ -299,83 +326,84 @@ export default function Checkout({ chocolates, user }: Props) {
             className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
           />
         </div>
-      </form>
 
-      <div className="w-full m-10 flex flex-wrap justify-evenly">
-        <h2 className="text-3xl my-8 w-full">Order Summary</h2>
-        {chocolates.map((chocolate: Chocolate) => {
-          return order.map((singleOrder: Order) => {
-            let element;
+        <div className="w-full m-10 flex flex-wrap justify-evenly">
+          <h2 className="text-3xl my-8 w-full">Order Summary</h2>
+          {chocolates.map((chocolate: Chocolate) => {
+            return order.map((singleOrder: Order) => {
+              let element;
 
-            if (chocolate.id === singleOrder.id) {
-              const amount =
-                Number(chocolate.price.split(',').join('.')) *
-                singleOrder.quantity;
-              totalAmount += amount;
+              if (chocolate.id === singleOrder.id) {
+                const amount =
+                  Number(chocolate.price.split(',').join('.')) *
+                  singleOrder.quantity;
+                totalAmount += amount;
 
-              element = (
-                <div key={chocolate.id} className="flex items-center">
-                  <Link href={`/products/${chocolate.urlPath}`}>
-                    <a>
-                      <Image
-                        src={chocolate.imgPath}
-                        alt={chocolate.name}
-                        width={200}
-                        height={200}
-                      />
-                    </a>
-                  </Link>
-                  <div>
-                    <p className="font-semibold mb-6">{chocolate.name}</p>
-                    <div className="flex">
-                      <div className="mr-20">
-                        <p className="font-semibold">Price</p>
-                        <p>{chocolate.price} €</p>
-                      </div>
+                element = (
+                  <div key={chocolate.id} className="flex items-center">
+                    <Link href={`/products/${chocolate.urlPath}`}>
+                      <a>
+                        <Image
+                          src={chocolate.imgPath}
+                          alt={chocolate.name}
+                          width={200}
+                          height={200}
+                        />
+                      </a>
+                    </Link>
+                    <div>
+                      <p className="font-semibold mb-6">{chocolate.name}</p>
+                      <div className="flex">
+                        <div className="mr-20">
+                          <p className="font-semibold">Price</p>
+                          <p>{chocolate.price} €</p>
+                        </div>
 
-                      <div className="mr-20">
-                        <p className="font-semibold">Quantity</p>
-                        <p>{singleOrder.quantity}</p>
-                      </div>
+                        <div className="mr-20">
+                          <p className="font-semibold">Quantity</p>
+                          <p>{singleOrder.quantity}</p>
+                        </div>
 
-                      <div className="mr-20">
-                        <p className="font-semibold">Amount</p>
-                        <p>
-                          {amount.toFixed(2).toString().split('.').join(',')} €
-                        </p>
+                        <div className="mr-20">
+                          <p className="font-semibold">Amount</p>
+                          <p>
+                            {amount.toFixed(2).toString().split('.').join(',')}{' '}
+                            €
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            }
+                );
+              }
 
-            return element;
-          });
-        })}
-      </div>
+              return element;
+            });
+          })}
+        </div>
 
-      <div className="mx-10 mt-10 mb-24 w-full">
-        <p className="font-semibold">Total Amount</p>
-        <p className="mb-10">
-          {totalAmount.toFixed(2).toString().split('.').join(',')} €
-        </p>
+        <div className="mx-10 mt-10 mb-24 w-full">
+          <p className="font-semibold">Total Amount</p>
+          <p className="mb-10">
+            {totalAmount.toFixed(2).toString().split('.').join(',')} €
+          </p>
 
-        <Link href="/confirmation">
           <button
+            type="submit"
             className="bg-tertiary rounded-lg font-medium px-4 py-1.5 mr-20 w-52"
-            onClick={() => dispatch(orderSliceActions.placeOrder())}
           >
             Place order
           </button>
-        </Link>
 
-        <Link href="/cart">
-          <button className="bg-tertiary rounded-lg font-medium px-4 py-1.5 w-52">
-            Back to cart
-          </button>
-        </Link>
-      </div>
+          <Link href="/cart">
+            <a className="bg-tertiary rounded-lg font-medium px-4 py-1.5 w-52">
+              Back to cart
+            </a>
+          </Link>
+        </div>
+
+        <div>{error}</div>
+      </form>
     </>
   );
 }
