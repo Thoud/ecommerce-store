@@ -1,10 +1,10 @@
+import { loadStripe } from '@stripe/stripe-js';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { orderSliceActions } from '../store/orderSlice';
 import {
   getChocolates,
   getSessionByToken,
@@ -12,6 +12,10 @@ import {
 } from '../util/database';
 import { useAppDispatch, useAppSelector } from '../util/hooks';
 import { CheckoutInfo, Chocolate, Order, User } from '../util/types';
+
+const stripePromise = loadStripe(
+  'pk_test_51If1fZFFx9jx2hSU2KdBTj46TWPZXu8eRutJjs2soHjGyTSsWA48bzXH670BrwqAat5DjPTfPj9og9uuisFtwfUv00BcH9mP4q',
+);
 
 type Props = {
   chocolates: Chocolate[];
@@ -55,23 +59,45 @@ export default function Checkout({ chocolates, user }: Props) {
         onSubmit={async (event) => {
           event.preventDefault();
 
-          const response = await fetch('/api/order', {
+          const stripe = await stripePromise;
+
+          const response = await fetch('/api/create-checkout-session', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user, order, checkoutInfo }),
+            body: JSON.stringify(order),
           });
 
-          const { errorMessage } = await response.json();
+          const session = await response.json();
 
-          if (errorMessage) {
-            return setError(errorMessage);
+          if (stripe) {
+            const result = await stripe.redirectToCheckout({
+              sessionId: session.id,
+            });
+
+            if (result.error.message) {
+              return setError(result.error.message);
+            }
           }
 
-          dispatch(orderSliceActions.placeOrder());
+          // const response = await fetch('/api/order', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify({ user, order, checkoutInfo }),
+          // });
 
-          router.push(`/confirmation`);
+          // const { errorMessage } = await response.json();
+
+          // if (errorMessage) {
+          //   return setError(errorMessage);
+          // }
+
+          // dispatch(orderSliceActions.placeOrder());
+
+          // router.push(`/confirmation`);
         }}
       >
         <div>
@@ -329,6 +355,8 @@ export default function Checkout({ chocolates, user }: Props) {
 
         <div className="w-full m-10 flex flex-wrap justify-evenly">
           <h2 className="text-3xl my-8 w-full">Order Summary</h2>
+
+          {/* ! Change this logic */}
           {chocolates.map((chocolate: Chocolate) => {
             return order.map((singleOrder: Order) => {
               let element;
