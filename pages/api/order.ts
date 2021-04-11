@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { user, order, checkoutInfo } = req.body;
+  const { user, order, checkoutInfo, stripeSessionId } = req.body;
 
   const session = await getSessionByToken(req.cookies.session);
 
@@ -16,7 +16,12 @@ export default async function handler(
     });
   }
 
-  const orderSet = await insertOrderInformation(order, checkoutInfo, user.id);
+  const orderSet = await insertOrderInformation(
+    order,
+    checkoutInfo,
+    user.id,
+    stripeSessionId,
+  );
 
   if (!orderSet) {
     return res.status(400).send({

@@ -1,6 +1,5 @@
 import { loadStripe } from '@stripe/stripe-js';
 import { GetServerSidePropsContext } from 'next';
-import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,21 +9,17 @@ import {
   getSessionByToken,
   getUserInformationById,
 } from '../util/database';
-import { useAppDispatch, useAppSelector } from '../util/hooks';
+import { useAppSelector } from '../util/hooks';
 import { CheckoutInfo, Chocolate, Order, User } from '../util/types';
-
-const stripePromise = loadStripe(
-  'pk_test_51If1fZFFx9jx2hSU2KdBTj46TWPZXu8eRutJjs2soHjGyTSsWA48bzXH670BrwqAat5DjPTfPj9og9uuisFtwfUv00BcH9mP4q',
-);
 
 type Props = {
   chocolates: Chocolate[];
+  stripeKey: string;
   user: User;
 };
 
-export default function Checkout({ chocolates, user }: Props) {
+export default function Checkout({ chocolates, user, stripeKey }: Props) {
   const order = useAppSelector((state) => state.order.order);
-  const dispatch = useAppDispatch();
   const [error, setError] = useState('');
   const [checkoutInfo, setCheckoutInfo] = useState<CheckoutInfo>({
     firstName: user.firstName,
@@ -42,7 +37,7 @@ export default function Checkout({ chocolates, user }: Props) {
     phoneNumber: user.phoneNumber,
   });
 
-  const router = useRouter();
+  const stripePromise = loadStripe(stripeKey);
 
   let totalAmount = 0;
 
@@ -61,7 +56,7 @@ export default function Checkout({ chocolates, user }: Props) {
 
           const stripe = await stripePromise;
 
-          const response = await fetch('/api/create-checkout-session', {
+          const sessionResponse = await fetch('/api/create-checkout-session', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -69,35 +64,36 @@ export default function Checkout({ chocolates, user }: Props) {
             body: JSON.stringify(order),
           });
 
-          const session = await response.json();
+          const session = await sessionResponse.json();
+
+          const dbResponse = await fetch('/api/order', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              user,
+              order,
+              checkoutInfo,
+              stripeSessionId: session.sessionId,
+            }),
+          });
+
+          const { errorMessage } = await dbResponse.json();
+
+          if (errorMessage) {
+            return setError(errorMessage);
+          }
 
           if (stripe) {
             const result = await stripe.redirectToCheckout({
-              sessionId: session.id,
+              sessionId: session.sessionId,
             });
 
             if (result.error.message) {
               return setError(result.error.message);
             }
           }
-
-          // const response = await fetch('/api/order', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify({ user, order, checkoutInfo }),
-          // });
-
-          // const { errorMessage } = await response.json();
-
-          // if (errorMessage) {
-          //   return setError(errorMessage);
-          // }
-
-          // dispatch(orderSliceActions.placeOrder());
-
-          // router.push(`/confirmation`);
         }}
       >
         <div>
@@ -441,6 +437,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const session = await getSessionByToken(context.req.cookies.session);
 
+  const stripeKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
   if (session) {
     const user = await getUserInformationById(session.userId);
 
@@ -448,6 +446,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       return {
         props: {
           chocolates,
+          stripeKey,
           user,
         },
       };
@@ -457,6 +456,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       chocolates,
+      stripeKey,
       user: {
         firstName: '',
         lastName: '',

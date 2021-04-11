@@ -66,5 +66,7 @@ export type RecentOrder = {
   shippingZipCode: string;
   email: string;
   phoneNumber: string;
+  stripeSessionId: string;
+  paymentCompleted: boolean;
   userId: number;
 };

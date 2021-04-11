@@ -209,10 +209,11 @@ export async function insertOrderInformation(
   order: Order,
   checkoutInfo: CheckoutInfo,
   userId: number,
+  stripeSessionId: string,
 ): Promise<RecentOrder | null> {
   const orderSet = await sql`
     INSERT INTO
-      orders (order_information, first_name, last_name, address, city, zip_code, shipping_first_name, shipping_last_name, shipping_address, shipping_city, shipping_zip_code, email, phone_number, user_id)
+      orders (order_information, first_name, last_name, address, city, zip_code, shipping_first_name, shipping_last_name, shipping_address, shipping_city, shipping_zip_code, email, phone_number, stripe_session_id, payment_completed, user_id)
     VALUES
       (${JSON.stringify(order)}, ${checkoutInfo.firstName}, ${
     checkoutInfo.lastName
@@ -222,11 +223,29 @@ export async function insertOrderInformation(
     checkoutInfo.shippingCity
   }, ${checkoutInfo.shippingZipCode}, ${checkoutInfo.email}, ${
     checkoutInfo.phoneNumber
-  }, ${userId})
+  }, ${stripeSessionId}, false, ${userId})
     RETURNING id
   `;
 
   if (!orderSet) return null;
 
   return camelcaseRecords(orderSet)[0];
+}
+
+export async function updatePaymentStatusOnOrder(
+  stripeSessionId: string | string[] | undefined,
+): Promise<RecentOrder | null> {
+  const order = await sql`
+    UPDATE
+      orders
+    SET
+      payment_completed = true
+    WHERE
+      stripe_session_id = ${stripeSessionId}
+    RETURNING *
+  `;
+
+  if (!order) return null;
+
+  return camelcaseRecords(order)[0];
 }

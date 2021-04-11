@@ -1,7 +1,7 @@
 exports.up = async (sql) => {
   await sql`CREATE TABLE orders (
 		id SERIAL PRIMARY KEY,
-		order_date TIMESTAMP DEFAULT NOW(),
+		order_date VARCHAR DEFAULT NOW(),
 		order_information JSON,
 		first_name VARCHAR,
     last_name VARCHAR,
@@ -15,6 +15,8 @@ exports.up = async (sql) => {
     shipping_zip_code VARCHAR,
     email VARCHAR,
     phone_number VARCHAR,
+    stripe_session_id VARCHAR,
+    payment_completed BOOLEAN,
 		user_id INT REFERENCES users (id)
 	)`;
 };
