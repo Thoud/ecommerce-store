@@ -35,15 +35,35 @@ export default async function handler(
     return result;
   });
 
+  // const session = await stripe.checkout.sessions.create({
+  //   payment_method_types: ['card'],
+  //   line_items: items,
+  //   mode: 'payment',
+  //   success_url: `${domainURL}/about`,
+  //   cancel_url: `${domainURL}/cart`,
+  // });
+  // success_url: `${domainURL}/success?session_id={CHECKOUT_SESSION_ID}`,
+  // cancel_url: `${domainURL}/canceled`,
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    line_items: items,
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Stubborn Attachments',
+            images: ['https://i.imgur.com/EHyR2nP.png'],
+          },
+          unit_amount: 2000,
+        },
+        quantity: 1,
+      },
+    ],
     mode: 'payment',
     success_url: `${domainURL}/about`,
     cancel_url: `${domainURL}/cart`,
   });
-  // success_url: `${domainURL}/success?session_id={CHECKOUT_SESSION_ID}`,
-  // cancel_url: `${domainURL}/canceled`,
 
   res.send({
     sessionId: session.id,
