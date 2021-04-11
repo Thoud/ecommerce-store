@@ -8,7 +8,7 @@ import { useAppDispatch } from '../util/hooks';
 import { Chocolate, Order, RecentOrder } from '../util/types';
 
 type Props = {
-  orderInformation: RecentOrder;
+  orderInformation: RecentOrder | null;
   chocolates: Chocolate[];
 };
 
@@ -20,7 +20,7 @@ export default function Success({ orderInformation, chocolates }: Props) {
     dispatch(orderSliceActions.placeOrder());
   }, [dispatch]);
 
-  if (!orderInformation.id) {
+  if (!orderInformation) {
     return (
       <h1>You have not made a transaction. Please go to checkout first!</h1>
     );
@@ -146,19 +146,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
   const { session_id: sessionId } = context.query;
 
-  const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
+  if (sessionId) {
+    const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
 
-  const chocolates = await getChocolates();
+    const chocolates = await getChocolates();
 
-  if (stripeSession.payment_status === 'paid') {
-    const orderInformation = await updatePaymentStatusOnOrder(sessionId);
+    if (stripeSession.payment_status === 'paid') {
+      const orderInformation = await updatePaymentStatusOnOrder(sessionId);
 
-    return {
-      props: {
-        orderInformation,
-        chocolates,
-      },
-    };
+      return {
+        props: {
+          orderInformation,
+          chocolates,
+        },
+      };
+    }
   }
 
   return {

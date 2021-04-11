@@ -56,12 +56,15 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
 
           const stripe = await stripePromise;
 
+          const url = window.location.href.split('/');
+          const domainUrl = [url[0], '//', url[2]].join('');
+
           const sessionResponse = await fetch('/api/create-checkout-session', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(order),
+            body: JSON.stringify({ order, domainUrl }),
           });
 
           const session = await sessionResponse.json();

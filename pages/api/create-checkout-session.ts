@@ -8,10 +8,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const order = req.body;
+  const { order, domainUrl } = req.body;
   const chocolates = await getChocolates();
 
-  const domainURL = 'http://localhost:3000';
   const items = order.map((singleOrder: Order) => {
     const chocolateInOrder = chocolates.find(
       (chocolate: Chocolate) => chocolate.id === singleOrder.id,
@@ -38,8 +37,8 @@ export default async function handler(
     payment_method_types: ['card'],
     line_items: items,
     mode: 'payment',
-    success_url: `${domainURL}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${domainURL}/canceled`,
+    success_url: `${domainUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${domainUrl}/canceled`,
   });
 
   res.send({

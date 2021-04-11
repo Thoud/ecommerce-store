@@ -232,6 +232,10 @@ export async function insertOrderInformation(
   return camelcaseRecords(orderSet)[0];
 }
 
+// export async function getOrderInformationByUserId(
+//   userId: number,
+// ): Promise<RecentOrder | null> {}
+
 export async function updatePaymentStatusOnOrder(
   stripeSessionId: string | string[] | undefined,
 ): Promise<RecentOrder | null> {
