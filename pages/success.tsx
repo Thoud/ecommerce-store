@@ -28,7 +28,9 @@ export default function Success({ orderInformation, chocolates }: Props) {
 
   return (
     <>
-      <h1>Transaction successful</h1>
+      <h1>Thank you for your order!</h1>
+
+      <h2>Transaction successful</h2>
 
       <h2>Order details</h2>
 
