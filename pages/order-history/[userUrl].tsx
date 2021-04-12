@@ -12,49 +12,58 @@ type Props = {
 export default function OrderHistory({ orders, stripeSessions, user }: Props) {
   if (!orders) {
     return (
-      <>
+      <div>
         <Head>
           <title>Order History | Chocolate Heaven</title>
         </Head>
-        <h1>Order history</h1>;
-      </>
+        <h1 className="m-10">Order history</h1>;
+      </div>
     );
   }
 
   return (
-    <>
+    <div>
       <Head>
         <title>Order History | Chocolate Heaven</title>
       </Head>
 
-      <h1>Order history</h1>
+      <h1 className="m-10 mb-20">Order history</h1>
 
-      {stripeSessions.map((session, index) => {
-        return (
-          <div key={session.stripeId}>
-            <div>
-              <b>Transaction number</b>
-              <p>Date</p>
-              <p>Total amount</p>
-              <p>Payment status</p>
-            </div>
-
-            <div>
-              <b>{session.stripeId}</b>
-              <p>{orders[index].orderDate.split(' ')[0]}</p>
-              <p>{session.total}</p>
-              <p>{session.paymentStatus}</p>
-            </div>
-
-            <Link
-              href={`/order-history/detailed/${user.profileUrl}?session_id=${session.stripeId}`}
+      <div className="mb-10 flex flex-wrap w-full">
+        {stripeSessions.map((session, index) => {
+          return (
+            <div
+              className="ml-10 mb-32 mr-20 flex flex-wrap"
+              key={session.stripeId}
             >
-              <a>See details</a>
-            </Link>
-          </div>
-        );
-      })}
-    </>
+              <div className="mr-10">
+                <p className="font-bold">Order number</p>
+                <p>Date</p>
+                <p>Total amount</p>
+                <p className="font-semibold">Payment status</p>
+              </div>
+
+              <div className="mb-7 w-52">
+                <p className="font-bold">
+                  {session.stripeId.split('').slice(33).join('')}
+                </p>
+                <p>{orders[index].orderDate.split('.')[0]}</p>
+                <p>{session.total}</p>
+                <p className="font-semibold">{session.paymentStatus}</p>
+              </div>
+
+              <div className="w-full">
+                <Link
+                  href={`/order-history/detailed/${user.profileUrl}?session_id=${session.stripeId}`}
+                >
+                  <a className="btn-link-style px-8 py-2.5">See details</a>
+                </Link>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

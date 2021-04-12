@@ -13,49 +13,67 @@ export default function UserSinglePage(props: Props) {
   const [user, setUser] = useState<User>(props.user);
 
   return (
-    <>
+    <div>
       <Head>
         <title>Profile | Chocolate Heaven</title>
       </Head>
 
-      <h1>Welcome {user.firstName}!</h1>
+      <h1 className="m-10 mb-20">Welcome {user.firstName}!</h1>
 
       {!edit && (
-        <>
-          <h2>Personal information</h2>
-          <div>
-            <p>First name</p>
-            <p>Last name</p>
-            <p>Birthday</p>
-            <p>Email</p>
-            <p>Phone number</p>
-          </div>
-          <div>
-            <p>{user.firstName}</p>
-            <p>{user.lastName}</p>
-            <p>{user.birthday}</p>
-            <p>{user.email}</p>
-            <p>{user.phoneNumber}</p>
+        <div className="flex flex-wrap m-10">
+          <div className="mr-96 mb-10">
+            <h2 className="mb-10">Personal information</h2>
+
+            <div className="flex flex-wrap">
+              <div className="mr-14">
+                <p>First name</p>
+                <p>Last name</p>
+                <p>Birthday</p>
+                <p>Email</p>
+                <p>Phone number</p>
+              </div>
+              <div>
+                <p>{user.firstName || '/'}</p>
+                <p>{user.lastName || '/'}</p>
+                <p>{user.birthday || '/'}</p>
+                <p>{user.email || '/'}</p>
+                <p>{user.phoneNumber || '/'}</p>
+              </div>
+            </div>
           </div>
 
-          <h2>Address</h2>
           <div>
-            <p>Street and house number</p>
-            <p>City</p>
-            <p>ZIP code</p>
-          </div>
-          <div>
-            <p>{user.address}</p>
-            <p>{user.city}</p>
-            <p>{user.zipCode}</p>
+            <h2 className="mb-10">Address</h2>
+
+            <div className="flex flex-wrap">
+              <div className="mr-14">
+                <p>Street and house number</p>
+                <p>City</p>
+                <p>ZIP code</p>
+              </div>
+              <div>
+                <p>{user.address || '/'}</p>
+                <p>{user.city || '/'}</p>
+                <p>{user.zipCode || '/'}</p>
+              </div>
+            </div>
           </div>
 
-          <button onClick={() => setEdit(true)}>Edit</button>
-        </>
+          <div className="w-full">
+            <button
+              className="btn-link-style py-2"
+              onClick={() => setEdit(true)}
+            >
+              Edit
+            </button>
+          </div>
+        </div>
       )}
 
       {edit && (
         <form
+          className="flex flex-wrap m-10"
           onSubmit={async (event) => {
             event.preventDefault();
 
@@ -76,90 +94,128 @@ export default function UserSinglePage(props: Props) {
             setEdit(false);
           }}
         >
-          <h2>Personal information</h2>
-          <label htmlFor="firstName">First name</label>
-          <input
-            id="firstName"
-            type="text"
-            defaultValue={user.firstName}
-            onChange={({ target }) =>
-              setUser({ ...user, firstName: target.value })
-            }
-          />
+          <div className="mr-80 mb-10">
+            <h2 className="mb-10">Personal information</h2>
 
-          <label htmlFor="lastName">Last name</label>
-          <input
-            id="lastName"
-            type="text"
-            defaultValue={user.lastName}
-            onChange={({ target }) =>
-              setUser({ ...user, lastName: target.value })
-            }
-          />
+            <div>
+              <label htmlFor="firstName">First name</label>
+              <br />
+              <input
+                id="firstName"
+                type="text"
+                className="input-style"
+                defaultValue={user.firstName}
+                onChange={({ target }) =>
+                  setUser({ ...user, firstName: target.value })
+                }
+              />
+              <br />
 
-          <label htmlFor="birthday">Birthday</label>
-          <input
-            id="birthday"
-            type="date"
-            defaultValue={user.birthday}
-            onChange={({ target }) =>
-              setUser({ ...user, birthday: target.value })
-            }
-          />
+              <label htmlFor="lastName">Last name</label>
+              <br />
+              <input
+                id="lastName"
+                type="text"
+                className="input-style"
+                defaultValue={user.lastName}
+                onChange={({ target }) =>
+                  setUser({ ...user, lastName: target.value })
+                }
+              />
+              <br />
 
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            defaultValue={user.email}
-            onChange={({ target }) => setUser({ ...user, email: target.value })}
-          />
+              <label htmlFor="birthday">Birthday</label>
+              <br />
+              <input
+                id="birthday"
+                type="date"
+                className="input-style"
+                defaultValue={user.birthday}
+                onChange={({ target }) =>
+                  setUser({ ...user, birthday: target.value })
+                }
+              />
+              <br />
 
-          <label htmlFor="phoneNumber">Phone number</label>
-          <input
-            id="phoneNumber"
-            type="tel"
-            defaultValue={user.phoneNumber}
-            onChange={({ target }) =>
-              setUser({ ...user, phoneNumber: target.value })
-            }
-          />
+              <label htmlFor="email">Email</label>
+              <br />
+              <input
+                id="email"
+                type="email"
+                className="input-style"
+                defaultValue={user.email}
+                onChange={({ target }) =>
+                  setUser({ ...user, email: target.value })
+                }
+              />
+              <br />
 
-          <h2>Address</h2>
-          <label htmlFor="address">Street and house number</label>
-          <input
-            id="address"
-            type="text"
-            defaultValue={user.address}
-            onChange={({ target }) =>
-              setUser({ ...user, address: target.value })
-            }
-          />
+              <label htmlFor="phoneNumber">Phone number</label>
+              <br />
+              <input
+                id="phoneNumber"
+                type="tel"
+                className="input-style"
+                defaultValue={user.phoneNumber}
+                onChange={({ target }) =>
+                  setUser({ ...user, phoneNumber: target.value })
+                }
+              />
+            </div>
+          </div>
 
-          <label htmlFor="city">City</label>
-          <input
-            id="city"
-            type="text"
-            defaultValue={user.city}
-            onChange={({ target }) => setUser({ ...user, city: target.value })}
-          />
+          <div>
+            <h2 className="mb-10">Address</h2>
 
-          <label htmlFor="zipCode">ZIP code</label>
-          <input
-            id="zipCode"
-            type="text"
-            defaultValue={user.zipCode}
-            onChange={({ target }) =>
-              setUser({ ...user, zipCode: target.value })
-            }
-          />
+            <label htmlFor="address">Street and house number</label>
+            <br />
+            <input
+              id="address"
+              type="text"
+              className="input-style"
+              defaultValue={user.address}
+              onChange={({ target }) =>
+                setUser({ ...user, address: target.value })
+              }
+            />
+            <br />
 
-          <button type="submit">Save changes</button>
+            <label htmlFor="city">City</label>
+            <br />
+            <input
+              id="city"
+              type="text"
+              className="input-style"
+              defaultValue={user.city}
+              onChange={({ target }) =>
+                setUser({ ...user, city: target.value })
+              }
+            />
+            <br />
+
+            <label htmlFor="zipCode">ZIP code</label>
+            <br />
+            <input
+              id="zipCode"
+              type="text"
+              className="input-style"
+              defaultValue={user.zipCode}
+              onChange={({ target }) =>
+                setUser({ ...user, zipCode: target.value })
+              }
+            />
+          </div>
+
+          <div className="w-full">
+            <button className="btn-link-style py-2" type="submit">
+              Save changes
+            </button>
+          </div>
         </form>
       )}
 
-      <div>{error}</div>
-    </>
+      <div className="text-red-700 font-bold m-10">{error}</div>
+    </div>
   );
 }
 

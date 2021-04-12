@@ -53,7 +53,7 @@ export default function Cart({ chocolates }: Props) {
                   </a>
                 </Link>
                 <div>
-                  <p className="font-semibold mb-6">{chocolateInOrder.name}</p>
+                  <p className="font-bold mb-6">{chocolateInOrder.name}</p>
 
                   <div className="flex">
                     <div className="mr-20">
@@ -63,7 +63,7 @@ export default function Cart({ chocolates }: Props) {
 
                     <div className="flex items-center mr-20">
                       <button
-                        className="bg-tertiary rounded-lg font-medium px-3 py-1"
+                        className="bg-tertiary text-white rounded-lg font-medium px-3 py-1"
                         onClick={() => {
                           if (singleOrder.quantity - 1 === 0) {
                             dispatch(
@@ -87,7 +87,7 @@ export default function Cart({ chocolates }: Props) {
                       </p>
 
                       <button
-                        className="bg-tertiary rounded-lg font-medium px-3 py-1"
+                        className="bg-tertiary text-white rounded-lg font-medium px-3 py-1"
                         onClick={() => {
                           if (chocolateInOrder.id) {
                             dispatch(
@@ -125,11 +125,11 @@ export default function Cart({ chocolates }: Props) {
           {totalAmount.toFixed(2).toString().split('.').join(',')} €
         </p>
 
-        <Link href="/checkout">
-          <button className="bg-tertiary rounded-lg font-medium px-4 py-1.5">
-            Go to Checkout
-          </button>
-        </Link>
+        {order.length !== 0 && (
+          <Link href="/checkout">
+            <button className="btn-link-style py-2">Go to Checkout</button>
+          </Link>
+        )}
       </div>
     </>
   );

@@ -39,9 +39,7 @@ export default function Home({ chocolateSelection }: Props) {
                         />
                       </a>
                     </Link>
-                    <p className="font-semibold text-center">
-                      {chocolate.name}
-                    </p>
+                    <p className="font-bold text-center">{chocolate.name}</p>
                   </div>
                 );
               })}
@@ -59,9 +57,7 @@ export default function Home({ chocolateSelection }: Props) {
             </p>
 
             <Link href="/about">
-              <button className="bg-tertiary rounded-lg font-medium px-4 py-1.5">
-                Read more
-              </button>
+              <button className="btn-link-style py-2">Read more</button>
             </Link>
           </div>
 

@@ -19,14 +19,14 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
 
   if (chocolate === null) {
     return (
-      <>
+      <div>
         <Head>
           <title>Product Not Found | Chocolate Heaven</title>
         </Head>
 
-        <h1 className="text-4xl">Product Not Found</h1>
-        <p>Please try again!</p>
-      </>
+        <h1 className="m-10">Product Not Found</h1>
+        <p className="m-10">Please try again!</p>
+      </div>
     );
   }
 
@@ -45,7 +45,7 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
         />
 
         <div className="max-w-3xl">
-          <h1 className="text-4xl mb-10">{chocolate.name}</h1>
+          <h1 className="mb-10">{chocolate.name}</h1>
           <p className="font-semibold">Description</p>
           <p className="mb-10">{chocolate.description}</p>
 
@@ -60,7 +60,7 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
 
           <div className="flex items-center mb-10">
             <button
-              className="bg-tertiary rounded-lg font-medium px-3 py-1"
+              className="text-white bg-tertiary rounded-lg font-medium px-3 py-1"
               onClick={() => {
                 if (!(quantity - 1 === 0)) {
                   dispatch(quantityActions.decrement());
@@ -73,14 +73,14 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
             <p className="mx-4 font-semibold">{quantity}</p>
 
             <button
-              className="bg-tertiary rounded-lg font-medium px-3 py-1"
+              className="bg-tertiary text-white rounded-lg font-medium px-3 py-1"
               onClick={() => dispatch(quantityActions.increment())}
             >
               +
             </button>
           </div>
           <button
-            className="bg-tertiary rounded-lg font-medium px-4 py-1"
+            className="btn-link-style py-2"
             onClick={() => {
               dispatch(addItemOverlayActions.toggle(true));
 

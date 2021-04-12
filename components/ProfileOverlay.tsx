@@ -34,18 +34,22 @@ export default function ProfileOverlay() {
   }, [dispatch]);
 
   return (
-    <div className="fixed bg-white top-0 right-0 bottom-0 z-15 flex justify-center items-center flex-col">
-      <button onClick={() => dispatch(profileOverlayActions.toggle())}>
-        <Image src="/close.svg" alt="close button" width={50} height={50} />
+    <div className="fixed bg-primary top-0 right-0 bottom-0 z-30 flex flex-wrap place-items-center flex-col w-96 shadow-2xl">
+      <button
+        className="ml-auto mr-10 mb-56 mt-12"
+        onClick={() => dispatch(profileOverlayActions.toggle())}
+      >
+        <Image src="/close.svg" alt="close button" width={40} height={40} />
       </button>
 
       {fetching && <div>Loading...</div>}
 
       {!fetching && !user.isSessionValid && (
         <>
-          <h3>Login</h3>
+          <h3 className="text-center mb-14">Login</h3>
 
           <form
+            className="center-items flex-col"
             onSubmit={async (event) => {
               event.preventDefault();
 
@@ -73,6 +77,7 @@ export default function ProfileOverlay() {
               id="username"
               type="text"
               required
+              className="input-style w-56 mb-5"
               onChange={({ target }) =>
                 dispatch(userSliceActions.changeUserName(target.value))
               }
@@ -83,18 +88,26 @@ export default function ProfileOverlay() {
               id="password"
               type="password"
               required
+              className="input-style w-56 mb-8"
               onChange={({ target }) =>
                 dispatch(userSliceActions.changeUserPassword(target.value))
               }
             />
 
-            <button type="submit">Login</button>
+            <button className="btn-link-style py-2 mb-14" type="submit">
+              Login
+            </button>
 
-            {error && <div>{error}</div>}
+            {error && (
+              <div className="text-red-700 font-bold text-center mb-10">
+                {error}
+              </div>
+            )}
           </form>
 
           <Link href="/register">
             <button
+              className="font-bold underline"
               onClick={() => {
                 dispatch(profileOverlayActions.toggle());
               }}
@@ -107,17 +120,18 @@ export default function ProfileOverlay() {
 
       {!fetching && user.isSessionValid && (
         <>
-          <h3>Hello, {user.firstName}</h3>
+          <h3 className="text-center mb-14">Hello, {user.firstName}</h3>
 
           <Link href={`/profile/${user.profileUrl}`}>
-            <a>Profile</a>
+            <a className="mb-2">Profile</a>
           </Link>
 
           <Link href={`/order-history/${user.profileUrl}`}>
-            <a>Order history</a>
+            <a className="mb-14">Order history</a>
           </Link>
 
           <button
+            className="btn-link-style py-2"
             onClick={async () => {
               const sessionToken = Cookies.get('session');
 

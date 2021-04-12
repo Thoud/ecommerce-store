@@ -6,8 +6,7 @@
 
 @layer base {
   * {
-    @apply font-raleway;
-    @apply font-normal;
+    @apply font-raleway font-normal;
   }
 
   h1,
@@ -16,13 +15,42 @@
   h4,
   h5,
   h6 {
-    @apply font-crimson;
-    @apply font-bold;
+    @apply font-crimson font-bold;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
   }
 }
 
-/* ! Change this */
+@layer components {
+  .btn-link-style {
+    @apply bg-tertiary rounded-lg font-medium text-white px-16;
+    /* On button py = 2 */
+    /* On link py = 3 */
+  }
+
+  .center-items {
+    @apply flex flex-wrap justify-center items-center;
+  }
+
+  .input-style {
+    @apply w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30;
+  }
+}
+
 main {
-  min-height: 86.49vh;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  min-height: 94.4vh;
+}
+
+.register-image {
+  bottom: 50px;
 }

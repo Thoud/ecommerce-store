@@ -42,10 +42,10 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
         <title>Checkout | Chocolate Heaven</title>
       </Head>
 
-      <h1 className="text-4xl ml-10 mt-10 h-5 w-full">Checkout</h1>
+      <h1 className="ml-10 mt-10 h-5 w-full">Checkout</h1>
 
       <form
-        className="w-full my-10 ml-10 mr-60 flex flex-wrap justify-between"
+        className="w-full my-10 ml-10 mr-20 flex flex-wrap justify-between"
         onSubmit={async (event) => {
           event.preventDefault();
 
@@ -94,7 +94,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
           }
         }}
       >
-        <div>
+        <div className="mb-20">
           <h2 className="text-3xl my-8">Billing information</h2>
 
           <label htmlFor="firstName">First Name</label>
@@ -110,7 +110,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                 firstName: target.value,
               })
             }
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            className="input-style"
           />
           <br />
 
@@ -127,7 +127,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                 lastName: target.value,
               })
             }
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            className="input-style"
           />
           <br />
 
@@ -144,7 +144,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                 address: target.value,
               })
             }
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            className="input-style"
           />
           <br />
 
@@ -161,7 +161,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                 city: target.value,
               })
             }
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            className="input-style"
           />
           <br />
 
@@ -178,12 +178,12 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                 zipCode: target.value,
               })
             }
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            className="input-style"
           />
         </div>
 
         <div>
-          <h2 className="text-3xl my-8">Shipping information</h2>
+          <h2 className="w-96 my-8">Shipping information</h2>
 
           {checkoutInfo.differentShippingLocation && (
             <>
@@ -199,7 +199,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                     shippingFirstName: target.value,
                   })
                 }
-                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+                className="input-style"
               />
               <br />
 
@@ -215,7 +215,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                     shippingLastName: target.value,
                   })
                 }
-                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+                className="input-style"
               />
               <br />
               <label htmlFor="address">Address</label>
@@ -230,7 +230,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                     shippingAddress: target.value,
                   })
                 }
-                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+                className="input-style"
               />
               <br />
 
@@ -246,7 +246,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                     shippingCity: target.value,
                   })
                 }
-                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+                className="input-style"
               />
               <br />
 
@@ -262,13 +262,13 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                     shippingZipCode: target.value,
                   })
                 }
-                className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+                className="input-style"
               />
               <br />
             </>
           )}
 
-          <label htmlFor="billingInfo">Set different shipping location</label>
+          <label htmlFor="billingInfo">Different shipping location?</label>
           <input
             id="billingInfo"
             type="checkbox"
@@ -278,6 +278,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                 differentShippingLocation: !checkoutInfo.differentShippingLocation,
               })
             }
+            className="input-style inline-block w-5 h-5 mt-0 ml-5"
           />
         </div>
 
@@ -297,7 +298,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
               })
             }
             defaultValue={user.email}
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            className="input-style"
           />
           <br />
 
@@ -313,13 +314,12 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                 phoneNumber: target.value,
               })
             }
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
+            className="input-style"
           />
         </div>
 
+        <h2 className="mb-8 w-full">Order Summary</h2>
         <div className="w-full m-10 flex flex-wrap justify-evenly">
-          <h2 className="text-3xl my-8 w-full">Order Summary</h2>
-
           {order.map((singleOrder: Order) => {
             const chocolateInOrder = chocolates.find(
               (chocolate: Chocolate) => chocolate.id === singleOrder.id,
@@ -346,9 +346,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
                     </a>
                   </Link>
                   <div>
-                    <p className="font-semibold mb-6">
-                      {chocolateInOrder.name}
-                    </p>
+                    <p className="font-bold mb-6">{chocolateInOrder.name}</p>
                     <div className="flex">
                       <div className="mr-20">
                         <p className="font-semibold">Price</p>
@@ -376,27 +374,22 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
           })}
         </div>
 
-        <div className="mx-10 mt-10 mb-24 w-full">
+        <div className="mr-10 mt-10 mb-24 w-full">
           <p className="font-semibold">Total Amount</p>
           <p className="mb-10">
             {totalAmount.toFixed(2).toString().split('.').join(',')} €
           </p>
 
-          <button
-            type="submit"
-            className="bg-tertiary rounded-lg font-medium px-4 py-1.5 mr-20 w-52"
-          >
+          <button type="submit" className="btn-link-style py-2 mr-20">
             Place order
           </button>
 
           <Link href="/cart">
-            <a className="bg-tertiary rounded-lg font-medium px-4 py-1.5 w-52">
-              Back to cart
-            </a>
+            <a className="btn-link-style py-3">Back to cart</a>
           </Link>
         </div>
 
-        <div>{error}</div>
+        <div className="text-red-700 font-bold text-center mb-10">{error}</div>
       </form>
     </>
   );

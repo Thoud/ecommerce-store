@@ -17,14 +17,14 @@ export default function ProductPage({ chocolates }: Props) {
 
   if (chocolates === null) {
     return (
-      <>
+      <div className="m-10">
         <Head>
           <title>Products Not Found | Chocolate Heaven</title>
         </Head>
 
-        <h1 className="text-4xl">Product Not Found</h1>
+        <h1>Product Not Found</h1>
         <p>Please try again!</p>
-      </>
+      </div>
     );
   }
 
@@ -34,7 +34,7 @@ export default function ProductPage({ chocolates }: Props) {
         <title>Products | Chocolate Heaven</title>
       </Head>
 
-      <h1 className="text-4xl mx-10 mt-10 h-5">Products</h1>
+      <h1 className="mx-10 mt-10 h-5">Products</h1>
 
       <div className="flex flex-wrap justify-around mb-14">
         {chocolates.map((chocolate: Chocolate) => {
@@ -54,15 +54,13 @@ export default function ProductPage({ chocolates }: Props) {
                 </a>
               </Link>
 
-              <p className="font-semibold text-center mb-10">
-                {chocolate.name}
-              </p>
+              <p className="font-bold text-center mb-10">{chocolate.name}</p>
 
               <p className="font-semibold">Price</p>
               <p className="mb-10 font-medium">{chocolate.price} €</p>
 
               <button
-                className="bg-tertiary rounded-lg font-medium px-4 py-1"
+                className="btn-link-style py-2"
                 onClick={() => {
                   dispatch(addItemOverlayActions.toggle(true));
 

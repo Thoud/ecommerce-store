@@ -29,18 +29,20 @@ export default function Layout(props: Props) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <header className="z-10 w-full fixed top-0 flex items-center justify-between bg-secondary p-2 h-20">
-        <Link href="/">
-          <Image
-            src="/logo.png"
-            alt="Chocolate Heaven Logo"
-            width={100}
-            height={65}
-          />
-        </Link>
+      <header className="z-10 w-full fixed top-0 flex items-center justify-between bg-secondary py-2 pr-2 h-20">
+        <div className="bg-primary cursor-pointer px-4">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              alt="Chocolate Heaven Logo"
+              width={111}
+              height={73}
+            />
+          </Link>
+        </div>
         <nav className="flex items-center">
           <button
-            className="bg-tertiary mx-12 px-10 py-2 rounded-lg font-medium lg:mx-8 lg:px-6 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1"
+            className="btn-link-style py-1.5 mx-12"
             onClick={() => {
               dispatch(profileOverlayActions.toggle());
             }}
@@ -56,32 +58,31 @@ export default function Layout(props: Props) {
           {overlay && <ProfileOverlay />}
 
           <Link href="/products">
-            <a className="bg-tertiary mx-12 px-10 py-2 rounded-lg font-medium lg:mx-8 lg:px-6 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
-              Products
-            </a>
+            <a className="btn-link-style py-2.5 mx-12">Products</a>
           </Link>
 
           <Link href="/about">
-            <a className="bg-tertiary mx-12 px-10 py-2 rounded-lg font-medium lg:mx-8 lg:px-6 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
-              About
-            </a>
+            <a className="btn-link-style py-2.5 mx-12">About</a>
           </Link>
 
           <Link href="/cart">
-            <a className="bg-tertiary mx-12 px-4 py-2 rounded-lg flex items-center lg:mx-8 lg:px-2 lg:py-1.5 lg:text-sm md:mx-4 md:px-2.5 md:py-1">
+            <a className="btn-link-style py-2.5 px-8 center-items mx-12 cursor-pointer">
               <Image src="/cart.svg" alt="Cart Icon" width={25} height={25} />
-              {orderQuantity !== 0 && (
-                <div className="ml-2 font-semibold">{orderQuantity}</div>
-              )}
             </a>
           </Link>
+
+          {orderQuantity !== 0 && (
+            <div className="relative ml-2 font-semibold text-white right-20 -top-2 cursor-pointer">
+              {orderQuantity}
+            </div>
+          )}
         </nav>
       </header>
 
-      <main className="flex flex-wrap mt-20">{props.children}</main>
+      <main className="flex flex-wrap pt-20">{props.children}</main>
 
-      <footer className="flex place-content-center bg-secondary py-3 h-14">
-        <p className="text-primary text-lg text-center lg:text-sm">
+      <footer className="center-items bg-secondary py-3 h-14">
+        <p className="text-primary text-lg text-center">
           Made with{' '}
           <span role="img" aria-label="Heart">
             ❤️
