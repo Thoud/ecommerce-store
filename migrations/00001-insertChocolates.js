@@ -8,7 +8,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/espresso.png',
     url_path: 'dark-chocolate-espresso',
-    price: '2,82',
+    stripe_id: 'price_1If8ZgFFx9jx2hSUs430R5kj',
+    price: '1,82',
   },
   {
     name: 'Dark Chocolate Remy Martin',
@@ -19,7 +20,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/remy_martin.png',
     url_path: 'dark-chocolate-remy-martin',
-    price: '2,82',
+    stripe_id: 'price_1If8aiFFx9jx2hSUsIomf298',
+    price: '1,82',
   },
   {
     name: 'Dark Chocolate Cassis',
@@ -30,7 +32,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/cassis.png',
     url_path: 'dark-chocolate-cassis',
-    price: '2,82',
+    stripe_id: 'price_1If8bhFFx9jx2hSUKVI3z98d',
+    price: '1,82',
   },
   {
     name: 'Dark Chocolate Pistachio-Marzipan',
@@ -41,7 +44,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/pistachio_marzipan.png',
     url_path: 'dark-chocolate-pistachio-marzipan',
-    price: '2,34',
+    stripe_id: 'price_1If8ccFFx9jx2hSUzLk2L1rB',
+    price: '1,34',
   },
   {
     name: 'Milk Chocolate Elderberry',
@@ -52,7 +56,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/elderberry.png',
     url_path: 'milk-chocolate-elderberry',
-    price: '2,34',
+    stripe_id: 'price_1If8dHFFx9jx2hSUHNxf3CU3',
+    price: '1,34',
   },
   {
     name: 'Milk Chocolate Hazelnut',
@@ -63,7 +68,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/hazelnut.png',
     url_path: 'milk-chocolate-hazelnut',
-    price: '2,34',
+    stripe_id: 'price_1If8dwFFx9jx2hSUKkcgoT6k',
+    price: '1,34',
   },
   {
     name: 'Milk Chocolate Lemon-Basil',
@@ -74,7 +80,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/lemon_basil.png',
     url_path: 'milk-chocolate-lemon-basil',
-    price: '2,82',
+    stripe_id: 'price_1If8ewFFx9jx2hSU6BHuPXW7',
+    price: '1,82',
   },
   {
     name: 'White Chocolate Egg Liqueur',
@@ -85,7 +92,8 @@ const chocolates = [
     allergens: 'eggs, nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_liqueur.png',
     url_path: 'white-chocolate-egg-liqueur',
-    price: '2,82',
+    stripe_id: 'price_1If8ffFFx9jx2hSUScMrQk6M',
+    price: '1,82',
   },
   {
     name: 'White Chocolate Marc De Champagne-Rose',
@@ -96,7 +104,8 @@ const chocolates = [
     allergens: 'nuts, peanuts, milk, sulfites, lupins',
     img_path: '/champagne_rose.png',
     url_path: 'white-chocolate-marc-de-champagne-rose',
-    price: '2,82',
+    stripe_id: 'price_1If8gOFFx9jx2hSUTd9vtlZA',
+    price: '1,82',
   },
   {
     name: 'White Strawberry-Yoghurt',
@@ -107,7 +116,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/strawberry_yoghurt.png',
     url_path: 'white-strawberry-yoghurt',
-    price: '2,34',
+    stripe_id: 'price_1If8hKFFx9jx2hSUu7iSxWcX',
+    price: '1,34',
   },
   {
     name: 'Dark Chocolate Egg Orange Liqueur',
@@ -118,7 +128,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_orange_liqueur.png',
     url_path: 'dark-chocolate-egg-orange-liqueur',
-    price: '2,95',
+    stripe_id: 'price_1If8iHFFx9jx2hSUyQoNiQPl',
+    price: '1,95',
   },
   {
     name: 'Dark Chocolate Egg Raspberry-Chili',
@@ -129,7 +140,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_raspberry_chili.png',
     url_path: 'dark-chocolate-egg-raspberry-chili',
-    price: '2,95',
+    stripe_id: 'price_1If8iuFFx9jx2hSUq1FtNQRq',
+    price: '1,95',
   },
   {
     name: 'White Chocolate Egg Strawberry-Yoghurt',
@@ -140,7 +152,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_strawberry_yogurt.png',
     url_path: 'white-chocolate-egg-strawberry-yoghurt',
-    price: '2,95',
+    stripe_id: 'price_1If8jXFFx9jx2hSUfiGvvkUp',
+    price: '1,95',
   },
   {
     name: 'White Chocolate Egg Nougat',
@@ -150,7 +163,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_nougat.png',
     url_path: 'white-chocolate-egg-nougat',
-    price: '2,95',
+    stripe_id: 'price_1If8kTFFx9jx2hSUx8cf3Xcd',
+    price: '1,95',
   },
   {
     name: 'Milk Chocolate Egg Cranberry',
@@ -161,7 +175,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_cranberry.png',
     url_path: 'milk-chocolate-egg-cranberry',
-    price: '2,95',
+    stripe_id: 'price_1If8lBFFx9jx2hSUmAqda6ue',
+    price: '1,95',
   },
   {
     name: 'Milk Chocolate Egg Ginger-Tumeric',
@@ -172,7 +187,8 @@ const chocolates = [
     allergens: 'Nuts, peanuts, milk, sulfites, lupins',
     img_path: '/egg_ginger_tumeric.png',
     url_path: 'milk-chocolate-egg-ginger-tumeric',
-    price: '2,95',
+    stripe_id: 'price_1If8lrFFx9jx2hSUKw5pP3bz',
+    price: '1,95',
   },
 ];
 
@@ -187,6 +203,7 @@ exports.up = async (sql) => {
         'allergens',
         'img_path',
         'url_path',
+        'stripe_id',
         'price',
       )}
 	`;

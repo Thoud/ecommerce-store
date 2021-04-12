@@ -185,7 +185,7 @@ export async function getUserInformationByUrl(
   url: string | string[] | undefined,
 ): Promise<User | null> {
   const user = await sql`
-    SELECT id, username, email, first_name, last_name, birthday, address, city, zip_code, phone_number FROM users WHERE profile_url = ${url}
+    SELECT id, username, email, first_name, last_name, birthday, address, city, zip_code, phone_number, profile_url FROM users WHERE profile_url = ${url}
   `;
 
   if (!user) return null;
@@ -232,9 +232,29 @@ export async function insertOrderInformation(
   return camelcaseRecords(orderSet)[0];
 }
 
-// export async function getOrderInformationByUserId(
-//   userId: number,
-// ): Promise<RecentOrder | null> {}
+export async function getOrderInformationByUserId(
+  userId: number,
+): Promise<RecentOrder[] | null> {
+  const orders = await sql`
+    SELECT * FROM orders WHERE user_id = ${userId}
+  `;
+
+  if (!orders) return null;
+
+  return camelcaseRecords(orders);
+}
+
+export async function getSingleOrderByStripeId(
+  stripeId: string | string[],
+): Promise<RecentOrder | null> {
+  const order = await sql`
+    SELECT * FROM orders WHERE stripe_session_id = ${stripeId}
+  `;
+
+  if (!order) return null;
+
+  return camelcaseRecords(order)[0];
+}
 
 export async function updatePaymentStatusOnOrder(
   stripeSessionId: string | string[] | undefined,

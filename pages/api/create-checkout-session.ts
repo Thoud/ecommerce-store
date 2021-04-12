@@ -19,13 +19,7 @@ export default async function handler(
 
     if (chocolateInOrder) {
       result = {
-        price_data: {
-          currency: 'eur',
-          product_data: {
-            name: chocolateInOrder.name,
-          },
-          unit_amount: chocolateInOrder.price.split(',').join(''),
-        },
+        price: chocolateInOrder.stripeId,
         quantity: singleOrder.quantity,
       };
     }

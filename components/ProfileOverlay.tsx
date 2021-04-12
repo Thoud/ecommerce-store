@@ -113,6 +113,10 @@ export default function ProfileOverlay() {
             <a>Profile</a>
           </Link>
 
+          <Link href={`/order-history/${user.profileUrl}`}>
+            <a>Order history</a>
+          </Link>
+
           <button
             onClick={async () => {
               const sessionToken = Cookies.get('session');

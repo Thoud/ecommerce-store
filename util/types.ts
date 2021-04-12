@@ -6,6 +6,7 @@ export type Chocolate = {
   allergens: string;
   imgPath: string;
   urlPath: string;
+  stripeId: string;
   price: string;
 };
 
@@ -53,6 +54,7 @@ export type CheckoutInfo = {
 
 export type RecentOrder = {
   id: number;
+  orderDate: string;
   orderInformation: Order[];
   firstName: string;
   lastName: string;
@@ -69,4 +71,10 @@ export type RecentOrder = {
   stripeSessionId: string;
   paymentCompleted: boolean;
   userId: number;
+};
+
+export type StripeSession = {
+  stripeId: string;
+  total: number;
+  paymentStatus: string;
 };

@@ -7,6 +7,7 @@ exports.up = async (sql) => {
 		allergens VARCHAR,
 		img_path VARCHAR,
 		url_path VARCHAR,
+		stripe_id VARCHAR,
 		price VARCHAR
 	)`;
 };
