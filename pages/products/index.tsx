@@ -4,7 +4,6 @@ import Link from 'next/link';
 import AddItemOverlay from '../../components/AddItemOverlay';
 import { addItemOverlayActions } from '../../store/addItemOverlaySlice';
 import { orderSliceActions } from '../../store/orderSlice';
-import { getChocolates } from '../../util/database';
 import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { Chocolate } from '../../util/types';
 
@@ -65,7 +64,7 @@ export default function ProductPage({ chocolates }: Props) {
               <button
                 className="bg-tertiary rounded-lg font-medium px-4 py-1"
                 onClick={() => {
-                  dispatch(addItemOverlayActions.toggle());
+                  dispatch(addItemOverlayActions.toggle(true));
 
                   if (chocolate.id) {
                     dispatch(
@@ -90,11 +89,13 @@ export default function ProductPage({ chocolates }: Props) {
 }
 
 export async function getServerSideProps() {
+  const { getChocolates } = await import('../../util/database');
+
   const chocolates = await getChocolates();
 
   return {
     props: {
-      chocolates: chocolates,
+      chocolates,
     },
   };
 }

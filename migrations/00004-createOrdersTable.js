@@ -3,6 +3,8 @@ exports.up = async (sql) => {
 		id SERIAL PRIMARY KEY,
 		order_date VARCHAR DEFAULT NOW(),
 		order_information JSON,
+    -- Order information is an array of objects containing
+    -- the product ID and quantity for each ordered product
 		first_name VARCHAR,
     last_name VARCHAR,
     address VARCHAR,

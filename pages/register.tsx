@@ -3,7 +3,6 @@ import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { useState } from 'react';
 import { userSliceActions } from '../store/userSlice';
-import { getSessionByToken } from '../util/database';
 import { useAppDispatch, useAppSelector } from '../util/hooks';
 
 export default function Register() {
@@ -106,6 +105,8 @@ export default function Register() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { getSessionByToken } = await import('../util/database');
+
   const session = await getSessionByToken(context.req.cookies.session);
 
   if (session?.userId) {

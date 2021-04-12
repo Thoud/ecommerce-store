@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { orderSliceActions } from '../store/orderSlice';
-import { getChocolates, updatePaymentStatusOnOrder } from '../util/database';
 import { useAppDispatch } from '../util/hooks';
 import { Chocolate, Order, RecentOrder } from '../util/types';
 
@@ -22,12 +22,22 @@ export default function Success({ orderInformation, chocolates }: Props) {
 
   if (!orderInformation) {
     return (
-      <h1>You have not made a transaction. Please go to checkout first!</h1>
+      <>
+        <Head>
+          <title>No transaction made | Chocolate Heaven</title>
+        </Head>
+
+        <h1>You have not made a transaction. Please go to checkout first!</h1>
+      </>
     );
   }
 
   return (
     <>
+      <Head>
+        <title>Transaction successful | Chocolate Heaven</title>
+      </Head>
+
       <h1>Thank you for your order!</h1>
 
       <h2>Transaction successful</h2>
@@ -143,6 +153,10 @@ export default function Success({ orderInformation, chocolates }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { getChocolates, updatePaymentStatusOnOrder } = await import(
+    '../util/database'
+  );
+
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
   const { session_id: sessionId } = context.query;
 

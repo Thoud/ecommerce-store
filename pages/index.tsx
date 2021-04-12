@@ -2,10 +2,6 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  deleteAllExpiredSessions,
-  getRandomChocolates,
-} from '../util/database';
 import { Chocolate } from '../util/types';
 
 type Props = {
@@ -77,6 +73,10 @@ export default function Home({ chocolateSelection }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { deleteAllExpiredSessions, getRandomChocolates } = await import(
+    '../util/database'
+  );
+
   await deleteAllExpiredSessions();
 
   const chocolateSelection = await getRandomChocolates();
@@ -92,14 +92,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         permanent: true,
       },
       props: {
-        chocolateSelection: chocolateSelection,
+        chocolateSelection,
       },
     };
   }
 
   return {
     props: {
-      chocolateSelection: chocolateSelection,
+      chocolateSelection,
     },
   };
 }

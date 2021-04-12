@@ -1,9 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 import { useState } from 'react';
-import {
-  getSessionByToken,
-  getUserInformationByUrl,
-} from '../../util/database';
 import { User } from '../../util/types';
 
 type Props = {
@@ -17,6 +14,10 @@ export default function UserSinglePage(props: Props) {
 
   return (
     <>
+      <Head>
+        <title>Profile | Chocolate Heaven</title>
+      </Head>
+
       <h1>Welcome {user.firstName}!</h1>
 
       {!edit && (
@@ -163,6 +164,10 @@ export default function UserSinglePage(props: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { getSessionByToken, getUserInformationByUrl } = await import(
+    '../../util/database'
+  );
+
   const session = await getSessionByToken(context.req.cookies.session);
   const user = await getUserInformationByUrl(context.query.userUrl);
 
@@ -177,7 +182,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      user: user,
+      user,
     },
   };
 }

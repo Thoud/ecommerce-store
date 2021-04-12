@@ -4,11 +4,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import {
-  getChocolates,
-  getSessionByToken,
-  getUserInformationById,
-} from '../util/database';
 import { useAppSelector } from '../util/hooks';
 import { CheckoutInfo, Chocolate, Order, User } from '../util/types';
 
@@ -322,90 +317,62 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
           />
         </div>
 
-        <div>
-          <h2 className="text-3xl my-8">Payment information</h2>
-
-          <label htmlFor="card">Credit Card Number</label>
-          <br />
-          <input
-            id="card"
-            type="text"
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
-          />
-          <br />
-
-          <label htmlFor="date">Expiration Date</label>
-          <br />
-          <input
-            id="date"
-            type="month"
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
-          />
-          <br />
-
-          <label htmlFor="security">Security Code</label>
-          <br />
-          <input
-            id="security"
-            type="text"
-            className="w-96 mt-2 block rounded-md border-gray-300 shadow-sm focus:border-tertiary focus:ring focus:ring-tertiary focus:ring-opacity-30"
-          />
-        </div>
-
         <div className="w-full m-10 flex flex-wrap justify-evenly">
           <h2 className="text-3xl my-8 w-full">Order Summary</h2>
 
-          {/* ! Change this logic */}
-          {chocolates.map((chocolate: Chocolate) => {
-            return order.map((singleOrder: Order) => {
-              let element;
+          {order.map((singleOrder: Order) => {
+            const chocolateInOrder = chocolates.find(
+              (chocolate: Chocolate) => chocolate.id === singleOrder.id,
+            );
 
-              if (chocolate.id === singleOrder.id) {
-                const amount =
-                  Number(chocolate.price.split(',').join('.')) *
-                  singleOrder.quantity;
-                totalAmount += amount;
+            let element;
 
-                element = (
-                  <div key={chocolate.id} className="flex items-center">
-                    <Link href={`/products/${chocolate.urlPath}`}>
-                      <a>
-                        <Image
-                          src={chocolate.imgPath}
-                          alt={chocolate.name}
-                          width={200}
-                          height={200}
-                        />
-                      </a>
-                    </Link>
-                    <div>
-                      <p className="font-semibold mb-6">{chocolate.name}</p>
-                      <div className="flex">
-                        <div className="mr-20">
-                          <p className="font-semibold">Price</p>
-                          <p>{chocolate.price} €</p>
-                        </div>
+            if (chocolateInOrder && chocolateInOrder.id === singleOrder.id) {
+              const amount =
+                Number(chocolateInOrder.price.split(',').join('.')) *
+                singleOrder.quantity;
+              totalAmount += amount;
 
-                        <div className="mr-20">
-                          <p className="font-semibold">Quantity</p>
-                          <p>{singleOrder.quantity}</p>
-                        </div>
+              element = (
+                <div key={chocolateInOrder.id} className="flex items-center">
+                  <Link href={`/products/${chocolateInOrder.urlPath}`}>
+                    <a>
+                      <Image
+                        src={chocolateInOrder.imgPath}
+                        alt={chocolateInOrder.name}
+                        width={200}
+                        height={200}
+                      />
+                    </a>
+                  </Link>
+                  <div>
+                    <p className="font-semibold mb-6">
+                      {chocolateInOrder.name}
+                    </p>
+                    <div className="flex">
+                      <div className="mr-20">
+                        <p className="font-semibold">Price</p>
+                        <p>{chocolateInOrder.price} €</p>
+                      </div>
 
-                        <div className="mr-20">
-                          <p className="font-semibold">Amount</p>
-                          <p>
-                            {amount.toFixed(2).toString().split('.').join(',')}{' '}
-                            €
-                          </p>
-                        </div>
+                      <div className="mr-20">
+                        <p className="font-semibold">Quantity</p>
+                        <p>{singleOrder.quantity}</p>
+                      </div>
+
+                      <div className="mr-20">
+                        <p className="font-semibold">Amount</p>
+                        <p>
+                          {amount.toFixed(2).toString().split('.').join(',')} €
+                        </p>
                       </div>
                     </div>
                   </div>
-                );
-              }
+                </div>
+              );
+            }
 
-              return element;
-            });
+            return element;
           })}
         </div>
 
@@ -436,6 +403,12 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const {
+    getChocolates,
+    getSessionByToken,
+    getUserInformationById,
+  } = await import('../util/database');
+
   const chocolates = await getChocolates();
 
   const session = await getSessionByToken(context.req.cookies.session);

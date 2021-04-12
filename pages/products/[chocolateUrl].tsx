@@ -5,7 +5,6 @@ import AddItemOverlay from '../../components/AddItemOverlay';
 import { addItemOverlayActions } from '../../store/addItemOverlaySlice';
 import { orderSliceActions } from '../../store/orderSlice';
 import { quantityActions } from '../../store/quantitySlice';
-import { getChocolateByUrl } from '../../util/database';
 import { useAppDispatch, useAppSelector } from '../../util/hooks';
 import { Chocolate } from '../../util/types';
 
@@ -83,7 +82,7 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
           <button
             className="bg-tertiary rounded-lg font-medium px-4 py-1"
             onClick={() => {
-              dispatch(addItemOverlayActions.toggle());
+              dispatch(addItemOverlayActions.toggle(true));
 
               if (chocolate.id) {
                 dispatch(
@@ -107,11 +106,13 @@ export default function ChocolateSinglePage({ chocolate }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { getChocolateByUrl } = await import('../../util/database');
+
   const chocolate = await getChocolateByUrl(context.query.chocolateUrl);
 
   return {
     props: {
-      chocolate: chocolate,
+      chocolate,
     },
   };
 }

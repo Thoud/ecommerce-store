@@ -1,12 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  getChocolates,
-  getSessionByToken,
-  getSingleOrderByStripeId,
-  getUserInformationByUrl,
-} from '../../../util/database';
 import {
   Chocolate,
   Order,
@@ -26,11 +21,22 @@ export default function OrderHistory({
   chocolates,
 }: Props) {
   if (!order) {
-    return <h1>Order history</h1>;
+    return (
+      <>
+        <Head>
+          <title>Detailed History | Chocolate Heaven</title>
+        </Head>
+        <h1>Order history</h1>;
+      </>
+    );
   }
 
   return (
     <>
+      <Head>
+        <title>Detailed History | Chocolate Heaven</title>
+      </Head>
+
       <h1>Order history</h1>
 
       <h2>Order details</h2>
@@ -137,6 +143,13 @@ export default function OrderHistory({
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const {
+    getChocolates,
+    getSessionByToken,
+    getSingleOrderByStripeId,
+    getUserInformationByUrl,
+  } = await import('../../../util/database');
+
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
   const stripeId = context.query.session_id;

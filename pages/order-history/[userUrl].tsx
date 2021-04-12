@@ -1,10 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
-import {
-  getOrderInformationByUserId,
-  getSessionByToken,
-  getUserInformationByUrl,
-} from '../../util/database';
 import { RecentOrder, StripeSession, User } from '../../util/types';
 
 type Props = {
@@ -15,11 +11,22 @@ type Props = {
 
 export default function OrderHistory({ orders, stripeSessions, user }: Props) {
   if (!orders) {
-    return <h1>Order history</h1>;
+    return (
+      <>
+        <Head>
+          <title>Order History | Chocolate Heaven</title>
+        </Head>
+        <h1>Order history</h1>;
+      </>
+    );
   }
 
   return (
     <>
+      <Head>
+        <title>Order History | Chocolate Heaven</title>
+      </Head>
+
       <h1>Order history</h1>
 
       {stripeSessions.map((session, index) => {
@@ -52,6 +59,12 @@ export default function OrderHistory({ orders, stripeSessions, user }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const {
+    getOrderInformationByUserId,
+    getSessionByToken,
+    getUserInformationByUrl,
+  } = await import('../../util/database');
+
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
   const session = await getSessionByToken(context.req.cookies.session);
@@ -97,8 +110,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      orders,
-      stripeSessions,
+      orders: orders.reverse(),
+      stripeSessions: stripeSessions.reverse(),
       user,
     },
   };

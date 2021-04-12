@@ -42,7 +42,12 @@ function camelcaseRecords(records: any) {
 }
 
 export async function getChocolates(): Promise<Chocolate[]> {
-  const chocolates = await sql`SELECT * FROM chocolates`;
+  const chocolates = await sql`
+    SELECT
+      *
+    FROM
+      chocolates
+  `;
 
   return camelcaseRecords(chocolates);
 }
@@ -50,7 +55,14 @@ export async function getChocolates(): Promise<Chocolate[]> {
 export async function getChocolateByUrl(
   url: string | string[] | undefined,
 ): Promise<Chocolate | null> {
-  const chocolate = await sql`SELECT * FROM chocolates WHERE url_path = ${url}`;
+  const chocolate = await sql`
+    SELECT
+      *
+    FROM
+      chocolates
+    WHERE
+      url_path = ${url}
+  `;
 
   if (!chocolate.length) return null;
 
@@ -59,7 +71,11 @@ export async function getChocolateByUrl(
 
 export async function getRandomChocolates(): Promise<Chocolate[]> {
   const chocolates = await sql`
-    SELECT * FROM chocolates ORDER BY RANDOM() LIMIT 5
+    SELECT
+      *
+    FROM
+      chocolates
+    ORDER BY RANDOM() LIMIT 5
   `;
 
   return camelcaseRecords(chocolates);
@@ -69,7 +85,17 @@ export async function createSession(userId: number): Promise<Session> {
   const token = generateToken();
 
   const session = await sql`
-    INSERT INTO sessions (token, user_id) VALUES (${token}, ${userId}) RETURNING *
+    INSERT INTO
+      sessions (
+        token,
+        user_id
+      )
+    VALUES
+      (
+        ${token},
+        ${userId}
+      )
+    RETURNING *
   `;
 
   return camelcaseRecords(session)[0];
@@ -81,8 +107,12 @@ export async function getSessionByToken(
   if (!sessionToken) return null;
 
   const session = await sql`
-    SELECT * FROM sessions
-    WHERE token = ${sessionToken} AND expiry > NOW()
+    SELECT
+      *
+    FROM
+      sessions
+    WHERE
+      token = ${sessionToken} AND expiry > NOW()
   `;
 
   return camelcaseRecords(session)[0];
@@ -92,7 +122,10 @@ export async function deleteSessionByToken(
   token: string,
 ): Promise<Session | null> {
   const session = await sql`
-    DELETE FROM sessions WHERE token = ${token} RETURNING *
+    DELETE FROM
+      sessions
+    WHERE
+      token = ${token} RETURNING *
   `;
 
   if (!session) return null;
@@ -102,7 +135,10 @@ export async function deleteSessionByToken(
 
 export async function deleteAllExpiredSessions(): Promise<Session> {
   const sessions = await sql`
-    DELETE FROM sessions WHERE expiry < NOW() RETURNING *
+    DELETE FROM
+      sessions
+    WHERE
+      expiry < NOW() RETURNING *
   `;
 
   return camelcaseRecords(sessions)[0];
@@ -117,9 +153,26 @@ export async function createUser(
   const url = paramCase(username);
 
   const user = await sql`
-    INSERT INTO users (username, first_name, last_name, password_hash, profile_url)
-    VALUES (${username}, ${firstName}, ${lastName}, ${passwordHash}, ${url})
-    RETURNING id, username, profile_url
+    INSERT INTO
+      users (
+        username,
+        first_name,
+        last_name,
+        password_hash,
+        profile_url
+      )
+    VALUES
+      (
+        ${username},
+        ${firstName},
+        ${lastName},
+        ${passwordHash},
+        ${url}
+      )
+    RETURNING
+      id,
+      username,
+      profile_url
   `;
 
   return camelcaseRecords(user)[0];
@@ -153,7 +206,12 @@ export async function insertUserInformation(
 
 export async function getUserByUsername(username: string): Promise<User> {
   const user = await sql`
-    SELECT username FROM users WHERE username = ${username}
+    SELECT
+      username
+    FROM
+      users
+    WHERE
+      username = ${username}
   `;
 
   return camelcaseRecords(user)[0];
@@ -163,7 +221,15 @@ export async function getShallowUserInformationById(
   id: number,
 ): Promise<User | null> {
   const user = await sql`
-    SELECT username, first_name, last_name, profile_url FROM users WHERE id = ${id}
+    SELECT
+      username,
+      first_name,
+      last_name,
+      profile_url
+    FROM
+      users
+    WHERE
+      id = ${id}
   `;
 
   if (!user) return null;
@@ -173,7 +239,21 @@ export async function getShallowUserInformationById(
 
 export async function getUserInformationById(id: number): Promise<User | null> {
   const user = await sql`
-    SELECT id, username, email, first_name, last_name, birthday, address, city, zip_code, phone_number FROM users WHERE id = ${id}
+    SELECT
+      id,
+      username,
+      email,
+      first_name,
+      last_name,
+      birthday,
+      address,
+      city,
+      zip_code,
+      phone_number
+    FROM
+      users
+    WHERE
+      id = ${id}
   `;
 
   if (!user) return null;
@@ -185,7 +265,22 @@ export async function getUserInformationByUrl(
   url: string | string[] | undefined,
 ): Promise<User | null> {
   const user = await sql`
-    SELECT id, username, email, first_name, last_name, birthday, address, city, zip_code, phone_number, profile_url FROM users WHERE profile_url = ${url}
+    SELECT
+      id,
+      username,
+      email,
+      first_name,
+      last_name,
+      birthday,
+      address,
+      city,
+      zip_code,
+      phone_number,
+      profile_url
+    FROM
+      users
+    WHERE
+      profile_url = ${url}
   `;
 
   if (!user) return null;
@@ -197,7 +292,12 @@ export async function getUserWithHashedPasswordByUsername(
   username: string,
 ): Promise<User | null> {
   const user = await sql`
-    SELECT * FROM users WHERE username = ${username}
+    SELECT
+      *
+    FROM
+      users
+    WHERE
+      username = ${username}
   `;
 
   if (!user) return null;
@@ -213,17 +313,43 @@ export async function insertOrderInformation(
 ): Promise<RecentOrder | null> {
   const orderSet = await sql`
     INSERT INTO
-      orders (order_information, first_name, last_name, address, city, zip_code, shipping_first_name, shipping_last_name, shipping_address, shipping_city, shipping_zip_code, email, phone_number, stripe_session_id, payment_completed, user_id)
+      orders (
+        order_information,
+        first_name,
+        last_name,
+        address,
+        city,
+        zip_code,
+        shipping_first_name,
+        shipping_last_name,
+        shipping_address,
+        shipping_city,
+        shipping_zip_code,
+        email,
+        phone_number,
+        stripe_session_id,
+        payment_completed,
+        user_id
+      )
     VALUES
-      (${JSON.stringify(order)}, ${checkoutInfo.firstName}, ${
-    checkoutInfo.lastName
-  }, ${checkoutInfo.address}, ${checkoutInfo.city}, ${checkoutInfo.zipCode}, ${
-    checkoutInfo.shippingFirstName
-  }, ${checkoutInfo.shippingLastName}, ${checkoutInfo.shippingAddress}, ${
-    checkoutInfo.shippingCity
-  }, ${checkoutInfo.shippingZipCode}, ${checkoutInfo.email}, ${
-    checkoutInfo.phoneNumber
-  }, ${stripeSessionId}, false, ${userId})
+      (
+        ${JSON.stringify(order)},
+        ${checkoutInfo.firstName},
+        ${checkoutInfo.lastName},
+        ${checkoutInfo.address},
+        ${checkoutInfo.city},
+        ${checkoutInfo.zipCode},
+        ${checkoutInfo.shippingFirstName},
+        ${checkoutInfo.shippingLastName},
+        ${checkoutInfo.shippingAddress},
+        ${checkoutInfo.shippingCity},
+        ${checkoutInfo.shippingZipCode},
+        ${checkoutInfo.email},
+        ${checkoutInfo.phoneNumber},
+        ${stripeSessionId},
+        false,
+        ${userId}
+      )
     RETURNING id
   `;
 
@@ -236,7 +362,12 @@ export async function getOrderInformationByUserId(
   userId: number,
 ): Promise<RecentOrder[] | null> {
   const orders = await sql`
-    SELECT * FROM orders WHERE user_id = ${userId}
+    SELECT
+      *
+    FROM
+      orders
+    WHERE
+      user_id = ${userId}
   `;
 
   if (!orders) return null;
@@ -248,7 +379,12 @@ export async function getSingleOrderByStripeId(
   stripeId: string | string[],
 ): Promise<RecentOrder | null> {
   const order = await sql`
-    SELECT * FROM orders WHERE stripe_session_id = ${stripeId}
+    SELECT
+      *
+    FROM
+      orders
+    WHERE
+      stripe_session_id = ${stripeId}
   `;
 
   if (!order) return null;
