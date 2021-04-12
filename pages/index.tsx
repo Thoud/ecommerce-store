@@ -22,7 +22,7 @@ export default function Home({ chocolateSelection }: Props) {
         </h1>
 
         <div className="mx-10">
-          <h2 className="text-3xl my-10">Top Sellers</h2>
+          <h2 className="my-10">Top Sellers</h2>
 
           <div className="flex flex-wrap justify-around mb-14">
             {chocolateSelection &&
@@ -48,7 +48,7 @@ export default function Home({ chocolateSelection }: Props) {
 
         <div className="flex items-center justify-center my-40">
           <div className="mr-40">
-            <h2 className="text-3xl my-10">About us</h2>
+            <h2 className="my-10">About us</h2>
             <p className="max-w-xl mb-10">
               Being a chocolatier and confectioner with more than 50 years of
               experience in handcrafting fine pralines and chocolate, we give

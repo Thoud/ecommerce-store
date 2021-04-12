@@ -4,11 +4,13 @@ A non-real ecommerce store for selling chocolates.
 
 ## Dependencies
 
-- Next
-- Typescript
-- PostgreSQL
+- [Next](https://nextjs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Postgres.js](https://github.com/porsager/postgres)
 - [Tailwindcss](https://tailwindcss.com/)
+- [Redux](https://react-redux.js.org/)
+- [Stripe](https://stripe.com/at)
 - [JS Cookie](https://github.com/js-cookie/js-cookie)
 - [dotenv-safe](https://github.com/rolodato/dotenv-safe)
 - [ley](https://github.com/lukeed/ley)
@@ -69,3 +71,5 @@ Create a Heroku account at [Heroku - Sign up](https://signup.heroku.com/), and t
 ![Preview of Homepage](/public/home.png 'Preview of Homepage')
 ![Preview of the products page](/public/products.png 'Preview of the products page')
 ![Preview of a single product](/public/product.png 'Preview of a single product')
+![Preview of the stripe checkout](/public/stripe.png 'Preview of the stripe checkout')
+![Preview of the order history](/public/history.png 'Preview of the order history')

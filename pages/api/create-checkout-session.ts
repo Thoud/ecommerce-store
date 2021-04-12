@@ -8,7 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { order, domainUrl } = req.body;
+  const { order, domainUrl, email } = req.body;
   const chocolates = await getChocolates();
 
   const items = order.map((singleOrder: Order) => {
@@ -28,6 +28,7 @@ export default async function handler(
   });
 
   const session = await stripe.checkout.sessions.create({
+    customer_email: email,
     payment_method_types: ['card'],
     line_items: items,
     mode: 'payment',

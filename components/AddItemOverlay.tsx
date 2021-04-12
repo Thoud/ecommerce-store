@@ -7,7 +7,7 @@ export default function AddItemOverlay() {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="fixed bottom-0 right-0 bg-gray-300 bg-opacity-80 shadow-2xl rounded-lg flex flex-wrap justify-end h-52 mr-10 mb-20 z-50">
+    <div className="fixed bottom-0 right-0 bg-gray-200 bg-opacity-90 shadow-2xl rounded-lg flex flex-wrap justify-end h-52 mr-10 mb-20 z-50">
       <button
         className="h-0 pr-4 pt-4"
         onClick={() => dispatch(addItemOverlayActions.toggle(false))}

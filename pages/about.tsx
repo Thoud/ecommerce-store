@@ -9,13 +9,13 @@ export default function About() {
       </Head>
 
       <div className="flex flex-wrap justify-center">
-        <h1 className="text-4xl mx-10 mt-10 h-5 w-full">About</h1>
+        <h1 className="mx-10 mt-10 h-5 w-full">About</h1>
 
         <div className="flex items-center mt-20">
           <Image src="/chef.jpg" alt="chef" width={500} height={332} />
 
           <div className="ml-40">
-            <h2 className="text-3xl my-10">
+            <h2 className="my-10">
               Everyday 100% compassion for your delight!
             </h2>
             <p className="max-w-xl">
@@ -34,7 +34,7 @@ export default function About() {
 
         <div className="flex items-center mt-40">
           <div className="mr-40">
-            <h2 className="text-3xl my-10">Innovation</h2>
+            <h2 className="my-10">Innovation</h2>
             <p className="max-w-xl">
               With us, craftsmanship and technical lead go hand in hand. With a
               love of craftsmanship, in addition to the annual range, seasonal
@@ -51,7 +51,7 @@ export default function About() {
         <div className="flex items-center mt-40">
           <Image src="/creativity.jpg" alt="" width={500} height={624} />
           <div className="ml-40">
-            <h2 className="text-3xl my-10">Creativity</h2>
+            <h2 className="my-10">Creativity</h2>
             <p className="max-w-xl">
               Creativity plays a major role in the manufacture of our products.
               Several times a year we create our own product collections on
@@ -63,7 +63,7 @@ export default function About() {
 
         <div className="flex items-center mt-40">
           <div className="mr-40">
-            <h2 className="text-3xl my-10">Love of craft</h2>
+            <h2 className="my-10">Love of craft</h2>
             <p className="max-w-xl">
               The love for handicraft has remained despite growth. Our specially
               developed, traditional recipes have become classics in the range
@@ -80,7 +80,7 @@ export default function About() {
         <div className="flex items-center my-40">
           <Image src="/quality.jpg" alt="chef" width={500} height={624} />
           <div className="ml-40">
-            <h2 className="text-3xl my-10">Highest raw material quality</h2>
+            <h2 className="my-10">Highest raw material quality</h2>
             <p className="max-w-xl">
               The quality of our products is our top priority. We use selected
               Fairtrade-certified cocoa varieties for our fine creations.

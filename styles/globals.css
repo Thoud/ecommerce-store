@@ -54,3 +54,115 @@ main {
 .register-image {
   bottom: 50px;
 }
+
+/* Loading animation styling */
+.loader span {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  margin-left: -10px;
+  -webkit-animation: 3s infinite linear;
+  -moz-animation: 3s infinite linear;
+  -o-animation: 3s infinite linear;
+}
+
+.loader span:nth-child(2) {
+  background: #5c413c;
+  -webkit-animation: brown 1.2s infinite linear;
+  -moz-animation: brown 1.2s infinite linear;
+  -o-animation: brown 1.2s infinite linear;
+}
+.loader span:nth-child(3) {
+  background: #fff;
+  z-index: 100;
+}
+.loader span:nth-child(4) {
+  background: #e6686f;
+  -webkit-animation: pink 1.2s infinite linear;
+  -moz-animation: pink 1.2s infinite linear;
+  -o-animation: pink 1.2s infinite linear;
+}
+
+@-webkit-keyframes pink {
+  0% {
+    -webkit-transform: translateX(20px);
+  }
+
+  50% {
+    -webkit-transform: translateX(-20px);
+  }
+
+  100% {
+    -webkit-transform: translateX(20px);
+    z-index: 200;
+  }
+}
+@-moz-keyframes pink {
+  0% {
+    -moz-transform: translateX(20px);
+  }
+
+  50% {
+    -moz-transform: translateX(-20px);
+  }
+
+  100% {
+    -moz-transform: translateX(20px);
+    z-index: 200;
+  }
+}
+@-o-keyframes pink {
+  0% {
+    -o-transform: translateX(20px);
+  }
+
+  50% {
+    -o-transform: translateX(-20px);
+  }
+
+  100% {
+    -o-transform: translateX(20px);
+    z-index: 200;
+  }
+}
+
+@-webkit-keyframes brown {
+  0% {
+    -webkit-transform: translateX(-20px);
+    z-index: 200;
+  }
+  50% {
+    -webkit-transform: translateX(20px);
+  }
+  100% {
+    -webkit-transform: translateX(-20px);
+  }
+}
+
+@-moz-keyframes brown {
+  0% {
+    -moz-transform: translateX(-20px);
+    z-index: 200;
+  }
+  50% {
+    -moz-transform: translateX(20px);
+  }
+  100% {
+    -moz-transform: translateX(-20px);
+  }
+}
+@-o-keyframes brown {
+  0% {
+    -o-transform: translateX(-20px);
+    z-index: 200;
+  }
+  50% {
+    -o-transform: translateX(20px);
+  }
+  100% {
+    -o-transform: translateX(-20px);
+  }
+}

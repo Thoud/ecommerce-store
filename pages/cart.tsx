@@ -21,7 +21,7 @@ export default function Cart({ chocolates }: Props) {
         <title>Shopping Cart | Chocolate Heaven</title>
       </Head>
 
-      <h1 className="text-4xl m-10 h-5 w-full">Cart</h1>
+      <h1 className="m-10 h-5 w-full">Cart</h1>
       <div className="flex flex-wrap justify-evenly">
         {order.map((singleOrder: Order) => {
           const chocolateInOrder = chocolates.find(

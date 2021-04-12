@@ -59,7 +59,11 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ order, domainUrl }),
+            body: JSON.stringify({
+              order,
+              domainUrl,
+              email: checkoutInfo.email,
+            }),
           });
 
           const session = await sessionResponse.json();
@@ -95,7 +99,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
         }}
       >
         <div className="mb-20">
-          <h2 className="text-3xl my-8">Billing information</h2>
+          <h2 className="my-8">Billing information</h2>
 
           <label htmlFor="firstName">First Name</label>
           <br />
@@ -283,7 +287,7 @@ export default function Checkout({ chocolates, user, stripeKey }: Props) {
         </div>
 
         <div>
-          <h2 className="text-3xl my-8">Contact information</h2>
+          <h2 className="my-8">Contact information</h2>
 
           <label htmlFor="email">Email Address</label>
           <br />

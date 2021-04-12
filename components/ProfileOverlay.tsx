@@ -42,7 +42,14 @@ export default function ProfileOverlay() {
         <Image src="/close.svg" alt="close button" width={40} height={40} />
       </button>
 
-      {fetching && <div>Loading...</div>}
+      {fetching && (
+        <div className="loader">
+          <div className="text-xl mb-5 mt-32 font-semibold">Loading...</div>
+          <span />
+          <span />
+          <span />
+        </div>
+      )}
 
       {!fetching && !user.isSessionValid && (
         <>
