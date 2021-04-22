@@ -2787,10 +2787,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-ley@0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/ley/-/ley-0.7.0.tgz#36c788ce5cab562a873046c52950a7bcfe76b362"
-  integrity sha512-7ShhBonrLN9bvaLWdCuRdpFXv36GLvU/cX5H3wcE5JnuTLpKatXry4igNRW60cfQik2lSdu7vZPJe9KKtfGe8w==
+ley@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/ley/-/ley-0.7.1.tgz#dadb1690aab066713a67ebad2bed782d4b730ff6"
+  integrity sha512-oVgyFF+i/Uzm5q6HYY5jT+ADHkv2Z1wh8LNt2dYLvWiKN5tsEjzWmWAk8gn1VVpwI8Drj+lLYIHio7A67zskUA==
   dependencies:
     kleur "^4.1.0"
     mk-dirs "^3.0.0"

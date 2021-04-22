@@ -56,7 +56,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-testing-library": "4.1.1",
     "eslint-plugin-unicorn": "30.0.0",
-    "ley": "0.7.0",
+    "ley": "0.7.1",
     "postcss": "8.2.10",
     "tailwindcss": "2.1.1",
     "typescript": "4.2.4"
