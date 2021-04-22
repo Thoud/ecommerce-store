@@ -26,7 +26,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "7.2.3",
-    "stripe": "8.144.0"
+    "stripe": "8.145.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "0.3.2",
